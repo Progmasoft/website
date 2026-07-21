@@ -1,0 +1,85 @@
+---
+// SPDX-FileCopyrightText: 2026 Leitwolf <xs-lang.chess031@slmails.com>
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
+import SiteLayout from "../layouts/SiteLayout.astro";
+
+const pipeline = ["X#", "HIR", "MIR", "XLIL", "LLVM IR", "native .xse"];
+---
+
+<SiteLayout
+  title="X# programming language"
+  description="The official home of X#, a native programming language with a C23 and Rust compiler toolchain."
+>
+  <header class="site-header">
+    <a class="brand" href="/" aria-label="X# home">
+      <img class="brand-mark" src="/xsharp-logo.webp" width="36" height="36" alt="" />
+      <span>xsharp-lang</span>
+    </a>
+    <nav aria-label="Primary navigation">
+      <a href="https://github.com/xss-lang/xs-project">Compiler</a>
+      <a href="https://github.com/xss-lang/xs-project/tree/main/Spec">Specification</a>
+      <a href="https://github.com/xss-lang/website">Source</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <p class="eyebrow">Native by design · readable at every layer</p>
+      <h1>A language built to make the whole compiler visible.</h1>
+      <p class="lede">
+        X# is an evolving native programming language with a modular compiler, human-readable intermediate formats,
+        and an LLVM path to portable executables.
+      </p>
+      <div class="actions">
+        <a class="button primary" href="https://github.com/xss-lang/xs-project">Explore the compiler</a>
+        <a class="button secondary" href="https://github.com/xss-lang/xs-project/tree/main/Spec/Programs">
+          Read example programs
+        </a>
+      </div>
+      <pre class="code-card" aria-label="X# example"><code>{`fn main() -> Long {
+    value := add(20, 22);
+    value
+}`}</code></pre>
+    </section>
+
+    <section class="pipeline" aria-labelledby="pipeline-title">
+      <div>
+        <p class="eyebrow">Compiler pipeline</p>
+        <h2 id="pipeline-title">High-level intent, inspectable lowering.</h2>
+      </div>
+      <ol>
+        {pipeline.map((stage, index) => (
+          <li>
+            <span>{String(index + 1).padStart(2, "0")}</span>
+            <strong>{stage}</strong>
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    <section class="principles" aria-labelledby="principles-title">
+      <p class="eyebrow">What exists today</p>
+      <h2 id="principles-title">An implementation in motion, with explicit boundaries.</h2>
+      <div class="cards">
+        <article>
+          <h3>Modular compiler</h3>
+          <p>C23 owns the working frontend and LLVM boundary. Rust grows typed HIR, MIR, analysis, and XLIL.</p>
+        </article>
+        <article>
+          <h3>Textual IRs</h3>
+          <p>XHIR, XMIR, and XLIL remain versioned, human-readable formats instead of opaque compiler internals.</p>
+        </article>
+        <article>
+          <h3>Native output</h3>
+          <p>The current supported subset lowers through LLVM to object files and native <code>.xse</code> executables.</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <span>X# is open source.</span>
+    <a href="https://github.com/xss-lang/website">Website source · AGPL-3.0-or-later</a>
+  </footer>
+</SiteLayout>

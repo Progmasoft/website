@@ -1,0 +1,13 @@
+# SPDX-FileCopyrightText: 2026 Leitwolf <xs-lang.chess031@slmails.com>
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+.astro/
+.idea/
+.vscode/
+bin/
+obj/
+node_modules/
+dist/
+coverage/
+*.user
+

@@ -1,0 +1,22 @@
+# SPDX-FileCopyrightText: 2026 Leitwolf <xs-lang.chess031@slmails.com>
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 2
+
+[*.cs]
+indent_size = 4
+csharp_new_line_before_open_brace = all
+csharp_style_namespace_declarations = file_scoped
+dotnet_sort_system_directives_first = true
+
+[*.md]
+trim_trailing_whitespace = false
+

@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <!-- SPDX-FileCopyrightText: 2026 Leitwolf <xs-lang.chess031@slmails.com> -->
+  <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <AnalysisLevel>latest-recommended</AnalysisLevel>
+    <RootNamespace>XSharp.Web.Api</RootNamespace>
+  </PropertyGroup>
+</Project>
