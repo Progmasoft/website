@@ -1,0 +1,48 @@
+---
+// SPDX-FileCopyrightText: 2026 Leitwolf <xs-lang.chess031@slmails.com>
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
+interface Props {
+  name:
+    | "arrow"
+    | "braces"
+    | "check"
+    | "chip"
+    | "github"
+    | "layers"
+    | "modules"
+    | "native"
+    | "registers"
+    | "terminal";
+  label?: string;
+}
+
+const { name, label } = Astro.props;
+const paths = {
+  arrow: '<path d="m5 12 14-14m-9 0h9v9"/>',
+  braces: '<path d="M9 3H7a2 2 0 0 0-2 2v4l-2 3 2 3v4a2 2 0 0 0 2 2h2M15 3h2a2 2 0 0 1 2 2v4l2 3-2 3v4a2 2 0 0 1-2 2h-2"/>',
+  check: '<path d="m4 12 5 5L20 6"/>',
+  chip: '<rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 1v3m6-3v3M9 20v3m6-3v3M1 9h3m-3 6h3m16-6h3m-3 6h3M10 10h4v4h-4z"/>',
+  github:
+    '<path d="M15 22v-3.9c.04-1-.35-1.96-1.1-2.6 3.6-.4 7.4-1.77 7.4-8A6.2 6.2 0 0 0 19.65 3 5.8 5.8 0 0 0 19.5 1S18.15.55 15 2.65a15.4 15.4 0 0 0-8 0C3.85.55 2.5 1 2.5 1a5.8 5.8 0 0 0-.15 2A6.2 6.2 0 0 0 .7 7.5c0 6.22 3.8 7.6 7.4 8-.73.63-1.1 1.55-1.1 2.5V22"/><path d="M7 19c-3 .9-3-1.5-4.2-2"/>',
+  layers: '<path d="m12 3-9 5 9 5 9-5-9-5Z"/><path d="m3 12 9 5 9-5M3 16l9 5 9-5"/>',
+  modules: '<rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="8.5" y="14" width="7" height="7" rx="2"/><path d="M10 6.5h4M6.5 10v2l4 2M17.5 10v2l-4 2"/>',
+  native: '<rect x="3" y="4" width="18" height="16" rx="3"/><path d="m9 8 4 4-4 4m5 0h3"/>',
+  registers: '<path d="M4 6h16M4 12h16M4 18h16"/><circle cx="8" cy="6" r="2"/><circle cx="16" cy="12" r="2"/><circle cx="11" cy="18" r="2"/>',
+  terminal: '<rect x="3" y="4" width="18" height="16" rx="3"/><path d="m7 9 3 3-3 3m6 0h4"/>',
+} satisfies Record<Props["name"], string>;
+---
+
+<svg
+  class="icon"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="1.75"
+  role={label ? "img" : undefined}
+  aria-hidden={label ? undefined : "true"}
+  aria-label={label}
+  set:html={paths[name]}
+></svg>

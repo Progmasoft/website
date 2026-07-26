@@ -86,6 +86,15 @@ a {
   -webkit-tap-highlight-color: transparent;
 }
 
+.icon {
+  display: block;
+  width: 1.25rem;
+  height: 1.25rem;
+  flex: 0 0 auto;
+  overflow: visible;
+  pointer-events: none;
+}
+
 .ambient {
   position: fixed;
   z-index: -2;
@@ -231,12 +240,8 @@ nav .nav-source {
 }
 
 .nav-source svg {
-  width: 1rem;
-  fill: none;
-  stroke: currentColor;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke-width: 1.5;
+  width: 1.05rem;
+  height: 1.05rem;
 }
 
 .hero {
@@ -346,11 +351,7 @@ h1 em {
 
 .button svg {
   width: 1.1rem;
-  fill: none;
-  stroke: currentColor;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke-width: 1.7;
+  height: 1.1rem;
 }
 
 .primary {
@@ -560,8 +561,11 @@ h1 em {
   border-radius: 0.65rem;
   color: var(--cyan);
   background: rgb(255 255 255 / 5%);
-  font-family: var(--font-code);
-  font-size: 0.75rem;
+}
+
+.node-icon .icon {
+  width: 1.15rem;
+  height: 1.15rem;
 }
 
 .floating-node > span:last-child {
@@ -661,12 +665,115 @@ h1 em {
 }
 
 .pipeline-section,
+.capabilities-section,
 .showcase,
 .principles {
-  content-visibility: auto;
-  contain-intrinsic-size: auto 52rem;
   padding: 7rem 0;
   border-top: 1px solid rgb(255 255 255 / 8%);
+}
+
+.capabilities-section {
+  display: grid;
+  grid-template-columns: minmax(0, 0.82fr) minmax(32rem, 1.18fr);
+  gap: 5rem;
+  align-items: center;
+}
+
+.capabilities-copy h2 {
+  max-width: 11ch;
+  margin-bottom: 1.5rem;
+  font-size: clamp(2.7rem, 4.5vw, 4.4rem);
+}
+
+.capabilities-copy > p {
+  max-width: 35rem;
+  margin: 0;
+  color: var(--muted);
+  font-size: 1.03rem;
+  line-height: 1.7;
+}
+
+.capability-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.capability-tile {
+  position: relative;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  min-height: 7.5rem;
+  padding: 1rem;
+  overflow: hidden;
+  border-radius: 1.1rem;
+  transition:
+    transform 220ms ease,
+    border-color 220ms ease,
+    background-color 220ms ease;
+}
+
+.capability-tile::after {
+  position: absolute;
+  right: -2.5rem;
+  bottom: -3.5rem;
+  width: 8rem;
+  height: 8rem;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgb(109 231 221 / 12%), transparent 70%);
+  content: "";
+}
+
+.capability-tile:hover {
+  transform: translateY(-0.2rem);
+  border-color: rgb(109 231 221 / 30%);
+}
+
+.capability-icon {
+  display: grid;
+  place-items: center;
+  width: 3.35rem;
+  height: 3.35rem;
+  flex: 0 0 auto;
+  border: 1px solid rgb(198 156 255 / 24%);
+  border-radius: 0.9rem;
+  color: var(--cyan);
+  background:
+    radial-gradient(circle at 35% 20%, rgb(255 255 255 / 12%), transparent 50%),
+    rgb(169 112 255 / 8%);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 8%);
+}
+
+.capability-icon .icon {
+  width: 1.45rem;
+  height: 1.45rem;
+}
+
+.capability-tile h3,
+.capability-tile p {
+  margin: 0;
+}
+
+.capability-tile h3 {
+  font-size: 0.96rem;
+  font-weight: 600;
+}
+
+.capability-tile p {
+  margin-top: 0.22rem;
+  color: var(--quiet);
+  font-family: var(--font-code);
+  font-size: 0.7rem;
+}
+
+.capability-tile small {
+  position: absolute;
+  top: 0.7rem;
+  right: 0.8rem;
+  color: rgb(255 255 255 / 18%);
+  font-family: var(--font-code);
+  font-size: 0.62rem;
 }
 
 .section-heading {
@@ -922,64 +1029,27 @@ h2 {
 }
 
 .principle-icon {
-  position: relative;
-  width: 4.5rem;
-  height: 4.5rem;
+  display: grid;
+  place-items: center;
+  width: 4.25rem;
+  height: 4.25rem;
   margin: 1.25rem 0 3.6rem;
+  border: 1px solid rgb(198 156 255 / 26%);
+  border-radius: 1.15rem;
+  color: var(--violet-bright);
+  background: rgb(168 112 255 / 8%);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 8%),
+    0 1rem 2.5rem rgb(0 0 0 / 20%);
 }
 
-.principle-icon span,
-.principle-icon i,
-.principle-icon b {
-  position: absolute;
-  display: block;
-  border: 1px solid rgb(198 156 255 / 50%);
-  background: rgb(168 112 255 / 9%);
-}
-
-.layers span,
-.layers i,
-.layers b {
-  width: 3.2rem;
-  height: 2.2rem;
-  transform: rotate(30deg) skewX(-30deg);
-  border-radius: 0.35rem;
-}
-
-.layers span { top: 0; left: 0.8rem; }
-.layers i { top: 0.7rem; left: 0.45rem; opacity: 0.7; }
-.layers b { top: 1.4rem; left: 0.1rem; opacity: 0.4; }
-
-.modules span,
-.modules i,
-.modules b {
+.principle-icon .icon {
   width: 2rem;
   height: 2rem;
-  border-radius: 0.55rem;
 }
 
-.modules span { top: 0; left: 0; }
-.modules i { top: 0; right: 0; }
-.modules b { bottom: 0; left: 1.25rem; }
-
-.native span {
-  inset: 0.2rem;
-  border-radius: 50%;
-  box-shadow: inset 0 0 1.5rem rgb(109 231 221 / 12%);
-}
-
-.native i {
-  top: 1.45rem;
-  left: 1.7rem;
-  width: 0;
-  height: 0;
-  border-width: 0.75rem 0 0.75rem 1.2rem;
-  border-color: transparent transparent transparent var(--cyan);
-  background: transparent;
-}
-
-.native b {
-  display: none;
+.principle-icon.native {
+  color: var(--cyan);
 }
 
 .principle-card h3 {
@@ -1128,6 +1198,15 @@ footer a {
   .showcase {
     gap: 3rem;
   }
+
+  .capabilities-section {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  .capabilities-copy h2 {
+    max-width: 14ch;
+  }
 }
 
 @media (max-width: 48rem) {
@@ -1149,12 +1228,6 @@ footer a {
   .hero-facts {
     gap: 1rem;
     justify-content: space-between;
-  }
-
-  .hero-visual {
-    min-height: 35rem;
-    transform: scale(0.92);
-    transform-origin: center top;
   }
 
   .section-heading,
@@ -1205,6 +1278,10 @@ footer a {
     grid-template-columns: 1fr;
   }
 
+  .capability-grid {
+    grid-template-columns: 1fr;
+  }
+
   .principle-card {
     min-height: 17rem;
   }
@@ -1226,10 +1303,84 @@ footer a {
 
 @media (max-width: 35rem) {
   .hero-visual {
-    left: 50%;
-    width: 34rem;
-    margin-left: -17rem;
-    transform: scale(0.76);
+    width: 100%;
+    min-height: 32rem;
+  }
+
+  .visual-glow {
+    top: 4rem;
+    width: 17rem;
+    height: 17rem;
+  }
+
+  .orbit-wide {
+    top: 5.5rem;
+    width: 100%;
+    height: 19rem;
+  }
+
+  .orbit-tight {
+    top: 6.8rem;
+    width: 76%;
+    height: 17rem;
+  }
+
+  .compiler-core {
+    top: 7.5rem;
+    width: 12rem;
+    height: 12rem;
+    border-radius: 3.4rem 4.5rem 3.6rem 4.8rem;
+  }
+
+  .compiler-core img {
+    width: 6.25rem;
+    height: 6.25rem;
+    border-radius: 1.4rem;
+  }
+
+  .compiler-core > span:last-child {
+    bottom: 0.85rem;
+    font-size: 0.58rem;
+  }
+
+  .floating-node {
+    min-width: 8.2rem;
+    padding: 0.55rem;
+  }
+
+  .node-source {
+    top: 3.1rem;
+    left: 0;
+  }
+
+  .node-ir {
+    top: 15.5rem;
+    right: 0;
+  }
+
+  .node-native {
+    top: 22.5rem;
+    left: 0;
+  }
+
+  .build-console {
+    right: 0;
+    bottom: 0;
+    width: calc(100% - 1.25rem);
+  }
+
+  .orbit-dot-a {
+    top: 5.5rem;
+    left: 7%;
+  }
+
+  .orbit-dot-b {
+    top: 21rem;
+    right: 4%;
+  }
+
+  .capability-tile {
+    min-height: 6.5rem;
   }
 
   .hero-facts span {
@@ -1237,6 +1388,7 @@ footer a {
   }
 
   .pipeline-section,
+  .capabilities-section,
   .showcase,
   .principles {
     padding: 5rem 0;
