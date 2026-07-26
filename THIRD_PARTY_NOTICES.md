@@ -12,3 +12,7 @@ The website self-hosts the following fonts from the Google Fonts repository:
 
 Consolas is referenced only through the CSS `local()` source. The font is not copied or distributed by this repository.
 
+## Marked
+
+The frontend uses [Marked](https://marked.js.org/) to render trusted package Markdown during the static Astro build.
+Marked is licensed under the MIT License.

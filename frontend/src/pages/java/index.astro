@@ -1,0 +1,76 @@
+---
+// SPDX-FileCopyrightText: 2026 Leitwolf <xs-lang.chess031@slmails.com>
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
+import Icon from "../../components/Icon.astro";
+import SiteLayout from "../../layouts/SiteLayout.astro";
+---
+
+<SiteLayout
+  title="X# Java Repository"
+  description="Official read-only Java packages for X# and XLIL integration."
+>
+  <section class="repository-surface">
+    <div class="ambient" aria-hidden="true">
+      <span class="ambient-orb ambient-orb-a"></span>
+      <span class="ambient-orb ambient-orb-b"></span>
+    </div>
+    <header class="repository-header glass-panel">
+      <a class="brand" href="https://xsharp-lang.xyz/" aria-label="X# home">
+        <img class="brand-mark" src="/xsharp-logo.webp" width="38" height="38" alt="" />
+        <span class="brand-name">X#</span>
+        <span class="brand-channel">Java repository</span>
+      </a>
+      <a class="repository-source" href="https://github.com/xss-lang/xs-project" target="_blank" rel="noreferrer">
+        <Icon name="github" />
+        Source
+      </a>
+    </header>
+
+    <main class="repository-main repository-catalog">
+      <div class="repository-status glass-panel">
+        <span class="repository-status-icon"><Icon name="check" /></span>
+        Read-only repository online
+      </div>
+      <p class="eyebrow">Official Java packages</p>
+      <h1>Native XLIL.<br /><em>Java 25.</em></h1>
+      <p class="repository-lede">
+        Versioned Java libraries backed by stable X# native ABIs. Package publishing is restricted to
+        X# maintainers; repository users have read-only access.
+      </p>
+
+      <section class="package-list" aria-labelledby="packages-heading">
+        <div class="package-list-heading">
+          <div>
+            <p class="eyebrow">Packages</p>
+            <h2 id="packages-heading">Available now</h2>
+          </div>
+          <span>1 package</span>
+        </div>
+        <a class="package-card glass-panel" href="xlil/">
+          <span class="package-icon"><Icon name="registers" /></span>
+          <span class="package-copy">
+            <strong>XLIL</strong>
+            <code>org.xsslang:xlil</code>
+            <small>Java 25 FFM reader and writer for the XLIL C ABI.</small>
+          </span>
+          <span class="package-version">2026.1</span>
+          <span class="package-arrow"><Icon name="arrow" /></span>
+        </a>
+      </section>
+
+      <div class="repository-note glass-panel">
+        <Icon name="modules" />
+        <div>
+          <strong>Publishing is maintainer-only</strong>
+          <span>This host exposes immutable Maven-compatible artifacts and does not accept user uploads.</span>
+        </div>
+      </div>
+    </main>
+
+    <footer class="repository-footer">
+      <span>java.xsharp-lang.xyz</span>
+      <span>Official read-only repository</span>
+    </footer>
+  </section>
+</SiteLayout>

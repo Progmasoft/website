@@ -12,6 +12,8 @@ This repository contains the public web surface for the X# programming language 
 
 - `frontend/` is the Astro website. It is emitted as static HTML and assets.
 - `backend/` is the ASP.NET Core API boundary for future account and package-registry services.
+- `java.xsharp-lang.xyz` is the read-only Java artifact catalog. Its package descriptions are rendered from trusted
+  Markdown at build time and Maven-compatible files are served separately from the static catalog.
 
 The package registry is not implemented yet. The backend currently exposes only health and public service metadata;
 this keeps deployment plumbing testable without claiming an unfinished API contract.
