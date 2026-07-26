@@ -16,3 +16,13 @@ Consolas is referenced only through the CSS `local()` source. The font is not co
 
 The frontend uses [Marked](https://marked.js.org/) to render trusted package Markdown during the static Astro build.
 Marked is licensed under the MIT License.
+
+## ASP.NET Core Identity and Entity Framework Core
+
+The account service uses Microsoft ASP.NET Core Identity and Entity Framework Core. They are licensed under the MIT
+License.
+
+## Npgsql
+
+PostgreSQL access uses [Npgsql](https://www.npgsql.org/) and its Entity Framework Core provider. Npgsql is licensed
+under the PostgreSQL License.

@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 import Icon from "../../components/Icon.astro";
+import RepositoryHeader from "../../components/RepositoryHeader.astro";
 import SiteLayout from "../../layouts/SiteLayout.astro";
 ---
 
@@ -15,17 +16,7 @@ import SiteLayout from "../../layouts/SiteLayout.astro";
       <span class="ambient-orb ambient-orb-a"></span>
       <span class="ambient-orb ambient-orb-b"></span>
     </div>
-    <header class="repository-header glass-panel">
-      <a class="brand" href="https://xsharp-lang.xyz/" aria-label="X# home">
-        <img class="brand-mark" src="/xsharp-logo.webp" width="38" height="38" alt="" />
-        <span class="brand-name">X#</span>
-        <span class="brand-channel">package registry</span>
-      </a>
-      <a class="repository-source" href="https://github.com/xss-lang" target="_blank" rel="noreferrer">
-        <Icon name="github" />
-        GitHub
-      </a>
-    </header>
+    <RepositoryHeader />
     <main class="repository-main">
       <div class="repository-status glass-panel">
         <span class="repository-status-icon"><Icon name="modules" /></span>

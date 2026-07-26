@@ -1,0 +1,145 @@
+---
+// SPDX-FileCopyrightText: 2026 Leitwolf <xs-lang.chess031@slmails.com>
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
+interface Props {
+  mode: "login" | "register" | "recover";
+}
+
+const { mode } = Astro.props;
+const copy = {
+  login: {
+    title: "Sign in",
+    description: "Use your X# registry account.",
+    submit: "Next",
+    switchText: "New to the registry?",
+    switchLabel: "Create an account",
+    switchHref: "https://repo.xsharp-lang.xyz/register/",
+  },
+  register: {
+    title: "Create account",
+    description: "Publish and manage X# packages.",
+    submit: "Next",
+    switchText: "Already have an account?",
+    switchLabel: "Sign in",
+    switchHref: "https://repo.xsharp-lang.xyz/login/",
+  },
+  recover: {
+    title: "Recover account",
+    description: "Reset your password securely.",
+    submit: "Send code",
+    switchText: "Remembered your password?",
+    switchLabel: "Sign in",
+    switchHref: "https://repo.xsharp-lang.xyz/login/",
+  },
+} as const;
+const content = copy[mode];
+---
+
+<main class="auth-main" data-auth-flow data-mode={mode}>
+  <section class="auth-card glass-panel">
+    <a class="auth-brand" href="https://repo.xsharp-lang.xyz/" aria-label="X# package registry">
+      <img src="/xsharp-logo.webp" width="44" height="44" alt="" />
+      <span>X# Registry</span>
+    </a>
+
+    <div class="auth-heading">
+      <p class="eyebrow">X# package registry</p>
+      <h1>{content.title}</h1>
+      <p>{content.description}</p>
+    </div>
+
+    <div class="auth-alert" data-auth-alert hidden aria-live="polite"></div>
+
+    <button class="oauth-button" type="button" data-google>
+      <span class="google-mark" aria-hidden="true">G</span>
+      Continue with Google
+    </button>
+
+    <div class="auth-divider"><span>or continue with email</span></div>
+
+    <form class="auth-form" data-auth-form novalidate>
+      <div class="auth-step" data-step="email">
+        <label for="auth-email">Email address</label>
+        <input
+          id="auth-email"
+          name="email"
+          type="email"
+          autocomplete="email"
+          inputmode="email"
+          placeholder="name@example.com"
+          required
+        />
+        <button class="auth-submit" type="submit">{content.submit}</button>
+      </div>
+
+      <div class="auth-step" data-step="password" hidden>
+        <button class="auth-back" type="button" data-back>← Change email</button>
+        <span class="auth-email-value" data-email-value></span>
+        <label for="auth-password">Password</label>
+        <input
+          id="auth-password"
+          name="password"
+          type="password"
+          autocomplete={mode === "register" ? "new-password" : "current-password"}
+          minlength="8"
+          required
+        />
+        {
+          mode === "register" && (
+            <p class="field-hint">Use at least 8 characters. Passwordless accounts are not created.</p>
+          )
+        }
+        <button class="auth-submit" type="submit">{mode === "register" ? "Create account" : "Sign in"}</button>
+        {
+          mode === "login" && (
+            <a class="auth-recovery" href="https://repo.xsharp-lang.xyz/recover/">Forgot password?</a>
+          )
+        }
+      </div>
+
+      <div class="auth-step" data-step="code" hidden>
+        <span class="auth-email-value" data-code-email></span>
+        <label for="auth-code">Verification code</label>
+        <input
+          id="auth-code"
+          name="code"
+          type="text"
+          autocomplete="one-time-code"
+          inputmode="text"
+          pattern="[A-Za-z0-9]{8}"
+          minlength="8"
+          maxlength="8"
+          placeholder="Enter the code from your email"
+          required
+        />
+        <p class="field-hint">
+          The code is sent by <code>noreply@xsharp-lang.xyz</code>. It expires and can only be used once.
+        </p>
+        <button class="auth-submit" type="submit">Verify email</button>
+        <button class="auth-resend" type="button" data-resend>Send another code</button>
+      </div>
+
+      <div class="auth-step" data-step="new-password" hidden>
+        <label for="auth-new-password">New password</label>
+        <input
+          id="auth-new-password"
+          name="new-password"
+          type="password"
+          autocomplete="new-password"
+          minlength="8"
+          required
+        />
+        <button class="auth-submit" type="submit">Set new password</button>
+      </div>
+    </form>
+
+    <p class="auth-switch">
+      {content.switchText} <a href={content.switchHref}>{content.switchLabel}</a>
+    </p>
+  </section>
+</main>
+
+<script>
+  import "../scripts/auth-flow";
+</script>

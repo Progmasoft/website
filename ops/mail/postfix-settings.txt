@@ -1,0 +1,19 @@
+# SPDX-FileCopyrightText: 2026 Leitwolf <xs-lang.chess031@slmails.com>
+# SPDX-License-Identifier: Apache-2.0
+
+myhostname = mail.xsharp-lang.xyz
+mydomain = xsharp-lang.xyz
+myorigin = $mydomain
+inet_interfaces = loopback-only
+inet_protocols = ipv4
+mydestination = localhost
+mynetworks = 127.0.0.0/8
+disable_vrfy_command = yes
+smtpd_relay_restrictions = permit_mynetworks,reject
+smtp_tls_security_level = encrypt
+smtp_tls_CApath = /etc/pki/tls/certs
+smtp_tls_loglevel = 1
+milter_default_action = tempfail
+milter_protocol = 6
+smtpd_milters = inet:127.0.0.1:8891
+non_smtpd_milters = inet:127.0.0.1:8891

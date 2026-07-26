@@ -1,0 +1,51 @@
+# SPDX-FileCopyrightText: 2026 Leitwolf <xs-lang.chess031@slmails.com>
+# SPDX-License-Identifier: Apache-2.0
+
+[Unit]
+Description=X# website and registry API
+After=network-online.target postgresql.service postfix.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+DynamicUser=yes
+User=xsharp-web
+Group=xsharp-web
+WorkingDirectory=/srv/xsharp/website/current/backend
+ExecStart=/usr/bin/env /srv/xsharp/website/current/backend/XSharp.Web.Api
+EnvironmentFile=/etc/xsharp/web-api.env
+Environment=ASPNETCORE_URLS=http://127.0.0.1:5080
+Environment=ASPNETCORE_ENVIRONMENT=Production
+Environment=DOTNET_EnableDiagnostics=0
+Environment=DataProtection__Path=/var/lib/xsharp-web/keys
+Environment=DataProtection__CertificatePath=%d/dataprotection.pfx
+LoadCredential=dataprotection.pfx:/etc/xsharp/dataprotection.pfx
+StateDirectory=xsharp-web
+Restart=on-failure
+RestartSec=3s
+TimeoutStopSec=15s
+UMask=0077
+
+AmbientCapabilities=
+CapabilityBoundingSet=
+LockPersonality=yes
+NoNewPrivileges=yes
+PrivateDevices=yes
+PrivateTmp=yes
+ProtectClock=yes
+ProtectControlGroups=yes
+ProtectHome=yes
+ProtectHostname=yes
+ProtectKernelLogs=yes
+ProtectKernelModules=yes
+ProtectKernelTunables=yes
+ProtectSystem=strict
+RemoveIPC=yes
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+RestrictNamespaces=yes
+RestrictRealtime=yes
+RestrictSUIDSGID=yes
+SystemCallArchitectures=native
+
+[Install]
+WantedBy=multi-user.target

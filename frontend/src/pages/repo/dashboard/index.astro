@@ -1,0 +1,139 @@
+---
+// SPDX-FileCopyrightText: 2026 Leitwolf <xs-lang.chess031@slmails.com>
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
+import RepositoryHeader from "../../../components/RepositoryHeader.astro";
+import SiteLayout from "../../../layouts/SiteLayout.astro";
+---
+
+<SiteLayout title="Dashboard · X# Registry" description="Manage X# packages and registry API tokens.">
+  <div class="ambient" aria-hidden="true">
+    <span class="ambient-orb ambient-orb-a"></span>
+    <span class="ambient-orb ambient-orb-b"></span>
+  </div>
+  <section class="repository-surface dashboard-surface" data-dashboard>
+    <RepositoryHeader authenticated />
+    <main class="dashboard-main">
+      <aside class="dashboard-sidebar glass-panel">
+        <div class="dashboard-account">
+          <span class="account-avatar" data-account-avatar>?</span>
+          <div>
+            <strong data-account-name>Loading account…</strong>
+            <span data-account-email></span>
+          </div>
+        </div>
+        <nav aria-label="Dashboard sections">
+          <a class="active" href="#overview">Overview</a>
+          <a href="#packages">My packages</a>
+          <a href="#tokens">API tokens</a>
+          <a href="#security">Security</a>
+        </nav>
+        <button class="dashboard-signout" type="button" data-signout>Sign out</button>
+      </aside>
+
+      <div class="dashboard-content">
+        <section id="overview" class="dashboard-heading">
+          <p class="eyebrow">Registry dashboard</p>
+          <h1>Welcome back.</h1>
+          <p>Manage package ownership, publishing access, and account security.</p>
+        </section>
+
+        <div class="dashboard-alert" data-dashboard-alert hidden aria-live="polite"></div>
+
+        <section class="dashboard-stats" aria-label="Account summary">
+          <article class="dashboard-panel glass-panel">
+            <span>Published packages</span>
+            <strong>0</strong>
+            <small>The registry does not contain public xspkg releases yet.</small>
+          </article>
+          <article class="dashboard-panel glass-panel">
+            <span>Email status</span>
+            <strong data-email-status>Checking…</strong>
+            <small>Publishing requires a verified email address.</small>
+          </article>
+          <article class="dashboard-panel glass-panel">
+            <span>Active tokens</span>
+            <strong data-token-count>0</strong>
+            <small>Tokens are shown only once when created.</small>
+          </article>
+        </section>
+
+        <section id="packages" class="dashboard-section">
+          <div class="dashboard-section-heading">
+            <div>
+              <p class="eyebrow">Packages</p>
+              <h2>My packages</h2>
+            </div>
+          </div>
+          <div class="dashboard-empty glass-panel">
+            <strong>No packages yet</strong>
+            <p>Once publishing opens, owned and delegated packages will appear here.</p>
+          </div>
+        </section>
+
+        <section id="tokens" class="dashboard-section">
+          <div class="dashboard-section-heading">
+            <div>
+              <p class="eyebrow">CLI access</p>
+              <h2>API tokens</h2>
+            </div>
+            <button class="button primary dashboard-create" type="button" data-token-open>New token</button>
+          </div>
+          <p class="dashboard-copy">
+            Use a registry token with <code>xs login</code>. Store it like a password; only its digest is retained.
+          </p>
+          <div class="token-list glass-panel" data-token-list>
+            <p class="token-list-empty">No API tokens have been created.</p>
+          </div>
+        </section>
+
+        <section id="security" class="dashboard-section">
+          <div class="dashboard-section-heading">
+            <div>
+              <p class="eyebrow">Account</p>
+              <h2>Security</h2>
+            </div>
+          </div>
+          <div class="security-row glass-panel">
+            <div>
+              <strong>Password</strong>
+              <span>Change your password through a verified recovery email.</span>
+            </div>
+            <a class="button secondary glass-panel" href="https://repo.xsharp-lang.xyz/recover/">Reset password</a>
+          </div>
+        </section>
+      </div>
+    </main>
+  </section>
+
+  <dialog class="token-dialog glass-panel" data-token-dialog>
+    <form method="dialog" data-token-form>
+      <div class="dialog-heading">
+        <div>
+          <p class="eyebrow">CLI authentication</p>
+          <h2>Create API token</h2>
+        </div>
+        <button type="button" class="dialog-close" data-token-close aria-label="Close">×</button>
+      </div>
+      <label for="token-name">Token name</label>
+      <input id="token-name" name="name" maxlength="80" placeholder="Laptop publishing" required />
+      <fieldset>
+        <legend>Permissions</legend>
+        <label><input type="checkbox" name="scope" value="read" checked /> Read package metadata</label>
+        <label><input type="checkbox" name="scope" value="publish" /> Publish package versions</label>
+        <label><input type="checkbox" name="scope" value="yank" /> Yank and restore owned versions</label>
+      </fieldset>
+      <button class="auth-submit" type="submit">Create token</button>
+      <div class="token-secret" data-token-secret hidden>
+        <strong>Copy this token now</strong>
+        <code data-token-value></code>
+        <button type="button" data-token-copy>Copy token</button>
+        <span>It cannot be displayed again.</span>
+      </div>
+    </form>
+  </dialog>
+
+  <script>
+    import "../../../scripts/dashboard";
+  </script>
+</SiteLayout>

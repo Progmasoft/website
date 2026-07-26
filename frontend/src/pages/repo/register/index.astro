@@ -1,0 +1,15 @@
+---
+// SPDX-FileCopyrightText: 2026 Leitwolf <xs-lang.chess031@slmails.com>
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
+import AuthPanel from "../../../components/AuthPanel.astro";
+import SiteLayout from "../../../layouts/SiteLayout.astro";
+---
+
+<SiteLayout title="Register · X# Registry" description="Create an X# package registry account.">
+  <div class="ambient" aria-hidden="true">
+    <span class="ambient-orb ambient-orb-a"></span>
+    <span class="ambient-orb ambient-orb-b"></span>
+  </div>
+  <AuthPanel mode="register" />
+</SiteLayout>

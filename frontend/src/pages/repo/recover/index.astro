@@ -1,0 +1,15 @@
+---
+// SPDX-FileCopyrightText: 2026 Leitwolf <xs-lang.chess031@slmails.com>
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
+import AuthPanel from "../../../components/AuthPanel.astro";
+import SiteLayout from "../../../layouts/SiteLayout.astro";
+---
+
+<SiteLayout title="Recover account · X# Registry" description="Reset an X# registry account password.">
+  <div class="ambient" aria-hidden="true">
+    <span class="ambient-orb ambient-orb-a"></span>
+    <span class="ambient-orb ambient-orb-b"></span>
+  </div>
+  <AuthPanel mode="recover" />
+</SiteLayout>
