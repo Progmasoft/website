@@ -78,14 +78,6 @@ body {
 }
 
 .repository-surface {
-  display: none;
-}
-
-html[data-surface="repository"] .main-surface {
-  display: none;
-}
-
-html[data-surface="repository"] .repository-surface {
   display: flex;
   min-height: 100vh;
   flex-direction: column;
