@@ -77,6 +77,20 @@ async function initializeProviders() {
   }
 }
 
+function initializeGoogleVerification() {
+  const parameters = new URLSearchParams(window.location.search);
+  const requestedEmail = parameters.get("email")?.trim().toLowerCase() ?? "";
+  if (mode !== "register" || parameters.get("verify") !== "google" || !requestedEmail || !emailInput) {
+    return;
+  }
+  emailInput.value = requestedEmail;
+  if (!emailInput.checkValidity()) return;
+  email = requestedEmail;
+  showStep("code");
+  showAlert("Google sign-in succeeded. Check your email for the X# verification code.");
+  window.history.replaceState({}, "", window.location.pathname);
+}
+
 form?.addEventListener("submit", async (event) => {
   event.preventDefault();
   if (!mode) return;
@@ -144,4 +158,5 @@ form?.addEventListener("submit", async (event) => {
   window.location.assign("https://repo.xsharp-lang.xyz/dashboard/");
 });
 
+initializeGoogleVerification();
 void initializeProviders();

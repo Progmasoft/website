@@ -29,6 +29,10 @@ internal sealed class RegistryDbContext(DbContextOptions<RegistryDbContext> opti
             entity.Property(challenge => challenge.Purpose).HasMaxLength(32);
             entity.Property(challenge => challenge.CodeDigest).HasMaxLength(32);
             entity.HasIndex(challenge => new { challenge.UserId, challenge.Purpose, challenge.ConsumedAt });
+            entity.HasOne<ApplicationUser>()
+                .WithMany()
+                .HasForeignKey(challenge => challenge.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
         });
         builder.Entity<RegistryToken>(entity =>
         {
@@ -39,6 +43,10 @@ internal sealed class RegistryDbContext(DbContextOptions<RegistryDbContext> opti
             entity.Property(token => token.Scopes).HasColumnType("text[]");
             entity.HasIndex(token => token.Digest).IsUnique();
             entity.HasIndex(token => new { token.UserId, token.RevokedAt });
+            entity.HasOne<ApplicationUser>()
+                .WithMany()
+                .HasForeignKey(token => token.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
         });
     }
 }

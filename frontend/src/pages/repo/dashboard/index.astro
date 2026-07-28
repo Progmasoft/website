@@ -94,6 +94,13 @@ import SiteLayout from "../../../layouts/SiteLayout.astro";
               <h2>Security</h2>
             </div>
           </div>
+          <div class="security-row security-row-danger glass-panel">
+            <div>
+              <strong>Delete account</strong>
+              <span>Permanently delete this account, its API tokens, and its registry credentials.</span>
+            </div>
+            <button class="button danger" type="button" data-delete-open>Delete account</button>
+          </div>
           <div class="security-row glass-panel">
             <div>
               <strong>Password</strong>
@@ -133,7 +140,30 @@ import SiteLayout from "../../../layouts/SiteLayout.astro";
     </form>
   </dialog>
 
-  <script>
-    import "../../../scripts/dashboard";
-  </script>
+  <dialog class="token-dialog glass-panel" data-delete-dialog>
+    <form method="dialog" data-delete-form>
+      <div class="dialog-heading">
+        <div>
+          <p class="eyebrow">Permanent action</p>
+          <h2>Delete account</h2>
+        </div>
+        <button type="button" class="dialog-close" data-delete-close aria-label="Close">×</button>
+      </div>
+      <p class="dashboard-copy">
+        This cannot be undone. Enter <strong data-delete-email></strong> to confirm.
+      </p>
+      <label for="delete-confirmation">Account email</label>
+      <input
+        id="delete-confirmation"
+        name="confirmation"
+        type="email"
+        autocomplete="off"
+        data-delete-confirmation
+        required
+      />
+      <button class="auth-submit danger" type="submit">Permanently delete account</button>
+    </form>
+  </dialog>
+
+  <script is:inline type="module" src="/scripts/dashboard.v1.js"></script>
 </SiteLayout>

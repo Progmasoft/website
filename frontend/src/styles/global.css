@@ -2051,6 +2051,27 @@ footer a {
   display: block;
 }
 
+.security-row + .security-row {
+  margin-top: 0.75rem;
+}
+
+.security-row-danger {
+  border-color: rgb(255 89 137 / 28%);
+}
+
+.button.danger,
+.auth-submit.danger {
+  border-color: rgb(255 89 137 / 38%);
+  color: #ffd6e4;
+  background: linear-gradient(135deg, rgb(180 28 80 / 72%), rgb(111 18 55 / 80%));
+}
+
+.button.danger:hover,
+.auth-submit.danger:hover {
+  border-color: rgb(255 128 169 / 65%);
+  box-shadow: 0 0.75rem 2rem rgb(105 13 52 / 28%);
+}
+
 .token-dialog {
   width: min(30rem, calc(100% - 2rem));
   padding: 1.5rem;

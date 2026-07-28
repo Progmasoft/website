@@ -19,7 +19,8 @@ This repository contains the public web surface for the X# programming language 
 The registry account dashboard is available at
 [`repo.xsharp-lang.xyz/dashboard`](https://repo.xsharp-lang.xyz/dashboard/). Package publication remains closed while
 the compiler package contract is completed. Registry tokens follow the Cargo model: the plaintext is returned once,
-only a SHA-256 digest is retained, and a user can revoke each token independently.
+only a SHA-256 digest is retained, and a user can revoke each token independently. Account deletion permanently
+removes the Identity account, external logins, verification records, and registry tokens.
 
 The PostgreSQL provider is selected solely by `ConnectionStrings__Registry`; production can use a Supabase PostgreSQL
 connection without exposing database or service credentials to the browser. Google OAuth client credentials, the
@@ -29,6 +30,7 @@ The Google OAuth web client callback is
 `https://repo.xsharp-lang.xyz/api/v1/auth/google/callback`. Configure it through
 `Authentication__Google__ClientId` and `Authentication__Google__ClientSecret`. Until both values exist, the frontend
 keeps the Google button visible but disabled and email/password authentication remains available.
+Every completed Google authorization still requires the short-lived X# email code before a registry session is issued.
 
 ## Requirements
 

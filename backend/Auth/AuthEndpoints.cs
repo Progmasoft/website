@@ -14,6 +14,7 @@ internal static class AuthEndpoints
 {
     private const string DashboardUrl = "https://repo.xsharp-lang.xyz/dashboard/";
     private const string LoginUrl = "https://repo.xsharp-lang.xyz/login/";
+    private const string RegisterUrl = "https://repo.xsharp-lang.xyz/register/";
 
     public static void MapAuthEndpoints(this WebApplication app)
     {
@@ -23,6 +24,7 @@ internal static class AuthEndpoints
         auth.MapPost("/verify-email/resend", ResendVerificationAsync);
         auth.MapPost("/login", LoginAsync);
         auth.MapPost("/logout", LogoutAsync).RequireAuthorization();
+        auth.MapDelete("/account", DeleteAccountAsync).RequireAuthorization();
         auth.MapGet("/me", MeAsync).RequireAuthorization();
         auth.MapGet("/providers", ProvidersAsync);
         auth.MapGet("/google", BeginGoogleAsync);
@@ -152,14 +154,13 @@ internal static class AuthEndpoints
 
     private static async Task<IResult> CompleteGoogleAsync(
         SignInManager<ApplicationUser> signIn,
-        UserManager<ApplicationUser> users)
+        UserManager<ApplicationUser> users,
+        AuthCodeService codes,
+        RegistryEmailSender emailSender,
+        CancellationToken cancellationToken)
     {
         ExternalLoginInfo? info = await signIn.GetExternalLoginInfoAsync();
         if (info is null) return Results.Redirect($"{LoginUrl}?error=oauth");
-
-        SignInResult existing = await signIn.ExternalLoginSignInAsync(
-            info.LoginProvider, info.ProviderKey, isPersistent: true, bypassTwoFactor: false);
-        if (existing.Succeeded) return Results.Redirect(DashboardUrl);
 
         if (!TryNormalizeEmail(info.Principal.FindFirstValue(ClaimTypes.Email), out string email))
         {
@@ -168,20 +169,52 @@ internal static class AuthEndpoints
         ApplicationUser? user = await users.FindByEmailAsync(email);
         if (user is null)
         {
-            user = new ApplicationUser { UserName = email, Email = email, EmailConfirmed = true };
+            user = new ApplicationUser { UserName = email, Email = email };
             IdentityResult created = await users.CreateAsync(user);
             if (!created.Succeeded) return Results.Redirect($"{LoginUrl}?error=account");
         }
-        else if (!user.EmailConfirmed)
+
+        ApplicationUser? loginOwner = await users.FindByLoginAsync(info.LoginProvider, info.ProviderKey);
+        if (loginOwner is null)
         {
-            user.EmailConfirmed = true;
-            await users.UpdateAsync(user);
+            IdentityResult loginAdded = await users.AddLoginAsync(user, info);
+            if (!loginAdded.Succeeded) return Results.Redirect($"{LoginUrl}?error=oauth");
+        }
+        else if (loginOwner.Id != user.Id)
+        {
+            return Results.Redirect($"{LoginUrl}?error=oauth");
         }
 
-        IdentityResult loginAdded = await users.AddLoginAsync(user, info);
-        if (!loginAdded.Succeeded) return Results.Redirect($"{LoginUrl}?error=oauth");
-        await signIn.SignInAsync(user, isPersistent: true);
-        return Results.Redirect(DashboardUrl);
+        string code = await codes.CreateAsync(user.Id, "signup", cancellationToken);
+        await emailSender.SendCodeAsync(email, code, "signup");
+        string destination = $"{RegisterUrl}?verify=google"
+            + $"&email={Uri.EscapeDataString(email)}";
+        return Results.Redirect(destination);
+    }
+
+    private static async Task<IResult> DeleteAccountAsync(
+        [Microsoft.AspNetCore.Mvc.FromBody] DeleteAccountRequest request,
+        ClaimsPrincipal principal,
+        UserManager<ApplicationUser> users,
+        SignInManager<ApplicationUser> signIn)
+    {
+        ApplicationUser? user = await users.GetUserAsync(principal);
+        if (user?.Email is null)
+        {
+            return Results.Unauthorized();
+        }
+        string confirmation = request.Confirmation?.Trim() ?? string.Empty;
+        if (!string.Equals(confirmation, user.Email, StringComparison.OrdinalIgnoreCase))
+        {
+            return Results.BadRequest(new ApiError(
+                "confirmation_mismatch",
+                "Enter the account email address to confirm deletion."));
+        }
+
+        IdentityResult result = await users.DeleteAsync(user);
+        if (!result.Succeeded) return IdentityErrors(result);
+        await signIn.SignOutAsync();
+        return Results.NoContent();
     }
 
     private static async Task<IResult> StartRecoveryAsync(
@@ -255,4 +288,5 @@ internal sealed record Credentials(string? Email, string? Password);
 internal sealed record EmailRequest(string? Email);
 internal sealed record VerificationRequest(string? Email, string? Code);
 internal sealed record RecoveryRequest(string? Email, string? Code, string? Password);
+internal sealed record DeleteAccountRequest(string? Confirmation);
 internal sealed record ApiError(string Error, string Message);
