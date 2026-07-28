@@ -1,49 +1,40 @@
 // SPDX-FileCopyrightText: 2026 Leitwolf <xs-lang.chess031@slmails.com>
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-export {};
-
-type Mode = "login" | "register" | "recover";
-type Step = "email" | "password" | "code" | "new-password";
-
-const root = document.querySelector<HTMLElement>("[data-auth-flow]");
-const form = root?.querySelector<HTMLFormElement>("[data-auth-form]");
-const emailInput = root?.querySelector<HTMLInputElement>("#auth-email");
-const passwordInput = root?.querySelector<HTMLInputElement>("#auth-password");
-const codeInput = root?.querySelector<HTMLInputElement>("#auth-code");
-const newPasswordInput = root?.querySelector<HTMLInputElement>("#auth-new-password");
-const alert = root?.querySelector<HTMLElement>("[data-auth-alert]");
-const mode = root?.dataset.mode as Mode | undefined;
-const googleButton = root?.querySelector<HTMLButtonElement>("[data-google]");
-let step: Step = "email";
+// Versioned because the registry serves this security-sensitive flow through a cache.
+const root = document.querySelector("[data-auth-flow]");
+const form = root?.querySelector("[data-auth-form]");
+const emailInput = root?.querySelector("#auth-email");
+const passwordInput = root?.querySelector("#auth-password");
+const codeInput = root?.querySelector("#auth-code");
+const newPasswordInput = root?.querySelector("#auth-new-password");
+const alert = root?.querySelector("[data-auth-alert]");
+const mode = root?.dataset.mode;
+const googleButton = root?.querySelector("[data-google]");
+let step = "email";
 let email = "";
 let recoveryCode = "";
 
-interface ApiFailure {
-  message?: string;
-  errors?: string[];
-}
-
-function showAlert(message: string, error = false): void {
+function showAlert(message, error = false) {
   if (!alert) return;
   alert.textContent = message;
   alert.dataset.kind = error ? "error" : "info";
   alert.hidden = false;
 }
 
-function showStep(next: Step): void {
+function showStep(next) {
   step = next;
-  root?.querySelectorAll<HTMLElement>("[data-step]").forEach((element) => {
+  root?.querySelectorAll("[data-step]").forEach((element) => {
     element.hidden = element.dataset.step !== next;
   });
-  root?.querySelectorAll<HTMLElement>("[data-email-value], [data-code-email]").forEach((element) => {
+  root?.querySelectorAll("[data-email-value], [data-code-email]").forEach((element) => {
     element.textContent = email;
   });
   alert?.setAttribute("hidden", "");
-  root?.querySelector<HTMLInputElement>(`[data-step="${next}"] input`)?.focus();
+  root?.querySelector(`[data-step="${next}"] input`)?.focus();
 }
 
-async function request(path: string, body?: object): Promise<Response> {
+async function request(path, body) {
   return fetch(`/api/v1/auth/${path}`, {
     method: body ? "POST" : "GET",
     credentials: "include",
@@ -52,10 +43,10 @@ async function request(path: string, body?: object): Promise<Response> {
   });
 }
 
-async function explainFailure(response: Response): Promise<void> {
-  let failure: ApiFailure = {};
+async function explainFailure(response) {
+  let failure = {};
   try {
-    failure = (await response.json()) as ApiFailure;
+    failure = await response.json();
   } catch {
     // An upstream error page is intentionally replaced with a stable message.
   }
@@ -74,11 +65,11 @@ googleButton?.addEventListener("click", async () => {
   window.location.assign("/api/v1/auth/google");
 });
 
-async function initializeProviders(): Promise<void> {
+async function initializeProviders() {
   if (!googleButton) return;
   try {
     const response = await request("providers");
-    const providers = (await response.json()) as { google: boolean };
+    const providers = await response.json();
     googleButton.disabled = !providers.google;
     if (!providers.google) googleButton.title = "Google sign-in is being configured.";
   } catch {

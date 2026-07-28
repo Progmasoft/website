@@ -58,7 +58,13 @@ const content = copy[mode];
 
     <div class="auth-divider"><span>or continue with email</span></div>
 
-    <form class="auth-form" data-auth-form novalidate>
+    <noscript>
+      <p class="auth-alert" data-kind="error">
+        JavaScript is required for the secure account flow. Enable it and reload this page.
+      </p>
+    </noscript>
+
+    <form class="auth-form" data-auth-form method="post" novalidate>
       <div class="auth-step" data-step="email">
         <label for="auth-email">Email address</label>
         <input
@@ -140,6 +146,4 @@ const content = copy[mode];
   </section>
 </main>
 
-<script>
-  import "../scripts/auth-flow";
-</script>
+<script is:inline type="module" src="/scripts/auth-flow.v1.js"></script>
