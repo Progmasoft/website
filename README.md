@@ -75,6 +75,12 @@ dotnet tool run dotnet-ef migrations add <Name> --project backend/XSharp.Web.Api
 Email verification and recovery use an eight-character, short-lived, single-use code. Messages are sent by the
 automated `noreply@xsharp-lang.xyz` identity; it is not a mailbox. See `ops/mail/README.md` for the transport boundary.
 
+## Release policy
+
+The website is a rolling deployment with fixed package and Git tag version `1.0.0`. The repository does not publish
+GitHub Releases; deployment history is represented by ordinary commits while the `1.0.0` tag follows the deployed
+baseline.
+
 ## License
 
 X# website is licensed under the GNU Affero General Public License, version 3 or any later version. A deployed modified
