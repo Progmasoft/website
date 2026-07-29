@@ -1,7 +1,7 @@
 # XLIL for Java
 
 `org.xsslang:xlil:2026.1` is the official Java 25 binding for the stable
-XLIL C ABI. It can construct, verify, emit, parse, and inspect XLIL v0
+XLIL C ABI. It can construct, verify, emit, parse, and inspect XLIL v1
 modules without maintaining a second Java parser.
 
 ## Add the dependency
@@ -71,4 +71,3 @@ module.functions().forEach(function -> System.out.println(function.name()));
 The reader delegates parsing and verification to `libxs_lil` and returns
 immutable Java snapshots. `CString` helpers are available from
 `org.xsslang.ffi.c` for other Java 25 FFM integrations.
-
