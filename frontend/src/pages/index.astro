@@ -198,13 +198,16 @@ const capabilities = [
           <p>Sources/main.vxs</p>
           <span class="window-badge">Visual X#</span>
         </div>
-        <pre><code>{`fn add(a: Long, b: Long) -> Long {
-    a + b
+        <pre><code>{`int Sum(_ int left, _ int right) {
+    left + right
 }
 
-fn main() -> Long {
-    answer := add(20, 22);
-    answer
+auto Factorial(_ int value) {
+    if (value <= 1) {
+        return 1;
+    }
+
+    value * Factorial(value - 1)
 }`}</code></pre>
         <div class="code-shine" aria-hidden="true"></div>
       </div>
