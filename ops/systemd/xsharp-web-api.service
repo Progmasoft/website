@@ -8,9 +8,8 @@ Wants=network-online.target
 
 [Service]
 Type=simple
-DynamicUser=yes
-User=xsharp-web
-Group=xsharp-web
+User=xsharp_web
+Group=xsharp_web
 WorkingDirectory=/srv/xsharp/website/current/backend
 ExecStart=/usr/bin/env /srv/xsharp/website/current/backend/XSharp.Web.Api
 EnvironmentFile=/etc/xsharp/web-api.env

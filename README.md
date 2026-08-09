@@ -43,6 +43,10 @@ Every completed Google authorization still requires the short-lived Visual X# em
 - PostgreSQL 16 or newer
 - Postfix and OpenDKIM for production transactional mail
 
+Production runs the API as the non-login `xsharp_web` operating-system account. PostgreSQL uses a matching local role
+over its Unix socket with peer authentication, so the web process does not need a database password and PostgreSQL is
+never exposed through the firewall.
+
 ## Development
 
 ```text
