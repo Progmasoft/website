@@ -16,6 +16,10 @@ This repository contains the public web surface for the Visual X# programming la
 - `java.xsharp-lang.xyz` is the read-only Java artifact catalog. Its package descriptions are rendered from trusted
   Markdown at build time and Maven-compatible files are served separately from the static catalog.
 
+The renewed Java 25 surface reserves `org.progmasoft.visual_xsharp.xmm.writer`,
+`org.progmasoft.visual_xsharp.xmm.reader`, and `org.progmasoft.java_utilities.ffi.c`. These packages follow the current
+Xmm boundary; the retired XLIL naming is not part of the public catalog.
+
 The registry account dashboard is available at
 [`viget.xsharp-lang.xyz/dashboard`](https://viget.xsharp-lang.xyz/dashboard/). Package publication remains closed while
 the compiler package contract is completed. Registry tokens follow the Cargo model: the plaintext is returned once,
