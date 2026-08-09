@@ -87,7 +87,7 @@ function initializeGoogleVerification() {
   if (!emailInput.checkValidity()) return;
   email = requestedEmail;
   showStep("code");
-  showAlert("Google sign-in succeeded. Check your email for the X# verification code.");
+  showAlert("Google sign-in succeeded. Check your email for the Visual X# verification code.");
   window.history.replaceState({}, "", window.location.pathname);
 }
 
@@ -127,7 +127,7 @@ form?.addEventListener("submit", async (event) => {
     }
     const response = await request("login", { email, password });
     if (!response.ok) return explainFailure(response);
-    window.location.assign("https://repo.xsharp-lang.xyz/dashboard/");
+    window.location.assign("https://viget.xsharp-lang.xyz/dashboard/");
     return;
   }
 
@@ -144,7 +144,7 @@ form?.addEventListener("submit", async (event) => {
     }
     const response = await request("verify-email", { email, code });
     if (!response.ok) return explainFailure(response);
-    window.location.assign("https://repo.xsharp-lang.xyz/dashboard/");
+    window.location.assign("https://viget.xsharp-lang.xyz/dashboard/");
     return;
   }
 
@@ -155,7 +155,7 @@ form?.addEventListener("submit", async (event) => {
   }
   const response = await request("recovery/complete", { email, code: recoveryCode, password });
   if (!response.ok) return explainFailure(response);
-  window.location.assign("https://repo.xsharp-lang.xyz/dashboard/");
+  window.location.assign("https://viget.xsharp-lang.xyz/dashboard/");
 });
 
 initializeGoogleVerification();

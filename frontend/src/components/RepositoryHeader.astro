@@ -12,24 +12,24 @@ const { authenticated = false } = Astro.props;
 ---
 
 <header class="repository-header glass-panel">
-  <a class="brand" href="https://repo.xsharp-lang.xyz/" aria-label="X# package registry home">
+  <a class="brand" href="https://viget.xsharp-lang.xyz/" aria-label="Visual X# package registry home">
     <img class="brand-mark" src="/xsharp-logo.webp" width="38" height="38" alt="" />
-    <span class="brand-name">X#</span>
+    <span class="brand-name">Visual X#</span>
     <span class="brand-channel">package registry</span>
   </a>
   <nav class="repository-navigation" aria-label="Registry navigation">
-    <a href="https://repo.xsharp-lang.xyz/">Packages</a>
+    <a href="https://viget.xsharp-lang.xyz/">Packages</a>
     {
       authenticated ? (
-        <a href="https://repo.xsharp-lang.xyz/dashboard/">Dashboard</a>
+        <a href="https://viget.xsharp-lang.xyz/dashboard/">Dashboard</a>
       ) : (
         <>
-          <a href="https://repo.xsharp-lang.xyz/login/">Log in</a>
-          <a class="repository-register" href="https://repo.xsharp-lang.xyz/register/">Register</a>
+          <a href="https://viget.xsharp-lang.xyz/login/">Log in</a>
+          <a class="repository-register" href="https://viget.xsharp-lang.xyz/register/">Register</a>
         </>
       )
     }
-    <a class="repository-source" href="https://github.com/xss-lang" target="_blank" rel="noreferrer">
+    <a class="repository-source" href="https://github.com/Progmasoft/visual-xsharp" target="_blank" rel="noreferrer">
       <Icon name="github" />
       <span>GitHub</span>
     </a>

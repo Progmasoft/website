@@ -7,8 +7,8 @@ import SiteLayout from "../../layouts/SiteLayout.astro";
 ---
 
 <SiteLayout
-  title="X# Java Repository"
-  description="Official read-only Java packages for X# and XLIL integration."
+  title="Visual X# Java Repository"
+  description="Official read-only Java packages for Visual X# Xmm and native FFI integration."
 >
   <section class="repository-surface">
     <div class="ambient" aria-hidden="true">
@@ -16,12 +16,12 @@ import SiteLayout from "../../layouts/SiteLayout.astro";
       <span class="ambient-orb ambient-orb-b"></span>
     </div>
     <header class="repository-header glass-panel">
-      <a class="brand" href="https://xsharp-lang.xyz/" aria-label="X# home">
+      <a class="brand" href="https://xsharp-lang.xyz/" aria-label="Visual X# home">
         <img class="brand-mark" src="/xsharp-logo.webp" width="38" height="38" alt="" />
-        <span class="brand-name">X#</span>
+        <span class="brand-name">Visual X#</span>
         <span class="brand-channel">Java repository</span>
       </a>
-      <a class="repository-source" href="https://github.com/xss-lang/xs-project" target="_blank" rel="noreferrer">
+      <a class="repository-source" href="https://github.com/Progmasoft/visual-xsharp" target="_blank" rel="noreferrer">
         <Icon name="github" />
         Source
       </a>
@@ -30,40 +30,57 @@ import SiteLayout from "../../layouts/SiteLayout.astro";
     <main class="repository-main repository-catalog">
       <div class="repository-status glass-panel">
         <span class="repository-status-icon"><Icon name="check" /></span>
-        Read-only repository online
+        Repository foundation online
       </div>
       <p class="eyebrow">Official Java packages</p>
-      <h1>Native XLIL.<br /><em>Java 25.</em></h1>
+      <h1>Visual X# Xmm.<br /><em>Java 25.</em></h1>
       <p class="repository-lede">
-        Versioned Java libraries backed by the stable XLIL v1 C ABI. Package publishing is restricted to
-        X# maintainers; repository users have read-only access.
+        The Java surface follows the current Xmm pipeline and its C FFI boundary. Artifact publication is not open yet;
+        these are the canonical package names reserved by the renewed compiler design.
       </p>
 
       <section class="package-list" aria-labelledby="packages-heading">
         <div class="package-list-heading">
           <div>
             <p class="eyebrow">Packages</p>
-            <h2 id="packages-heading">Available now</h2>
+            <h2 id="packages-heading">Canonical packages</h2>
           </div>
-          <span>1 package</span>
+          <span>3 packages</span>
         </div>
-        <a class="package-card glass-panel" href="xlil/">
+        <article class="package-card glass-panel">
           <span class="package-icon"><Icon name="registers" /></span>
           <span class="package-copy">
-            <strong>XLIL</strong>
-            <code>org.xsslang:xlil</code>
-            <small>Java 25 FFM reader and writer for the XLIL v1 C ABI.</small>
+            <strong>Xmm writer</strong>
+            <code>org.progmasoft.visual_xsharp.xmm.writer</code>
+            <small>Java 25 writer surface for the Visual X# Xmm representation.</small>
           </span>
-          <span class="package-version">2026.1</span>
-          <span class="package-arrow"><Icon name="arrow" /></span>
-        </a>
+          <span class="package-version">planned</span>
+        </article>
+        <article class="package-card glass-panel">
+          <span class="package-icon"><Icon name="layers" /></span>
+          <span class="package-copy">
+            <strong>Xmm reader</strong>
+            <code>org.progmasoft.visual_xsharp.xmm.reader</code>
+            <small>Java 25 reader and inspection surface for Visual X# Xmm.</small>
+          </span>
+          <span class="package-version">planned</span>
+        </article>
+        <article class="package-card glass-panel">
+          <span class="package-icon"><Icon name="modules" /></span>
+          <span class="package-copy">
+            <strong>C FFI utilities</strong>
+            <code>org.progmasoft.java_utilities.ffi.c</code>
+            <small>Shared Java 25 native-access utilities for the Xmm C boundary.</small>
+          </span>
+          <span class="package-version">planned</span>
+        </article>
       </section>
 
       <div class="repository-note glass-panel">
         <Icon name="modules" />
         <div>
           <strong>Publishing is maintainer-only</strong>
-          <span>This host exposes immutable Maven-compatible artifacts and does not accept user uploads.</span>
+          <span>This host will expose immutable Maven-compatible artifacts and will not accept user uploads.</span>
         </div>
       </div>
     </main>

@@ -3,9 +3,9 @@ SPDX-FileCopyrightText: 2026 Leitwolf <xs-lang.chess031@slmails.com>
 SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
-# X# website
+# Visual X# website
 
-This repository contains the public web surface for the X# programming language at
+This repository contains the public web surface for the Visual X# programming language at
 [`xsharp-lang.xyz`](https://xsharp-lang.xyz).
 
 ## Workspaces
@@ -17,7 +17,7 @@ This repository contains the public web surface for the X# programming language 
   Markdown at build time and Maven-compatible files are served separately from the static catalog.
 
 The registry account dashboard is available at
-[`repo.xsharp-lang.xyz/dashboard`](https://repo.xsharp-lang.xyz/dashboard/). Package publication remains closed while
+[`viget.xsharp-lang.xyz/dashboard`](https://viget.xsharp-lang.xyz/dashboard/). Package publication remains closed while
 the compiler package contract is completed. Registry tokens follow the Cargo model: the plaintext is returned once,
 only a SHA-256 digest is retained, and a user can revoke each token independently. Account deletion permanently
 removes the Identity account, external logins, verification records, and registry tokens.
@@ -27,10 +27,10 @@ connection without exposing database or service credentials to the browser. Goog
 database connection, auth-code pepper, and data-protection certificate stay in host-managed secrets.
 
 The Google OAuth web client callback is
-`https://repo.xsharp-lang.xyz/api/v1/auth/google/callback`. Configure it through
+`https://viget.xsharp-lang.xyz/api/v1/auth/google/callback`. Configure it through
 `Authentication__Google__ClientId` and `Authentication__Google__ClientSecret`. Until both values exist, the frontend
 keeps the Google button visible but disabled and email/password authentication remains available.
-Every completed Google authorization still requires the short-lived X# email code before a registry session is issued.
+Every completed Google authorization still requires the short-lived Visual X# email code before a registry session is issued.
 
 ## Requirements
 
@@ -83,6 +83,6 @@ baseline.
 
 ## License
 
-X# website is licensed under the GNU Affero General Public License, version 3 or any later version. A deployed modified
+The Visual X# website is licensed under the GNU Affero General Public License, version 3 or any later version. A deployed modified
 version must offer its corresponding source to users who interact with it over a network. The canonical source link is
-[`github.com/xss-lang/website`](https://github.com/xss-lang/website).
+[`github.com/Progmasoft/website`](https://github.com/Progmasoft/website).

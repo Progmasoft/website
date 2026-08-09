@@ -6,7 +6,7 @@ import RepositoryHeader from "../../../components/RepositoryHeader.astro";
 import SiteLayout from "../../../layouts/SiteLayout.astro";
 ---
 
-<SiteLayout title="Dashboard · X# Registry" description="Manage X# packages and registry API tokens.">
+<SiteLayout title="Dashboard · Visual X# Registry" description="Manage Visual X# packages and registry API tokens.">
   <div class="ambient" aria-hidden="true">
     <span class="ambient-orb ambient-orb-a"></span>
     <span class="ambient-orb ambient-orb-b"></span>
@@ -80,7 +80,7 @@ import SiteLayout from "../../../layouts/SiteLayout.astro";
             <button class="button primary dashboard-create" type="button" data-token-open>New token</button>
           </div>
           <p class="dashboard-copy">
-            Use a registry token with <code>xs login</code>. Store it like a password; only its digest is retained.
+            Use a registry token with <code>vxs login</code>. Store it like a password; only its digest is retained.
           </p>
           <div class="token-list glass-panel" data-token-list>
             <p class="token-list-empty">No API tokens have been created.</p>
@@ -106,7 +106,7 @@ import SiteLayout from "../../../layouts/SiteLayout.astro";
               <strong>Password</strong>
               <span>Change your password through a verified recovery email.</span>
             </div>
-            <a class="button secondary glass-panel" href="https://repo.xsharp-lang.xyz/recover/">Reset password</a>
+            <a class="button secondary glass-panel" href="https://viget.xsharp-lang.xyz/recover/">Reset password</a>
           </div>
         </section>
       </div>

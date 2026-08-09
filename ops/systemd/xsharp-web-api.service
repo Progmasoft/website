@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 [Unit]
-Description=X# website and registry API
+Description=Visual X# website and registry API
 After=network-online.target postgresql.service postfix.service
 Wants=network-online.target
 

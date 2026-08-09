@@ -17,7 +17,7 @@ internal sealed class RegistryEmailSender(IOptions<EmailOptions> options)
         using MailMessage message = new()
         {
             From = new MailAddress(configuration.From, configuration.SenderName),
-            Subject = purpose == "recovery" ? "Your X# password recovery code" : "Verify your X# registry email",
+            Subject = purpose == "recovery" ? "Your Visual X# password recovery code" : "Verify your Visual X# registry email",
             Body = $"Use this one-time code to {action}: {code}\n\n"
                 + "The code expires in 15 minutes. If you did not request it, ignore this message.\n\n"
                 + "This mailbox is not monitored.",
