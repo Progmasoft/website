@@ -15,6 +15,7 @@ This repository contains the public web surface for the Visual X# programming la
   verification/recovery mail, secure session cookies, PostgreSQL persistence, and digest-only CLI tokens.
 - `java.xsharp-lang.xyz` is retained as a deprecated, read-only historical Java catalog so existing links continue to
   resolve. It does not define the current compiler pipeline and does not accept new artifact publication.
+  Its dedicated nginx host serves the generated `/java/` page at the domain root while sharing immutable frontend assets.
 
 The deprecated catalog records the former `org.progmasoft.visual_xsharp.xmm.writer`,
 `org.progmasoft.visual_xsharp.xmm.reader`, and `org.progmasoft.java_utilities.ffi.c` package plans for historical reference;
