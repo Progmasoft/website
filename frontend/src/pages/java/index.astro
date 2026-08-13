@@ -7,8 +7,8 @@ import SiteLayout from "../../layouts/SiteLayout.astro";
 ---
 
 <SiteLayout
-  title="Visual X# Java Repository"
-  description="Official read-only Java packages for Visual X# Xmm and native FFI integration."
+  title="Visual X# Java Repository — Deprecated"
+  description="Deprecated read-only catalog of the former Visual X# Java package surface."
 >
   <section class="repository-surface">
     <div class="ambient" aria-hidden="true">
@@ -19,7 +19,7 @@ import SiteLayout from "../../layouts/SiteLayout.astro";
       <a class="brand" href="https://xsharp-lang.xyz/" aria-label="Visual X# home">
         <img class="brand-mark" src="/xsharp-logo.webp" width="38" height="38" alt="" />
         <span class="brand-name">Visual X#</span>
-        <span class="brand-channel">Java repository</span>
+        <span class="brand-channel">Java repository · Deprecated</span>
       </a>
       <a class="repository-source" href="https://github.com/Progmasoft/visual-xsharp" target="_blank" rel="noreferrer">
         <Icon name="github" />
@@ -29,23 +29,24 @@ import SiteLayout from "../../layouts/SiteLayout.astro";
 
     <main class="repository-main repository-catalog">
       <div class="repository-status glass-panel">
-        <span class="repository-status-icon"><Icon name="check" /></span>
-        Repository foundation online
+        <span class="repository-status-icon"><Icon name="modules" /></span>
+        Deprecated · retained for historical reference
       </div>
-      <p class="eyebrow">Official Java packages</p>
+      <p class="eyebrow">Deprecated Java catalog</p>
       <h1>Visual X# Xmm.<br /><em>Java 25.</em></h1>
       <p class="repository-lede">
-        The Java surface follows the current Xmm pipeline and its C FFI boundary. Artifact publication is not open yet;
-        these are the canonical package names reserved by the renewed compiler design.
+        This page documents an earlier Java package plan and remains available so existing links do not break. The catalog
+        is deprecated: its package list is not the current Visual X# pipeline contract, and no new artifacts will be
+        published here.
       </p>
 
       <section class="package-list" aria-labelledby="packages-heading">
         <div class="package-list-heading">
           <div>
             <p class="eyebrow">Packages</p>
-            <h2 id="packages-heading">Canonical packages</h2>
+            <h2 id="packages-heading">Historical package names</h2>
           </div>
-          <span>3 packages</span>
+          <span>3 retired plans</span>
         </div>
         <article class="package-card glass-panel">
           <span class="package-icon"><Icon name="registers" /></span>
@@ -54,7 +55,7 @@ import SiteLayout from "../../layouts/SiteLayout.astro";
             <code>org.progmasoft.visual_xsharp.xmm.writer</code>
             <small>Java 25 writer surface for the Visual X# Xmm representation.</small>
           </span>
-          <span class="package-version">planned</span>
+          <span class="package-version">deprecated</span>
         </article>
         <article class="package-card glass-panel">
           <span class="package-icon"><Icon name="layers" /></span>
@@ -63,7 +64,7 @@ import SiteLayout from "../../layouts/SiteLayout.astro";
             <code>org.progmasoft.visual_xsharp.xmm.reader</code>
             <small>Java 25 reader and inspection surface for Visual X# Xmm.</small>
           </span>
-          <span class="package-version">planned</span>
+          <span class="package-version">deprecated</span>
         </article>
         <article class="package-card glass-panel">
           <span class="package-icon"><Icon name="modules" /></span>
@@ -72,22 +73,22 @@ import SiteLayout from "../../layouts/SiteLayout.astro";
             <code>org.progmasoft.java_utilities.ffi.c</code>
             <small>Shared Java 25 native-access utilities for the Xmm C boundary.</small>
           </span>
-          <span class="package-version">planned</span>
+          <span class="package-version">deprecated</span>
         </article>
       </section>
 
       <div class="repository-note glass-panel">
         <Icon name="modules" />
         <div>
-          <strong>Publishing is maintainer-only</strong>
-          <span>This host will expose immutable Maven-compatible artifacts and will not accept user uploads.</span>
+          <strong>No new publication</strong>
+          <span>This host is retained as a deprecated, read-only historical page. Do not select these packages for new work.</span>
         </div>
       </div>
     </main>
 
     <footer class="repository-footer">
       <span>java.xsharp-lang.xyz</span>
-      <span>Official read-only repository</span>
+      <span>Deprecated read-only catalog</span>
     </footer>
   </section>
 </SiteLayout>

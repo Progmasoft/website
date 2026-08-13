@@ -13,11 +13,12 @@ This repository contains the public web surface for the Visual X# programming la
 - `frontend/` is the Astro website. It is emitted as static HTML and assets.
 - `backend/` is the ASP.NET Core Identity and package-registry API. It owns password and Google authentication,
   verification/recovery mail, secure session cookies, PostgreSQL persistence, and digest-only CLI tokens.
-- `java.xsharp-lang.xyz` is the read-only Java artifact catalog. Its package descriptions are rendered from trusted
-  Markdown at build time and Maven-compatible files are served separately from the static catalog.
+- `java.xsharp-lang.xyz` is retained as a deprecated, read-only historical Java catalog so existing links continue to
+  resolve. It does not define the current compiler pipeline and does not accept new artifact publication.
 
-The Java 25 surface reserves `org.progmasoft.visual_xsharp.xmm.writer`,
-`org.progmasoft.visual_xsharp.xmm.reader`, and `org.progmasoft.java_utilities.ffi.c` as its canonical public packages.
+The deprecated catalog records the former `org.progmasoft.visual_xsharp.xmm.writer`,
+`org.progmasoft.visual_xsharp.xmm.reader`, and `org.progmasoft.java_utilities.ffi.c` package plans for historical reference;
+they are not a current public-package commitment.
 
 The registry account dashboard is available at
 [`viget.xsharp-lang.xyz/dashboard`](https://viget.xsharp-lang.xyz/dashboard/). Package publication remains closed while
