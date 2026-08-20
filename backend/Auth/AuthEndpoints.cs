@@ -5,6 +5,9 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.RateLimiting;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
+using Npgsql;
 using XSharp.Web.Api.Data;
 using XSharp.Web.Api.Email;
 
@@ -34,16 +37,28 @@ internal static class AuthEndpoints
     }
 
     private static async Task<IResult> RegisterAsync(
-        Credentials request,
+        RegisterRequest request,
         UserManager<ApplicationUser> users,
         AuthCodeService codes,
         RegistryEmailSender emailSender,
         CancellationToken cancellationToken)
     {
-        if (!TryGetCredentials(request, out string email, out string password))
+        if (!TryGetCredentials(request.Email, request.Password, out string email, out string password))
         {
             return InvalidRequest();
         }
+        PublisherNameValidation publisherName = PublisherNamePolicy.Validate(request.PublisherName);
+        if (!publisherName.IsValid)
+        {
+            return InvalidPublisherName(publisherName.Error!);
+        }
+        if (await PublisherNameExistsAsync(users, publisherName.NormalizedValue, cancellationToken))
+        {
+            return PublisherNameUnavailable();
+        }
+
+        // Availability is checked before sending mail for fast feedback, but the name is claimed only after the email code
+        // succeeds. Unverified accounts therefore cannot squat publisher coordinates.
         ApplicationUser user = new() { UserName = email, Email = email };
         IdentityResult result = await users.CreateAsync(user, password);
         if (!result.Succeeded)
@@ -61,6 +76,7 @@ internal static class AuthEndpoints
         UserManager<ApplicationUser> users,
         AuthCodeService codes,
         SignInManager<ApplicationUser> signIn,
+        RegistryDbContext database,
         CancellationToken cancellationToken)
     {
         if (!TryNormalizeEmail(request.Email, out string email) || string.IsNullOrWhiteSpace(request.Code))
@@ -68,14 +84,47 @@ internal static class AuthEndpoints
             return InvalidRequest();
         }
         ApplicationUser? user = await users.FindByEmailAsync(email);
-        if (user is null || !await codes.ConsumeAsync(user.Id, "signup", request.Code, cancellationToken))
+        if (user is null)
         {
             return Results.BadRequest(new ApiError("invalid_code", "The verification code is invalid or expired."));
         }
 
+        await using IDbContextTransaction transaction = await database.Database.BeginTransactionAsync(cancellationToken);
+        PublisherNameValidation publisherName = default;
+        if (user.PublisherName is null)
+        {
+            publisherName = PublisherNamePolicy.Validate(request.PublisherName);
+            if (!publisherName.IsValid)
+            {
+                return InvalidPublisherName(publisherName.Error!);
+            }
+            if (await PublisherNameExistsAsync(users, publisherName.NormalizedValue, cancellationToken))
+            {
+                return PublisherNameUnavailable();
+            }
+        }
+        if (!await codes.ConsumeAsync(user.Id, "signup", request.Code, cancellationToken))
+        {
+            return Results.BadRequest(new ApiError("invalid_code", "The verification code is invalid or expired."));
+        }
+
+        if (user.PublisherName is null)
+        {
+            user.PublisherName = publisherName.Value;
+            user.NormalizedPublisherName = publisherName.NormalizedValue;
+        }
         user.EmailConfirmed = true;
-        IdentityResult result = await users.UpdateAsync(user);
+        IdentityResult result;
+        try
+        {
+            result = await users.UpdateAsync(user);
+        }
+        catch (DbUpdateException exception) when (IsPublisherNameConflict(exception))
+        {
+            return PublisherNameUnavailable();
+        }
         if (!result.Succeeded) return IdentityErrors(result);
+        await transaction.CommitAsync(cancellationToken);
         await signIn.SignInAsync(user, isPersistent: true);
         return Results.Ok(new { verified = true });
     }
@@ -104,7 +153,7 @@ internal static class AuthEndpoints
         UserManager<ApplicationUser> users,
         SignInManager<ApplicationUser> signIn)
     {
-        if (!TryGetCredentials(request, out string email, out string password))
+        if (!TryGetCredentials(request.Email, request.Password, out string email, out string password))
         {
             return InvalidCredentials();
         }
@@ -128,13 +177,21 @@ internal static class AuthEndpoints
         return Results.NoContent();
     }
 
-    private static IResult MeAsync(ClaimsPrincipal principal) => Results.Ok(new
+    private static async Task<IResult> MeAsync(
+        ClaimsPrincipal principal,
+        UserManager<ApplicationUser> users)
     {
-        id = principal.FindFirstValue(ClaimTypes.NameIdentifier),
-        email = principal.FindFirstValue(ClaimTypes.Email) ?? principal.Identity?.Name,
-        displayName = principal.FindFirstValue(ClaimTypes.Name) ?? principal.Identity?.Name,
-        emailVerified = true,
-    });
+        ApplicationUser? user = await users.GetUserAsync(principal);
+        if (user is null) return Results.Unauthorized();
+        return Results.Ok(new
+        {
+            id = user.Id,
+            email = user.Email,
+            publisherName = user.PublisherName,
+            displayName = user.PublisherName ?? user.Email,
+            emailVerified = user.EmailConfirmed,
+        });
+    }
 
     private static async Task<IResult> ProvidersAsync(IAuthenticationSchemeProvider schemes) =>
         Results.Ok(new { google = await schemes.GetSchemeAsync("Google") is not null });
@@ -262,11 +319,30 @@ internal static class AuthEndpoints
         return Results.Ok(new { recovered = true });
     }
 
-    private static bool TryGetCredentials(Credentials request, out string email, out string password)
+    private static bool TryGetCredentials(
+        string? requestedEmail,
+        string? requestedPassword,
+        out string email,
+        out string password)
     {
-        password = request.Password ?? string.Empty;
-        return TryNormalizeEmail(request.Email, out email) && password.Length > 0;
+        password = requestedPassword ?? string.Empty;
+        return TryNormalizeEmail(requestedEmail, out email) && password.Length > 0;
     }
+
+    private static Task<bool> PublisherNameExistsAsync(
+        UserManager<ApplicationUser> users,
+        string normalizedPublisherName,
+        CancellationToken cancellationToken) =>
+        users.Users.AnyAsync(
+            user => user.NormalizedPublisherName == normalizedPublisherName,
+            cancellationToken);
+
+    private static bool IsPublisherNameConflict(DbUpdateException exception) =>
+        exception.InnerException is PostgresException
+        {
+            SqlState: PostgresErrorCodes.UniqueViolation,
+            ConstraintName: "PublisherNameIndex",
+        };
 
     private static bool TryNormalizeEmail(string? value, out string email)
     {
@@ -280,13 +356,18 @@ internal static class AuthEndpoints
     private static IResult InvalidCredentials() =>
         Results.Json(new ApiError("invalid_credentials", "The email or password is incorrect."),
             statusCode: StatusCodes.Status401Unauthorized);
+    private static IResult InvalidPublisherName(string message) =>
+        Results.BadRequest(new ApiError("invalid_publisher_name", message));
+    private static IResult PublisherNameUnavailable() =>
+        Results.Conflict(new ApiError("publisher_name_unavailable", "This username is not available."));
     private static IResult IdentityErrors(IdentityResult result) =>
         Results.BadRequest(new { error = "identity_validation", errors = result.Errors.Select(item => item.Description) });
 }
 
+internal sealed record RegisterRequest(string? Email, string? Password, string? PublisherName);
 internal sealed record Credentials(string? Email, string? Password);
 internal sealed record EmailRequest(string? Email);
-internal sealed record VerificationRequest(string? Email, string? Code);
+internal sealed record VerificationRequest(string? Email, string? Code, string? PublisherName);
 internal sealed record RecoveryRequest(string? Email, string? Code, string? Password);
 internal sealed record DeleteAccountRequest(string? Confirmation);
 internal sealed record ApiError(string Error, string Message);

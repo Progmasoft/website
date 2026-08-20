@@ -4,6 +4,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using XSharp.Web.Api.Auth;
 
 namespace XSharp.Web.Api.Data;
 
@@ -21,7 +22,12 @@ internal sealed class RegistryDbContext(DbContextOptions<RegistryDbContext> opti
         builder.Entity<ApplicationUser>(entity =>
         {
             entity.Property(user => user.CreatedAt).IsRequired();
+            entity.Property(user => user.PublisherName).HasMaxLength(PublisherNamePolicy.MaximumLength);
+            entity.Property(user => user.NormalizedPublisherName).HasMaxLength(PublisherNamePolicy.MaximumLength);
             entity.HasIndex(user => user.NormalizedEmail).IsUnique();
+            entity.HasIndex(user => user.NormalizedPublisherName)
+                .IsUnique()
+                .HasDatabaseName("PublisherNameIndex");
         });
         builder.Entity<AuthChallenge>(entity =>
         {

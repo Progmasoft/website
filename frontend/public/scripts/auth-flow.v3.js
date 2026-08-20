@@ -6,13 +6,18 @@ const root = document.querySelector("[data-auth-flow]");
 const form = root?.querySelector("[data-auth-form]");
 const emailInput = root?.querySelector("#auth-email");
 const passwordInput = root?.querySelector("#auth-password");
+const publisherNameInput = root?.querySelector("#auth-publisher-name");
 const codeInput = root?.querySelector("#auth-code");
 const newPasswordInput = root?.querySelector("#auth-new-password");
 const alert = root?.querySelector("[data-auth-alert]");
 const mode = root?.dataset.mode;
 const googleButton = root?.querySelector("[data-google]");
+const publisherBack = root?.querySelector("[data-publisher-back]");
 let step = "email";
 let email = "";
+let registrationPassword = "";
+let publisherName = "";
+let googleRegistration = false;
 let recoveryCode = "";
 
 function showAlert(message, error = false) {
@@ -54,6 +59,7 @@ async function explainFailure(response) {
 }
 
 root?.querySelector("[data-back]")?.addEventListener("click", () => showStep("email"));
+publisherBack?.addEventListener("click", () => showStep("password"));
 root?.querySelector("[data-resend]")?.addEventListener("click", async () => {
   const path = mode === "recover" ? "recovery/start" : "verify-email/resend";
   const response = await request(path, { email });
@@ -86,8 +92,10 @@ function initializeGoogleVerification() {
   emailInput.value = requestedEmail;
   if (!emailInput.checkValidity()) return;
   email = requestedEmail;
-  showStep("code");
-  showAlert("Google sign-in succeeded. Check your email for the Visual X# verification code.");
+  googleRegistration = true;
+  if (publisherBack) publisherBack.hidden = true;
+  showStep("publisher");
+  showAlert("Google sign-in succeeded. Choose your username to continue account verification.");
   window.history.replaceState({}, "", window.location.pathname);
 }
 
@@ -119,15 +127,28 @@ form?.addEventListener("submit", async (event) => {
       return;
     }
     if (mode === "register") {
-      const response = await request("register", { email, password });
-      if (!response.ok) return explainFailure(response);
-      showStep("code");
-      showAlert("Check your email to verify this account.");
+      registrationPassword = password;
+      showStep("publisher");
       return;
     }
     const response = await request("login", { email, password });
     if (!response.ok) return explainFailure(response);
     window.location.assign("https://viget.xsharp-lang.xyz/dashboard/");
+    return;
+  }
+
+  if (step === "publisher") {
+    publisherName = publisherNameInput?.value ?? "";
+    if (!publisherNameInput?.checkValidity()) {
+      publisherNameInput?.reportValidity();
+      return;
+    }
+    if (!googleRegistration) {
+      const response = await request("register", { email, password: registrationPassword, publisherName });
+      if (!response.ok) return explainFailure(response);
+    }
+    showStep("code");
+    showAlert("Check your email to verify this account.");
     return;
   }
 
@@ -142,7 +163,7 @@ form?.addEventListener("submit", async (event) => {
       showStep("new-password");
       return;
     }
-    const response = await request("verify-email", { email, code });
+    const response = await request("verify-email", { email, code, publisherName });
     if (!response.ok) return explainFailure(response);
     window.location.assign("https://viget.xsharp-lang.xyz/dashboard/");
     return;

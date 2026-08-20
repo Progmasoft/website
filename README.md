@@ -36,6 +36,9 @@ The Google OAuth web client callback is
 `Authentication__Google__ClientId` and `Authentication__Google__ClientSecret`. Until both values exist, the frontend
 keeps the Google button visible but disabled and email/password authentication remains available.
 Every completed Google authorization still requires the short-lived Visual X# email code before a registry session is issued.
+New accounts choose a publisher username before email verification. The canonical spelling is case-sensitive and must contain
+8–128 ASCII letters or digits, beginning with an uppercase letter. Ownership is case-insensitively unique, so case-only
+variants cannot impersonate an existing publisher; `Progmasoft` and `Leitwolf` are reserved.
 
 ## Requirements
 

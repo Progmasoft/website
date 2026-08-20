@@ -104,6 +104,34 @@ const content = copy[mode];
         }
       </div>
 
+      {
+        mode === "register" && (
+          <div class="auth-step" data-step="publisher" hidden>
+            <button class="auth-back" type="button" data-publisher-back>← Change password</button>
+            <span class="auth-email-value" data-email-value></span>
+            <label for="auth-publisher-name">Username</label>
+            <input
+              id="auth-publisher-name"
+              name="publisher-name"
+              type="text"
+              autocomplete="username"
+              autocapitalize="none"
+              spellcheck="false"
+              pattern="[A-Z][A-Za-z0-9]{7,127}"
+              minlength="8"
+              maxlength="128"
+              placeholder="MyPublisher"
+              required
+            />
+            <p class="field-hint">
+              Use 8–128 ASCII letters or digits and start with an uppercase letter. <code>Progmasoft</code> and{" "}
+              <code>Leitwolf</code> are reserved.
+            </p>
+            <button class="auth-submit" type="submit">Continue</button>
+          </div>
+        )
+      }
+
       <div class="auth-step" data-step="code" hidden>
         <span class="auth-email-value" data-code-email></span>
         <label for="auth-code">Verification code</label>
@@ -147,4 +175,4 @@ const content = copy[mode];
   </section>
 </main>
 
-<script is:inline type="module" src="/scripts/auth-flow.v2.js"></script>
+<script is:inline type="module" src="/scripts/auth-flow.v3.js"></script>

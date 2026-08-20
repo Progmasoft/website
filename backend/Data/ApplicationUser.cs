@@ -8,4 +8,6 @@ namespace XSharp.Web.Api.Data;
 internal sealed class ApplicationUser : IdentityUser<Guid>
 {
     public DateTimeOffset CreatedAt { get; init; } = DateTimeOffset.UtcNow;
+    public string? PublisherName { get; set; }
+    public string? NormalizedPublisherName { get; set; }
 }
