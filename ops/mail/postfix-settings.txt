@@ -1,8 +1,8 @@
 # SPDX-FileCopyrightText: 2026 Leitwolf <xs-lang.chess031@slmails.com>
 # SPDX-License-Identifier: Apache-2.0
 
-myhostname = mail.xsharp-lang.xyz
-mydomain = xsharp-lang.xyz
+myhostname = mail.progmasoft.com
+mydomain = progmasoft.com
 myorigin = $mydomain
 inet_interfaces = all
 inet_protocols = ipv4
@@ -15,8 +15,8 @@ smtpd_recipient_restrictions = permit_mynetworks,permit_sasl_authenticated,rejec
 smtp_tls_security_level = encrypt
 smtp_tls_CApath = /etc/pki/tls/certs
 smtp_tls_loglevel = 1
-smtpd_tls_cert_file = /etc/letsencrypt/live/mail.xsharp-lang.xyz/fullchain.pem
-smtpd_tls_key_file = /etc/letsencrypt/live/mail.xsharp-lang.xyz/privkey.pem
+smtpd_tls_cert_file = /etc/letsencrypt/live/mail.progmasoft.com/fullchain.pem
+smtpd_tls_key_file = /etc/letsencrypt/live/mail.progmasoft.com/privkey.pem
 smtpd_tls_security_level = may
 smtpd_tls_auth_only = yes
 smtpd_sasl_type = dovecot

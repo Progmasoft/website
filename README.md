@@ -27,9 +27,10 @@ the compiler package contract is completed. Registry tokens follow the Cargo mod
 only a SHA-256 digest is retained, and a user can revoke each token independently. Account deletion permanently
 removes the Identity account, external logins, verification records, and registry tokens.
 
-The PostgreSQL provider is selected solely by `ConnectionStrings__Registry`; production can use a Supabase PostgreSQL
-connection without exposing database or service credentials to the browser. Google OAuth client credentials, the
-database connection, auth-code pepper, and data-protection certificate stay in host-managed secrets.
+The PostgreSQL provider is selected solely by `ConnectionStrings__Registry`. Production uses the PostgreSQL instance on
+the project-owned server over a local Unix socket; the database is not delegated to a hosted database service or exposed
+to the browser. Google OAuth client credentials, the database connection, auth-code pepper, and data-protection
+certificate stay in host-managed secrets.
 
 The Google OAuth web client callback is
 `https://viget.xsharp-lang.xyz/api/v1/auth/google/callback`. Configure it through
@@ -85,7 +86,7 @@ dotnet tool run dotnet-ef migrations add <Name> --project backend/XSharp.Web.Api
 ```
 
 Email verification and recovery use an eight-character, short-lived, single-use code. Messages are sent by the
-automated `noreply@xsharp-lang.xyz` identity; it is not a mailbox. See `ops/mail/README.md` for the transport boundary.
+automated `noreply@progmasoft.com` identity; it is not a mailbox. See `ops/mail/README.md` for the transport boundary.
 
 ## Release policy
 

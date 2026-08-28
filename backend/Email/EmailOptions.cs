@@ -7,6 +7,6 @@ internal sealed class EmailOptions
 {
     public string Host { get; init; } = "127.0.0.1";
     public int Port { get; init; } = 25;
-    public string From { get; init; } = "noreply@xsharp-lang.xyz";
+    public string From { get; init; } = "noreply@progmasoft.com";
     public string SenderName { get; init; } = "Visual X# Package Registry";
 }
