@@ -1,6 +1,6 @@
 <!--
-SPDX-FileCopyrightText: 2026 Leitwolf <xs-lang.chess031@slmails.com>
-SPDX-License-Identifier: AGPL-3.0-or-later
+SPDX-FileCopyrightText: 2026 Progmasoft <support@progmasoft.com>
+SPDX-License-Identifier: AGPL-3.0-or-later WITH AdditionRef-Progmasoft-Patent-Grant-1.0
 -->
 
 # Visual X# website
@@ -88,6 +88,8 @@ baseline.
 
 ## License
 
-The Visual X# website is licensed under the GNU Affero General Public License, version 3 or any later version. A deployed modified
-version must offer its corresponding source to users who interact with it over a network. The canonical source link is
-[`github.com/Progmasoft/website`](https://github.com/Progmasoft/website).
+The Visual X# website's project-owned source code is licensed under `AGPL-3.0-or-later` with the additional Progmasoft
+Patent Grant, Version 1.0. A deployed modified version must offer its corresponding source to users who interact with it
+over a network. The patent grant does not remove that obligation. The canonical source is
+[`github.com/Progmasoft/website`](https://github.com/Progmasoft/website). See `LICENSE.txt`, `PATENTS`, and
+`LICENSES/AdditionRef-Progmasoft-Patent-Grant-1.0.txt`.

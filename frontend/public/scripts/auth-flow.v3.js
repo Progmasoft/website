@@ -1,5 +1,5 @@
-// SPDX-FileCopyrightText: 2026 Leitwolf <xs-lang.chess031@slmails.com>
-// SPDX-License-Identifier: AGPL-3.0-or-later
+// SPDX-FileCopyrightText: 2026 Progmasoft <support@progmasoft.com>
+// SPDX-License-Identifier: AGPL-3.0-or-later WITH AdditionRef-Progmasoft-Patent-Grant-1.0
 
 // Versioned because the registry serves this security-sensitive flow through a cache.
 const root = document.querySelector("[data-auth-flow]");

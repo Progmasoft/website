@@ -1,0 +1,6 @@
+Copyright 2026 Progmasoft <support@progmasoft.com>
+
+Project-owned source code is licensed under AGPL-3.0-or-later with the Progmasoft Patent Grant, Version 1.0.
+See LICENSE.txt, PATENTS, and LICENSES/AdditionRef-Progmasoft-Patent-Grant-1.0.txt.
+
+Third-party material remains under its respective license. See THIRD_PARTY_NOTICES.md.
