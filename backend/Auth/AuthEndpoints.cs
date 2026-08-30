@@ -15,9 +15,9 @@ namespace XSharp.Web.Api.Auth;
 
 internal static class AuthEndpoints
 {
-    private const string DashboardUrl = "https://viget.xsharp-lang.xyz/dashboard/";
-    private const string LoginUrl = "https://viget.xsharp-lang.xyz/login/";
-    private const string RegisterUrl = "https://viget.xsharp-lang.xyz/register/";
+    private const string DashboardUrl = "https://viget.progmasoft.com/dashboard/";
+    private const string LoginUrl = "https://viget.progmasoft.com/login/";
+    private const string RegisterUrl = "https://viget.progmasoft.com/register/";
 
     public static void MapAuthEndpoints(this WebApplication app)
     {

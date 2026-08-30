@@ -12,20 +12,21 @@ const { authenticated = false } = Astro.props;
 ---
 
 <header class="repository-header glass-panel">
-  <a class="brand" href="https://viget.xsharp-lang.xyz/" aria-label="Visual X# package registry home">
+  <a class="brand" href="https://viget.progmasoft.com/" aria-label="Visual X# package registry home">
     <img class="brand-mark" src="/xsharp-logo.webp" width="38" height="38" alt="" />
     <span class="brand-name">Visual X#</span>
     <span class="brand-channel">package registry</span>
   </a>
   <nav class="repository-navigation" aria-label="Registry navigation">
-    <a href="https://viget.xsharp-lang.xyz/">Packages</a>
+    <a href="https://viget.progmasoft.com/">Packages</a>
+    <a href="https://viget.progmasoft.com/dslplugins/">DSL plugins</a>
     {
       authenticated ? (
-        <a href="https://viget.xsharp-lang.xyz/dashboard/">Dashboard</a>
+        <a href="https://viget.progmasoft.com/dashboard/">Dashboard</a>
       ) : (
         <>
-          <a href="https://viget.xsharp-lang.xyz/login/">Log in</a>
-          <a class="repository-register" href="https://viget.xsharp-lang.xyz/register/">Register</a>
+          <a href="https://viget.progmasoft.com/login/">Log in</a>
+          <a class="repository-register" href="https://viget.progmasoft.com/register/">Register</a>
         </>
       )
     }

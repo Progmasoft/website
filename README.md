@@ -14,10 +14,18 @@ This repository contains the public web surface for the Visual X# programming la
 - `backend/` is the ASP.NET Core Identity and package-registry API. It owns password and Google authentication,
   verification/recovery mail, secure session cookies, PostgreSQL persistence, and digest-only CLI tokens.
 The registry account dashboard is available at
-[`viget.xsharp-lang.xyz/dashboard`](https://viget.xsharp-lang.xyz/dashboard/). Package publication remains closed while
+[`viget.progmasoft.com/dashboard`](https://viget.progmasoft.com/dashboard/). Package publication remains closed while
 the compiler package contract is completed. Registry tokens follow the Cargo model: the plaintext is returned once,
 only a SHA-256 digest is retained, and a user can revoke each token independently. Account deletion permanently
 removes the Identity account, external logins, verification records, and registry tokens.
+
+ViGet keeps DSL plugins and Visual X# packages in separate canonical catalogs:
+
+- `https://viget.progmasoft.com/dslplugins/<Publisher>/<Name>/` contains Kotlin DSL plugin JARs.
+- `https://viget.progmasoft.com/<Publisher>/<Name>/` contains Visual X# `.vipkg` packages.
+
+These paths reserve catalog identity; they do not imply that publishing or downloading is available before the registry
+HTTP contract is implemented.
 
 The PostgreSQL provider is selected solely by `ConnectionStrings__Registry`. Production uses the PostgreSQL instance on
 the project-owned server over a local Unix socket; the database is not delegated to a hosted database service or exposed
@@ -25,7 +33,7 @@ to the browser. Google OAuth client credentials, the database connection, auth-c
 certificate stay in host-managed secrets.
 
 The Google OAuth web client callback is
-`https://viget.xsharp-lang.xyz/api/v1/auth/google/callback`. Configure it through
+`https://viget.progmasoft.com/api/v1/auth/google/callback`. Configure it through
 `Authentication__Google__ClientId` and `Authentication__Google__ClientSecret`. Until both values exist, the frontend
 keeps the Google button visible but disabled and email/password authentication remains available.
 Every completed Google authorization still requires the short-lived Visual X# email code before a registry session is issued.

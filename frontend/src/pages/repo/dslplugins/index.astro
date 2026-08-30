@@ -2,14 +2,14 @@
 // SPDX-FileCopyrightText: 2026 Progmasoft <support@progmasoft.com>
 // SPDX-License-Identifier: AGPL-3.0-or-later WITH AdditionRef-Progmasoft-Patent-Grant-1.0
 
-import Icon from "../../components/Icon.astro";
-import RepositoryHeader from "../../components/RepositoryHeader.astro";
-import SiteLayout from "../../layouts/SiteLayout.astro";
+import Icon from "../../../components/Icon.astro";
+import RepositoryHeader from "../../../components/RepositoryHeader.astro";
+import SiteLayout from "../../../layouts/SiteLayout.astro";
 ---
 
 <SiteLayout
-  title="ViGet Package Registry by Progmasoft"
-  description="The Visual X# package registry is online, but no packages have been published yet."
+  title="DSL Plugins · ViGet Package Registry by Progmasoft"
+  description="The ViGet Kotlin DSL plugin catalog is online, but no plugins have been published yet."
 >
   <section class="repository-surface">
     <div class="ambient" aria-hidden="true">
@@ -20,17 +20,18 @@ import SiteLayout from "../../layouts/SiteLayout.astro";
     <main class="repository-main">
       <div class="repository-status glass-panel">
         <span class="repository-status-icon"><Icon name="modules" /></span>
-        Registry online
+        DSL plugin catalog online
       </div>
-      <p class="eyebrow">Visual X# package registry</p>
-      <h1>No packages<br /><em>published yet.</em></h1>
+      <p class="eyebrow">Kotlin DSL plugins</p>
+      <h1>No DSL plugins<br /><em>published yet.</em></h1>
       <p class="repository-lede">
-        The registry is ready for the next stage of Visual X# development, but it does not contain any
-        public package releases yet.
+        Kotlin DSL plugins are distributed as JAR artifacts under
+        <code>/dslplugins/&lt;Publisher&gt;/&lt;Name&gt;/</code>. The catalog is ready, but it does not contain any public
+        plugin releases yet.
       </p>
       <div class="repository-actions">
-        <a class="button primary" href="https://xsharp-lang.xyz/">
-          Visit Visual X# language
+        <a class="button primary" href="https://viget.progmasoft.com/">
+          Browse Visual X# packages
           <Icon name="arrow" />
         </a>
         <a class="button secondary glass-panel" href="https://github.com/Progmasoft/visual-xsharp" target="_blank" rel="noreferrer">
@@ -41,13 +42,13 @@ import SiteLayout from "../../layouts/SiteLayout.astro";
         <Icon name="terminal" />
         <div>
           <strong>Publishing is not available yet</strong>
-          <span>Visual X# packages use .vipkg coordinates; Kotlin DSL plugins have a separate JAR catalog under /dslplugins.</span>
+          <span>No placeholder artifacts or package identities are shown before real plugins are published.</span>
         </div>
       </div>
     </main>
     <footer class="repository-footer">
-      <span>viget.progmasoft.com</span>
-      <span>Package registry preview</span>
+      <span>viget.progmasoft.com/dslplugins</span>
+      <span>Kotlin DSL plugin catalog</span>
     </footer>
   </section>
 </SiteLayout>
