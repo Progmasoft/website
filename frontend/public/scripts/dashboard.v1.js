@@ -67,7 +67,7 @@ async function revokeToken(id) {
 async function initialize() {
   const response = await fetch("/api/v1/auth/me", { credentials: "include" });
   if (response.status === 401) {
-    window.location.replace("https://viget.progmasoft.com/login/");
+    window.location.replace("https://account.progmasoft.com/login");
     return;
   }
   if (!response.ok) return showAlert("Account information could not be loaded.", true);
@@ -90,7 +90,7 @@ async function initialize() {
 
 root?.querySelector("[data-signout]")?.addEventListener("click", async () => {
   await fetch("/api/v1/auth/logout", { method: "POST", credentials: "include" });
-  window.location.assign("https://viget.progmasoft.com/login/");
+  window.location.assign("https://account.progmasoft.com/login");
 });
 root?.querySelector("[data-token-open]")?.addEventListener("click", () => dialog?.showModal());
 dialog?.querySelector("[data-token-close]")?.addEventListener("click", () => dialog?.close());
@@ -122,7 +122,7 @@ deleteForm?.addEventListener("submit", async (event) => {
     showAlert("The account could not be deleted.", true);
     return;
   }
-  window.location.replace("https://viget.progmasoft.com/?account=deleted");
+  window.location.replace("https://account.progmasoft.com/?account=deleted");
 });
 
 tokenForm?.addEventListener("submit", async (event) => {

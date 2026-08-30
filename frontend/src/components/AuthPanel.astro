@@ -14,7 +14,7 @@ const copy = {
     submit: "Next",
     switchText: "New to the registry?",
     switchLabel: "Create an account",
-    switchHref: "https://viget.progmasoft.com/register/",
+    switchHref: "https://account.progmasoft.com/register",
   },
   register: {
     title: "Create account",
@@ -22,7 +22,7 @@ const copy = {
     submit: "Next",
     switchText: "Already have an account?",
     switchLabel: "Sign in",
-    switchHref: "https://viget.progmasoft.com/login/",
+    switchHref: "https://account.progmasoft.com/login",
   },
   recover: {
     title: "Recover account",
@@ -30,7 +30,7 @@ const copy = {
     submit: "Send code",
     switchText: "Remembered your password?",
     switchLabel: "Sign in",
-    switchHref: "https://viget.progmasoft.com/login/",
+    switchHref: "https://account.progmasoft.com/login",
   },
 } as const;
 const content = copy[mode];
@@ -99,7 +99,7 @@ const content = copy[mode];
         <button class="auth-submit" type="submit">{mode === "register" ? "Create account" : "Sign in"}</button>
         {
           mode === "login" && (
-            <a class="auth-recovery" href="https://viget.progmasoft.com/recover/">Forgot password?</a>
+            <a class="auth-recovery" href="https://account.progmasoft.com/recover">Forgot password?</a>
           )
         }
       </div>
