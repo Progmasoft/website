@@ -27,6 +27,10 @@ ViGet keeps DSL plugins and Visual X# packages in separate canonical catalogs:
 These paths reserve catalog identity; they do not imply that publishing or downloading is available before the registry
 HTTP contract is implemented.
 
+Authentication and registry APIs are same-origin under `https://viget.progmasoft.com/api/`. The Visual X# language host
+does not expose registry pages, login or registration routes, and the retired `api.xsharp-lang.xyz` host is not part of
+the production contract.
+
 The PostgreSQL provider is selected solely by `ConnectionStrings__Registry`. Production uses the PostgreSQL instance on
 the project-owned server over a local Unix socket; the database is not delegated to a hosted database service or exposed
 to the browser. Google OAuth client credentials, the database connection, auth-code pepper, and data-protection

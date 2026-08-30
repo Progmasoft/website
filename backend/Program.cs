@@ -114,7 +114,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapHealthChecks("/health");
-app.MapGet("/api/v1/status", () => Results.Ok(new ServiceStatus("xsharp-lang", "online", true)));
+app.MapGet("/api/v1/status", () => Results.Ok(new ServiceStatus("viget", "online", true)));
 app.MapAuthEndpoints();
 app.MapTokenEndpoints();
 
