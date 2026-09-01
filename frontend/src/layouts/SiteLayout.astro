@@ -3,13 +3,15 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later WITH AdditionRef-Progmasoft-Patent-Grant-1.0
 
 import "../styles/global.css";
+import "../styles/registry.css";
 
 interface Props {
   title: string;
   description: string;
+  theme?: "visual-xsharp" | "progmasoft";
 }
 
-const { title, description } = Astro.props;
+const { title, description, theme = "visual-xsharp" } = Astro.props;
 ---
 
 <!doctype html>
@@ -18,13 +20,13 @@ const { title, description } = Astro.props;
     <meta charset="UTF-8" />
     <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#0c111b" />
-    <link rel="icon" type="image/png" href="/xsharp-logo.png" />
+    <meta name="theme-color" content={theme === "progmasoft" ? "#ffffff" : "#0c111b"} />
+    <link rel="icon" type={theme === "progmasoft" ? "image/svg+xml" : "image/png"} href={theme === "progmasoft" ? "/progmasoft-mark.svg" : "/xsharp-logo.png"} />
     <link rel="preload" href="/fonts/AlfaSlabOne-Regular.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/FiraSans-Regular.woff2" as="font" type="font/woff2" crossorigin />
     <title>{title}</title>
   </head>
-  <body>
+  <body class:list={{ "registry-theme": theme === "progmasoft" }}>
     <slot />
   </body>
 </html>

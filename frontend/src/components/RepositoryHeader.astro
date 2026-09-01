@@ -2,8 +2,6 @@
 // SPDX-FileCopyrightText: 2026 Progmasoft <support@progmasoft.com>
 // SPDX-License-Identifier: AGPL-3.0-or-later WITH AdditionRef-Progmasoft-Patent-Grant-1.0
 
-import Icon from "./Icon.astro";
-
 interface Props {
   authenticated?: boolean;
 }
@@ -11,28 +9,32 @@ interface Props {
 const { authenticated = false } = Astro.props;
 ---
 
-<header class="repository-header glass-panel">
-  <a class="brand" href="https://viget.progmasoft.com/" aria-label="Visual X# package registry home">
-    <img class="brand-mark" src="/xsharp-logo.webp" width="38" height="38" alt="" />
-    <span class="brand-name">Visual X#</span>
-    <span class="brand-channel">package registry</span>
-  </a>
-  <nav class="repository-navigation" aria-label="Registry navigation">
-    <a href="https://viget.progmasoft.com/">Packages</a>
-    <a href="https://viget.progmasoft.com/dslplugins/">DSL plugins</a>
-    {
-      authenticated ? (
-        <a href="https://account.progmasoft.com/">Account</a>
-      ) : (
-        <>
-          <a href="https://account.progmasoft.com/login">Log in</a>
-          <a class="repository-register" href="https://account.progmasoft.com/register">Register</a>
-        </>
-      )
-    }
-    <a class="repository-source" href="https://github.com/Progmasoft/visual-xsharp" target="_blank" rel="noreferrer">
-      <Icon name="github" />
-      <span>GitHub</span>
+<header class="registry-header">
+  <div class="registry-shell registry-header-inner">
+    <a class="registry-brand" href="https://www.progmasoft.com/" aria-label="Progmasoft home">
+      <span class="progmasoft-mark" aria-hidden="true">
+        <span class="progmasoft-tile tile-slate"></span>
+        <span class="progmasoft-tile tile-teal"></span>
+        <span class="progmasoft-tile tile-violet"></span>
+        <span class="progmasoft-tile tile-orange"></span>
+      </span>
+      <strong>Progmasoft</strong>
+      <span class="registry-product">ViGet</span>
     </a>
-  </nav>
+    <nav class="repository-navigation" aria-label="Registry navigation">
+      <a href="https://viget.progmasoft.com/">Packages</a>
+      <a href="https://viget.progmasoft.com/dslplugins/">DSL plugins</a>
+      {
+        authenticated ? (
+          <a href="https://account.progmasoft.com/">Account</a>
+        ) : (
+          <>
+            <a href="https://account.progmasoft.com/login">Log in</a>
+            <a class="repository-register" href="https://account.progmasoft.com/register">Register</a>
+          </>
+        )
+      }
+      <a href="https://github.com/Progmasoft/visual-xsharp" target="_blank" rel="noreferrer">GitHub</a>
+    </nav>
+  </div>
 </header>

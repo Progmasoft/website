@@ -2,7 +2,7 @@
 // SPDX-FileCopyrightText: 2026 Progmasoft <support@progmasoft.com>
 // SPDX-License-Identifier: AGPL-3.0-or-later WITH AdditionRef-Progmasoft-Patent-Grant-1.0
 
-import Icon from "../../../components/Icon.astro";
+import RepositoryFooter from "../../../components/RepositoryFooter.astro";
 import RepositoryHeader from "../../../components/RepositoryHeader.astro";
 import SiteLayout from "../../../layouts/SiteLayout.astro";
 ---
@@ -10,45 +10,41 @@ import SiteLayout from "../../../layouts/SiteLayout.astro";
 <SiteLayout
   title="DSL Plugins · ViGet Package Registry by Progmasoft"
   description="The ViGet Kotlin DSL plugin catalog is online, but no plugins have been published yet."
+  theme="progmasoft"
 >
-  <section class="repository-surface">
-    <div class="ambient" aria-hidden="true">
-      <span class="ambient-orb ambient-orb-a"></span>
-      <span class="ambient-orb ambient-orb-b"></span>
-    </div>
+  <section class="registry-surface">
     <RepositoryHeader />
-    <main class="repository-main">
-      <div class="repository-status glass-panel">
-        <span class="repository-status-icon"><Icon name="modules" /></span>
-        DSL plugin catalog online
-      </div>
-      <p class="eyebrow">Kotlin DSL plugins</p>
-      <h1>No DSL plugins<br /><em>published yet.</em></h1>
-      <p class="repository-lede">
-        Kotlin DSL plugins are distributed as JAR artifacts under
-        <code>/dslplugins/&lt;Publisher&gt;/&lt;Name&gt;/</code>. The catalog is ready, but it does not contain any public
-        plugin releases yet.
-      </p>
-      <div class="repository-actions">
-        <a class="button primary" href="https://viget.progmasoft.com/">
-          Browse Visual X# packages
-          <Icon name="arrow" />
-        </a>
-        <a class="button secondary glass-panel" href="https://github.com/Progmasoft/visual-xsharp" target="_blank" rel="noreferrer">
-          Follow development
-        </a>
-      </div>
-      <div class="repository-note glass-panel">
-        <Icon name="terminal" />
-        <div>
-          <strong>Publishing is not available yet</strong>
-          <span>No placeholder artifacts or package identities are shown before real plugins are published.</span>
+    <main>
+      <section class="registry-subhero">
+        <div class="registry-shell registry-subhero-grid">
+          <div>
+            <p class="registry-eyebrow">ViGet · Kotlin DSL plugins</p>
+            <h1>Extend the project model.</h1>
+            <p>Kotlin DSL plugins are JAR artifacts for Visual.XSharp.kts. They are separate from Visual X# .vipkg packages.</p>
+            <div class="registry-actions">
+              <a class="registry-button registry-button-secondary" href="https://viget.progmasoft.com/">Back to packages</a>
+              <a class="registry-text-link" href="https://github.com/Progmasoft/visual-xsharp">Follow development →</a>
+            </div>
+          </div>
+          <aside class="registry-availability" aria-labelledby="plugin-availability-title">
+            <div class="registry-availability-heading">
+              <span class="registry-status-dot" aria-hidden="true"></span>
+              <span>Catalog available</span>
+            </div>
+            <h2 id="plugin-availability-title">No public DSL plugins yet.</h2>
+            <p>The catalog is ready and intentionally contains no placeholder artifacts.</p>
+            <code class="registry-coordinate">/dslplugins/&lt;Publisher&gt;/&lt;Name&gt;/</code>
+          </aside>
         </div>
-      </div>
+      </section>
+      <section class="registry-guidance">
+        <div class="registry-shell registry-guidance-grid">
+          <div><span>Format</span><strong>Kotlin JAR</strong><p>DSL plugins run as Kotlin/JVM project extensions.</p></div>
+          <div><span>Location</span><strong>Dedicated catalog</strong><p>Plugin coordinates always begin with /dslplugins.</p></div>
+          <div><span>Availability</span><strong>Publishing closed</strong><p>Publishing opens only after the signed plugin contract is complete.</p></div>
+        </div>
+      </section>
     </main>
-    <footer class="repository-footer">
-      <span>viget.progmasoft.com/dslplugins</span>
-      <span>Kotlin DSL plugin catalog</span>
-    </footer>
+    <RepositoryFooter />
   </section>
 </SiteLayout>

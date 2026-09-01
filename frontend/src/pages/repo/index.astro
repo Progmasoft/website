@@ -2,7 +2,7 @@
 // SPDX-FileCopyrightText: 2026 Progmasoft <support@progmasoft.com>
 // SPDX-License-Identifier: AGPL-3.0-or-later WITH AdditionRef-Progmasoft-Patent-Grant-1.0
 
-import Icon from "../../components/Icon.astro";
+import RepositoryFooter from "../../components/RepositoryFooter.astro";
 import RepositoryHeader from "../../components/RepositoryHeader.astro";
 import SiteLayout from "../../layouts/SiteLayout.astro";
 ---
@@ -10,44 +10,84 @@ import SiteLayout from "../../layouts/SiteLayout.astro";
 <SiteLayout
   title="ViGet Package Registry by Progmasoft"
   description="The Visual X# package registry is online, but no packages have been published yet."
+  theme="progmasoft"
 >
-  <section class="repository-surface">
-    <div class="ambient" aria-hidden="true">
-      <span class="ambient-orb ambient-orb-a"></span>
-      <span class="ambient-orb ambient-orb-b"></span>
-    </div>
+  <section class="registry-surface">
     <RepositoryHeader />
-    <main class="repository-main">
-      <div class="repository-status glass-panel">
-        <span class="repository-status-icon"><Icon name="modules" /></span>
-        Registry online
-      </div>
-      <p class="eyebrow">Visual X# package registry</p>
-      <h1>No packages<br /><em>published yet.</em></h1>
-      <p class="repository-lede">
-        The registry is ready for the next stage of Visual X# development, but it does not contain any
-        public package releases yet.
-      </p>
-      <div class="repository-actions">
-        <a class="button primary" href="https://xsharp-lang.xyz/">
-          Visit Visual X# language
-          <Icon name="arrow" />
-        </a>
-        <a class="button secondary glass-panel" href="https://github.com/Progmasoft/visual-xsharp" target="_blank" rel="noreferrer">
-          Follow development
-        </a>
-      </div>
-      <div class="repository-note glass-panel">
-        <Icon name="terminal" />
-        <div>
-          <strong>Publishing is not available yet</strong>
-          <span>Visual X# packages use .vipkg coordinates; Kotlin DSL plugins have a separate JAR catalog under /dslplugins.</span>
+    <main>
+      <section class="registry-hero">
+        <div class="registry-shell registry-hero-grid">
+          <div class="registry-hero-copy">
+            <p class="registry-eyebrow">ViGet package registry</p>
+            <h1>Packages for the<br /><span>Visual X# ecosystem.</span></h1>
+            <p class="registry-lede">
+              ViGet is the canonical source for Visual X# packages and project DSL plugins, operated directly by
+              Progmasoft.
+            </p>
+            <div class="registry-actions">
+              <a class="registry-button registry-button-primary" href="https://account.progmasoft.com/register">Create account</a>
+              <a class="registry-button registry-button-secondary" href="https://xsharp-lang.xyz/">Explore Visual X#</a>
+            </div>
+          </div>
+          <aside class="registry-availability" aria-labelledby="availability-title">
+            <div class="registry-availability-heading">
+              <span class="registry-status-dot" aria-hidden="true"></span>
+              <span>Registry available</span>
+            </div>
+            <h2 id="availability-title">The public catalog is empty.</h2>
+            <p>No package releases have been published yet. ViGet will show real packages here as they become available.</p>
+            <dl>
+              <div><dt>Package format</dt><dd>.vipkg</dd></div>
+              <div><dt>Publisher identity</dt><dd>Progmasoft Account</dd></div>
+              <div><dt>Publishing</dt><dd>Not open yet</dd></div>
+            </dl>
+          </aside>
         </div>
-      </div>
+      </section>
+
+      <section class="registry-catalogs">
+        <div class="registry-shell">
+          <div class="registry-section-heading">
+            <div>
+              <p class="registry-eyebrow">Catalogs</p>
+              <h2>Two artifact types, one registry.</h2>
+            </div>
+            <p>Packages and project DSL plugins have separate, predictable coordinate spaces.</p>
+          </div>
+          <div class="registry-catalog-grid">
+            <article class="registry-catalog-card registry-catalog-card-primary">
+              <span class="registry-card-index">01</span>
+              <p>Visual X# packages</p>
+              <h3>ViPkg catalog</h3>
+              <code>viget.progmasoft.com/&lt;Publisher&gt;/&lt;Name&gt;/</code>
+              <span class="registry-card-copy">Libraries and applications authored in Visual X#, distributed as .vipkg artifacts.</span>
+            </article>
+            <a class="registry-catalog-card" href="https://viget.progmasoft.com/dslplugins/">
+              <span class="registry-card-index">02</span>
+              <p>Project extensions</p>
+              <h3>Kotlin DSL plugins</h3>
+              <code>viget.progmasoft.com/dslplugins/&lt;Publisher&gt;/&lt;Name&gt;/</code>
+              <span class="registry-card-copy">Kotlin JAR plugins that extend Visual.XSharp.kts project configuration.</span>
+              <strong>Open catalog →</strong>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <section class="registry-principles">
+        <div class="registry-shell registry-principles-grid">
+          <div>
+            <p class="registry-eyebrow">Registry contract</p>
+            <h2>Clear ownership from identity to artifact.</h2>
+          </div>
+          <ol>
+            <li><span>01</span><div><strong>One account name</strong><p>Your Progmasoft Account name is also your ViGet publisher name.</p></div></li>
+            <li><span>02</span><div><strong>Case-sensitive coordinates</strong><p>Publisher and package names retain their exact public spelling.</p></div></li>
+            <li><span>03</span><div><strong>No placeholder releases</strong><p>The catalog stays honestly empty until a real signed artifact is published.</p></div></li>
+          </ol>
+        </div>
+      </section>
     </main>
-    <footer class="repository-footer">
-      <span>viget.progmasoft.com</span>
-      <span>Package registry preview</span>
-    </footer>
+    <RepositoryFooter />
   </section>
 </SiteLayout>
