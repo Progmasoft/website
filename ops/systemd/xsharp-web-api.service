@@ -11,7 +11,9 @@ Type=simple
 User=xsharp_web
 Group=xsharp_web
 WorkingDirectory=/srv/xsharp/website/current/backend
-ExecStart=/usr/bin/env /srv/xsharp/website/current/backend/XSharp.Web.Api
+# Run the framework-dependent deployment through the installed runtime. This
+# remains stable when release files cross an SELinux-labelled staging boundary.
+ExecStart=/usr/bin/dotnet /srv/xsharp/website/current/backend/XSharp.Web.Api.dll
 EnvironmentFile=/etc/xsharp/web-api.env
 Environment=ASPNETCORE_URLS=http://127.0.0.1:5080
 Environment=ASPNETCORE_ENVIRONMENT=Production
