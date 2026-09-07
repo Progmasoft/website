@@ -1,9 +1,9 @@
 # SPDX-FileCopyrightText: 2026 Progmasoft <support@progmasoft.com>
-# SPDX-License-Identifier: AGPL-3.0-or-later WITH AdditionRef-Progmasoft-Patent-Grant-1.0
+# SPDX-License-Identifier: AGPL-3.0-or-later WITH AdditionRef-Progmasoft-Patent-Grant-1.1
 
 [Unit]
 Description=Visual X# website and registry API
-After=network-online.target postgresql.service postfix.service
+After=network-online.target
 Wants=network-online.target
 
 [Service]
@@ -16,10 +16,6 @@ EnvironmentFile=/etc/xsharp/web-api.env
 Environment=ASPNETCORE_URLS=http://127.0.0.1:5080
 Environment=ASPNETCORE_ENVIRONMENT=Production
 Environment=DOTNET_EnableDiagnostics=0
-Environment=DataProtection__Path=/var/lib/xsharp-web/keys
-Environment=DataProtection__CertificatePath=%d/dataprotection.pfx
-LoadCredential=dataprotection.pfx:/etc/xsharp/dataprotection.pfx
-StateDirectory=xsharp-web
 Restart=on-failure
 RestartSec=3s
 TimeoutStopSec=15s

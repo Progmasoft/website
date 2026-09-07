@@ -1,6 +1,6 @@
 <!--
 SPDX-FileCopyrightText: 2026 Progmasoft <support@progmasoft.com>
-SPDX-License-Identifier: AGPL-3.0-or-later WITH AdditionRef-Progmasoft-Patent-Grant-1.0
+SPDX-License-Identifier: AGPL-3.0-or-later WITH AdditionRef-Progmasoft-Patent-Grant-1.1
 -->
 
 # Visual X# website
@@ -10,14 +10,14 @@ This repository contains the public web surface for the Visual X# programming la
 
 ## Workspaces
 
-- `frontend/` is the Astro website. It is emitted as static HTML and assets.
-- `backend/` is the ASP.NET Core Identity and package-registry API. It owns password and Google authentication,
-  verification/recovery mail, secure session cookies, PostgreSQL persistence, and digest-only CLI tokens.
-Account dashboards use the canonical
-`https://account.progmasoft.com/<Account>/dashboard` route. Package publication remains closed while the compiler
-package contract is completed. Registry tokens follow the Cargo model: the plaintext is returned once,
-only a SHA-256 digest is retained, and a user can revoke each token independently. Account deletion permanently
-removes the Identity account, external logins, verification records, and registry tokens.
+- `frontend/` is the Astro website for `xsharp-lang.xyz` and the static ViGet catalog surface. Visual X# does not use
+  Next.js.
+- `backend/` is the deliberately small ViGet service boundary. It exposes health and registry availability only while
+  package publication is closed.
+
+Progmasoft corporate pages, account registration, authentication, recovery, sessions, and account dashboards are owned
+by the separate [`Progmasoft/progmaweb`](https://github.com/Progmasoft/progmaweb) repository and implemented there with
+Next.js and ASP.NET Core. This repository does not duplicate those account screens or endpoints.
 
 ViGet keeps DSL plugins and Visual X# packages in separate canonical catalogs:
 
@@ -32,27 +32,14 @@ HTTP contract is implemented.
 
 Login, registration, recovery, and dashboards belong to `account.progmasoft.com`; ViGet owns package catalogs. The
 Visual X# language host does not expose registry pages or account routes, and the retired `api.xsharp-lang.xyz` host is
-not part of the production contract.
-
-The PostgreSQL provider is selected solely by `ConnectionStrings__Registry`. Production uses the PostgreSQL instance on
-the project-owned server over a local Unix socket; the database is not delegated to a hosted database service or exposed
-to the browser. Google OAuth client credentials, the database connection, auth-code pepper, and data-protection
-certificate stay in host-managed secrets.
-
-OAuth and account registration belong to the Progmasoft account service. The ViGet deployment must not enable its retired
-standalone Google client or ask for a second publisher username.
+not part of the production contract. Future ViGet publishing authentication must consume the Progmasoft Account contract;
+it must not grow a second user database or publisher identity.
 
 ## Requirements
 
 - Node.js 22.12 or newer
 - npm 9.6.5 or newer
 - .NET SDK 10 with the ASP.NET Core targeting pack
-- PostgreSQL 16 or newer
-- Postfix and OpenDKIM for production transactional mail
-
-Production runs the API as the non-login `xsharp_web` operating-system account. PostgreSQL uses a matching local role
-over its Unix socket with peer authentication, so the web process does not need a database password and PostgreSQL is
-never exposed through the firewall.
 
 ## Development
 
@@ -79,16 +66,6 @@ dotnet restore backend/XSharp.Web.Api.csproj
 dotnet build backend/XSharp.Web.Api.csproj --no-restore
 ```
 
-Restore the pinned Entity Framework tool and create a migration with:
-
-```text
-dotnet tool restore
-dotnet tool run dotnet-ef migrations add <Name> --project backend/XSharp.Web.Api.csproj --output-dir Data/Migrations
-```
-
-Email verification and recovery use an eight-character, short-lived, single-use code. Messages are sent by the
-automated `noreply@progmasoft.com` identity; it is not a mailbox. See `ops/mail/README.md` for the transport boundary.
-
 ## Release policy
 
 The website is a rolling deployment with fixed package and Git tag version `1.0.0`. The repository does not publish
@@ -98,7 +75,7 @@ baseline.
 ## License
 
 The Visual X# website's project-owned source code is licensed under `AGPL-3.0-or-later` with the additional Progmasoft
-Patent Grant, Version 1.0. A deployed modified version must offer its corresponding source to users who interact with it
+Patent Grant, Version 1.1. A deployed modified version must offer its corresponding source to users who interact with it
 over a network. The patent grant does not remove that obligation. The canonical source is
 [`github.com/Progmasoft/website`](https://github.com/Progmasoft/website). See `LICENSE.txt`, `PATENTS`, and
-`LICENSES/AdditionRef-Progmasoft-Patent-Grant-1.0.txt`.
+`LICENSES/AdditionRef-Progmasoft-Patent-Grant-1.1.txt`.
