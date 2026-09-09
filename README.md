@@ -10,14 +10,13 @@ This repository contains the public web surface for the Visual X# programming la
 
 ## Workspaces
 
-- `frontend/` is the Astro website for `xsharp-lang.xyz` and the static ViGet catalog surface. Visual X# does not use
-  Next.js.
+- `frontend/` is the Astro website for `xsharp-lang.xyz`. Visual X# does not use Next.js.
 - `backend/` is the deliberately small ViGet service boundary. It exposes health and registry availability only while
   package publication is closed.
 
-Progmasoft corporate pages, account registration, authentication, recovery, sessions, and account dashboards are owned
-by the separate [`Progmasoft/progmaweb`](https://github.com/Progmasoft/progmaweb) repository and implemented there with
-Next.js and ASP.NET Core. This repository does not duplicate those account screens or endpoints.
+Progmasoft corporate pages, the ViGet catalog UI, account registration, authentication, recovery, sessions, and account
+dashboards are owned by the separate [`Progmasoft/progmaweb`](https://github.com/Progmasoft/progmaweb) repository and
+implemented there with Next.js and ASP.NET Core. This repository does not duplicate those web surfaces.
 
 ViGet keeps DSL plugins and Visual X# packages in separate canonical catalogs:
 
@@ -33,7 +32,8 @@ HTTP contract is implemented.
 Login, registration, recovery, and dashboards belong to `account.progmasoft.com`; ViGet owns package catalogs. The
 Visual X# language host does not expose registry pages or account routes, and the retired `api.xsharp-lang.xyz` host is
 not part of the production contract. Future ViGet publishing authentication must consume the Progmasoft Account contract;
-it must not grow a second user database or publisher identity.
+it must not grow a second user database or publisher identity. The temporary registry status backend remains here until
+its HTTP contract moves without coupling it to the language frontend.
 
 ## Requirements
 

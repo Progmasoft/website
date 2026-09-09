@@ -3,16 +3,14 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later WITH AdditionRef-Progmasoft-Patent-Grant-1.1
 
 import "../styles/global.css";
-import "../styles/registry.css";
 
 interface Props {
   title: string;
   description: string;
   canonical: string;
-  theme?: "visual-xsharp" | "progmasoft";
 }
 
-const { title, description, canonical, theme = "visual-xsharp" } = Astro.props;
+const { title, description, canonical } = Astro.props;
 ---
 
 <!doctype html>
@@ -22,14 +20,14 @@ const { title, description, canonical, theme = "visual-xsharp" } = Astro.props;
     <meta name="description" content={description} />
     <meta name="robots" content="index, follow" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content={theme === "progmasoft" ? "#ffffff" : "#0c111b"} />
-    <link rel="icon" type={theme === "progmasoft" ? "image/svg+xml" : "image/png"} href={theme === "progmasoft" ? "/progmasoft-mark.svg" : "/xsharp-logo.png"} />
+    <meta name="theme-color" content="#0c111b" />
+    <link rel="icon" type="image/png" href="/xsharp-logo.png" />
     <link rel="preload" href="/fonts/AlfaSlabOne-Regular.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/FiraSans-Regular.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="canonical" href={canonical} />
     <title>{title}</title>
   </head>
-  <body class:list={{ "registry-theme": theme === "progmasoft" }}>
+  <body>
     <slot />
   </body>
 </html>
