@@ -5,77 +5,74 @@ SPDX-License-Identifier: AGPL-3.0-or-later WITH AdditionRef-Progmasoft-Patent-Gr
 
 # Visual X# website
 
-This repository contains the public web surface for the Visual X# programming language at
-[`xsharp-lang.xyz`](https://xsharp-lang.xyz).
+This repository owns the public language website at [xsharp-lang.xyz](https://xsharp-lang.xyz). It does not own
+Progmasoft's corporate or account sites. Visual X# uses its own supplied purple leopard SVG identity;
+the Progmasoft mark is a different brand.
 
-## Workspaces
+## Routes and rollout
 
-- `frontend/` is the Astro website for `xsharp-lang.xyz`. Visual X# does not use Next.js.
-- `backend/` is the deliberately small ViGet service boundary. It exposes health and registry availability only while
-  package publication is closed.
+- `/` answers why Visual X# exists and gives an honest implementation-status caveat.
+- `/docs/overview` explains the design direction.
+- `/docs/getting-started` links the real compiler checkout and toolchain.
+- `forum.xsharp-lang.xyz` is a standalone informational page. It is *not* a forum service; accounts and posts do not exist
+  there yet. It stays noindex until a real community forum is launched.
 
-Progmasoft corporate pages, the ViGet catalog UI, account registration, authentication, recovery, sessions, and account
-dashboards are owned by the separate [`Progmasoft/progmaweb`](https://github.com/Progmasoft/progmaweb) repository and
-implemented there with Next.js and ASP.NET Core. This repository does not duplicate those web surfaces.
+The language domain remains on its maintenance page during the redesign. Do not replace the maintenance Nginx config with
+`ops/nginx/xsharp.conf` merely because the new frontend builds. Publishing the site requires content review, route checks,
+and an explicit rollout decision. The forum placeholder can be deployed independently. See the
+[operations runbook](Documents/OPERATIONS.md) for the exact route and rollout boundaries.
 
-ViGet keeps DSL plugins and Visual X# packages in separate canonical catalogs:
+## Frontend
 
-- `https://viget.progmasoft.com/dslplugins/<Publisher>/<Name>/` contains Kotlin DSL plugin JARs.
-- `https://viget.progmasoft.com/<Publisher>/<Name>/` contains Visual X# `.vipkg` packages.
-
-`<Publisher>` is not a second registry identity. It is exactly the canonical Progmasoft `<Account>` name used by
-`https://account.progmasoft.com/<Account>/dashboard`; ViGet does not register a separate publisher name.
-
-These paths reserve catalog identity; they do not imply that publishing or downloading is available before the registry
-HTTP contract is implemented.
-
-Login, registration, recovery, and dashboards belong to `account.progmasoft.com`; ViGet owns package catalogs. The
-Visual X# language host does not expose registry pages or account routes, and the retired `api.xsharp-lang.xyz` host is
-not part of the production contract. Future ViGet publishing authentication must consume the Progmasoft Account contract;
-it must not grow a second user database or publisher identity. The temporary registry status backend remains here until
-its HTTP contract moves without coupling it to the language frontend.
-
-## Requirements
-
-- Node.js 22.12 or newer
-- npm 9.6.5 or newer
-- .NET SDK 10 with the ASP.NET Core targeting pack
-
-## Development
+The frontend is Vue 3 + Vite + TypeScript. It defaults to dark mode and `en-US`, with a `de-DE` option and a light theme.
+Preferences stay in local storage. Motion is limited to short interaction transitions and obeys reduced-motion preferences.
+The site uses self-hosted Fira Sans and no third-party runtime font request.
 
 ```text
 cd frontend
-npm install
+npm ci
+npm run check
+npm run format:check
+npm test
+npm run build
 npm run dev
 ```
 
-In another terminal:
+The production artifact is `frontend/dist/`. Deploy its *contents* to the static root named
+`/srv/xsharp/website/current/frontend/` in `ops/nginx/xsharp.conf`. Vue Router history URLs require the Nginx
+`try_files ... /index.html` fallback. The sitemap lists only the three canonical language pages; forum remains noindex.
+
+## Backend
+
+The small language-site API is Kotlin/JVM 25 and Spring Boot 4.1.1. Its package root is
+`com.progmasoft.visual.xsharp.website`. It exposes `/api/v1/site` for the website's own public state and `/health`
+for the local service manager. It has no account, package, publication, or registry endpoints. Progmaweb owns those
+separate services and uses Next.js with ASP.NET Core 10; neither that stack nor its status API belongs in this repository.
 
 ```text
 cd backend
-dotnet run
+gradle test bootJar
 ```
 
-Run the release checks with:
+The jar is built under `backend/build/libs/`. The server unit in `ops/systemd/xsharp-web-api.service` expects it at
+`/srv/xsharp/website/current/backend/visual-xsharp-website-api-1.0.0.jar` and binds it only to loopback port 5080.
+Before switching the live website service, confirm that any legacy status route still served by its old .NET process has
+been transferred to its rightful owner. Install Java 25 on the server, test the new jar's site and health routes locally,
+and change the service only as an explicit deployment action. Committing these files does not switch the server.
 
-```text
-npm --prefix frontend ci
-npm --prefix frontend run check
-npm --prefix frontend run build
-dotnet restore backend/XSharp.Web.Api.csproj
-dotnet build backend/XSharp.Web.Api.csproj --no-restore
-```
+## Links and language accuracy
 
-## Release policy
-
-The website is a rolling deployment with fixed package and Git tag version `1.0.0`. The repository does not publish
-GitHub Releases; deployment history is represented by ordinary commits while the `1.0.0` tag follows the deployed
-baseline.
+The code example in the site is the repository's `Examples/HelloWorld/HelloWorld.vxs`, not an invented syntax sample.
+All links to the compiler, examples, and specification point to the `Progmasoft/visual-xsharp` repository. The design
+examples in `Spec/` can be ahead of compiler support; website text must not turn them into implementation claims. The
+retired `docs/ARCHITECTURE.md` link has been removed; architecture documentation now lives under `Documents/` in the
+compiler repository.
+The [content contract](Documents/CONTENT.md) records the intended page roles, translation rules, and fact-checking
+boundary for future copy changes.
 
 ## License
 
-The Visual X# website's project-owned source code is licensed under `AGPL-3.0-or-later` with the additional Progmasoft
-Patent Grant, Version 1.1. A deployed modified version must offer its corresponding source to users who interact with it
-over a network. The patent grant does not remove that obligation. The canonical source is
-[`github.com/Progmasoft/website`](https://github.com/Progmasoft/website). See `LICENSE.txt`, `PATENTS`, and
-`LICENSES/AdditionRef-Progmasoft-Patent-Grant-1.1.txt`.
+Project-owned website source is `AGPL-3.0-or-later` with the Progmasoft Patent Grant, Version 1.1. Users interacting
+with a deployed modified version over a network must be offered its corresponding source. See `LICENSE.txt`, `PATENTS`,
+and `LICENSES/AdditionRef-Progmasoft-Patent-Grant-1.1.txt`. Fira Sans has its own OFL notice in
+`third_party/fonts/FiraSans-OFL.txt`.

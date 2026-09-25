@@ -1,0 +1,125 @@
+/* SPDX-FileCopyrightText: 2026 Progmasoft <support@progmasoft.com> */
+/* SPDX-License-Identifier: AGPL-3.0-or-later WITH AdditionRef-Progmasoft-Patent-Grant-1.1 */
+
+:root {
+  color-scheme: dark;
+  font-family: system-ui, sans-serif;
+  --bg: #11101a;
+  --surface: #1b1826;
+  --text: #f5f2fb;
+  --muted: #afaabd;
+  --line: #393246;
+  --accent: #c3a6ff;
+}
+:root[data-theme="light"] {
+  color-scheme: light;
+  --bg: #f8f7fb;
+  --surface: #fff;
+  --text: #201c2a;
+  --muted: #665e71;
+  --line: #ded9e8;
+  --accent: #7047c8;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+}
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 24px max(24px, calc((100vw - 920px) / 2));
+  border-bottom: 1px solid var(--line);
+}
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--text);
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+}
+.brand img {
+  width: 31px;
+  height: 31px;
+  object-fit: contain;
+}
+.tools {
+  display: flex;
+  gap: 8px;
+}
+button {
+  min-height: 36px;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+}
+button:hover {
+  border-color: var(--accent);
+}
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+main {
+  max-width: 970px;
+  margin: 0 auto;
+  padding: clamp(80px, 12vw, 160px) 24px;
+}
+.eyebrow {
+  color: var(--accent);
+  font:
+    12px ui-monospace,
+    monospace;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+h1 {
+  max-width: 720px;
+  margin: 24px 0;
+  font-size: clamp(42px, 6vw, 70px);
+  line-height: 1.1;
+  letter-spacing: -0.065em;
+}
+p {
+  max-width: 620px;
+  color: var(--muted);
+  font-size: 17px;
+  line-height: 1.7;
+}
+a {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 700;
+}
+a:hover {
+  text-decoration: underline;
+}
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 25px;
+  margin-top: 36px;
+}
+footer {
+  border-top: 1px solid var(--line);
+  padding: 25px max(24px, calc((100vw - 920px) / 2));
+  color: var(--muted);
+  font-size: 12px;
+}
+@media (prefers-reduced-motion: reduce) {
+  * {
+    scroll-behavior: auto !important;
+  }
+}

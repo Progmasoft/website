@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later WITH AdditionRef-Progmasoft-Patent-Grant-1.1
 
 [Unit]
-Description=Visual X# website and registry API
+Description=Visual X# language website API (Kotlin/JVM 25)
 After=network-online.target
 Wants=network-online.target
 
@@ -11,13 +11,8 @@ Type=simple
 User=xsharp_web
 Group=xsharp_web
 WorkingDirectory=/srv/xsharp/website/current/backend
-# Run the framework-dependent deployment through the installed runtime. This
-# remains stable when release files cross an SELinux-labelled staging boundary.
-ExecStart=/usr/bin/dotnet /srv/xsharp/website/current/backend/XSharp.Web.Api.dll
-EnvironmentFile=/etc/xsharp/web-api.env
-Environment=ASPNETCORE_URLS=http://127.0.0.1:5080
-Environment=ASPNETCORE_ENVIRONMENT=Production
-Environment=DOTNET_EnableDiagnostics=0
+ExecStart=/usr/bin/java -XX:MaxRAMPercentage=35 -jar /srv/xsharp/website/current/backend/visual-xsharp-website-api-1.0.0.jar
+Environment=PORT=5080
 Restart=on-failure
 RestartSec=3s
 TimeoutStopSec=15s

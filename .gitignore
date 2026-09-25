@@ -1,8 +1,9 @@
 # SPDX-FileCopyrightText: 2026 Progmasoft <support@progmasoft.com>
 # SPDX-License-Identifier: AGPL-3.0-or-later WITH AdditionRef-Progmasoft-Patent-Grant-1.1
 
-.astro/
 .build/
+.gradle/
+.kotlin/
 .idea/
 .vscode/
 bin/
@@ -12,5 +13,5 @@ pnpm-lock.yaml
 dist/
 coverage/
 out/
-backend/bin?Debug/
+build/
 *.user

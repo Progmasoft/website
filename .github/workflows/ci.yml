@@ -17,7 +17,7 @@ concurrency:
 
 jobs:
   frontend:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v7
@@ -32,24 +32,32 @@ jobs:
         working-directory: frontend
       - run: npm run check
         working-directory: frontend
+      - run: npm test
+        working-directory: frontend
+      - run: npm run format:check
+        working-directory: frontend
       - run: npm run build
         working-directory: frontend
 
   backend:
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
+    runs-on: macos-latest
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v7
-      - uses: actions/setup-dotnet@v6
+      - uses: actions/setup-java@v6
         with:
-          dotnet-version: 10.0.x
-      - run: dotnet restore backend.Tests/XSharp.Web.Api.Tests.csproj
-      - run: dotnet build backend/XSharp.Web.Api.csproj --no-restore --configuration Release
-      - run: dotnet test backend.Tests/XSharp.Web.Api.Tests.csproj --no-restore --configuration Release
+          distribution: temurin
+          java-version: '25'
+      - uses: gradle/actions/setup-gradle@v6
+        with:
+          gradle-version: '9.6.0'
+          cache-provider: basic
+      - run: gradle test bootJar --no-daemon
+        working-directory: backend
 
   dependency-review:
     if: github.event_name == 'pull_request'
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v7
