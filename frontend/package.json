@@ -10,8 +10,8 @@
     "preview": "vite preview",
     "check": "vue-tsc --noEmit",
     "test": "node --experimental-strip-types --test tests/*.test.mjs",
-    "format": "prettier --write index.html src tests ../forum vite.config.ts",
-    "format:check": "prettier --check index.html src tests ../forum vite.config.ts"
+    "format": "prettier --config .prettierrc.json --write index.html src tests ../forum vite.config.ts",
+    "format:check": "prettier --config .prettierrc.json --check index.html src tests ../forum vite.config.ts"
   },
   "dependencies": {
     "vue": "^3.5.0",

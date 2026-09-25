@@ -28,8 +28,7 @@ const copy = {
 
 const languageButton = document.getElementById("language");
 const themeButton = document.getElementById("theme");
-let language =
-  localStorage.getItem("vxs-forum-language") === "de" ? "de" : "en";
+let language = localStorage.getItem("vxs-forum-language") === "de" ? "de" : "en";
 
 function renderLanguage() {
   const selected = copy[language];
@@ -52,8 +51,7 @@ languageButton.addEventListener("click", () => {
 document.documentElement.dataset.theme =
   localStorage.getItem("vxs-forum-theme") === "light" ? "light" : "dark";
 themeButton.addEventListener("click", () => {
-  const next =
-    document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+  const next = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
   document.documentElement.dataset.theme = next;
   localStorage.setItem("vxs-forum-theme", next);
 });
