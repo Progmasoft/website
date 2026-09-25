@@ -78,8 +78,12 @@ test("the site has no retired public login or registry links", () => {
   }
 });
 
-test("every linked repository path used by the guides exists locally", () => {
+test("every linked repository path used by the guides exists when compiler source is available", (context) => {
   const compilerRoot = join(websiteRoot, "..");
+  if (!existsSync(join(compilerRoot, "Spec"))) {
+    context.skip("standalone website checkout has no sibling compiler repository");
+    return;
+  }
   for (const relativePath of [
     "Spec",
     "Documents/BUILDING.md",
@@ -90,9 +94,14 @@ test("every linked repository path used by the guides exists locally", () => {
   }
 });
 
-test("the site example is copied from the compiler repository", () => {
+test("the site example is copied from the compiler repository when available", (context) => {
   const compilerRoot = join(websiteRoot, "..");
-  const source = readFileSync(join(compilerRoot, "Examples/HelloWorld/HelloWorld.vxs"), "utf8");
+  const examplePath = join(compilerRoot, "Examples/HelloWorld/HelloWorld.vxs");
+  if (!existsSync(examplePath)) {
+    context.skip("standalone website checkout has no sibling compiler repository");
+    return;
+  }
+  const source = readFileSync(examplePath, "utf8");
   const program = source
     .slice(source.indexOf("namespace Examples.HelloWorld;"))
     .replaceAll("\r\n", "\n")
