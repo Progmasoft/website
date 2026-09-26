@@ -10,6 +10,7 @@ on:
 
 permissions:
   contents: read
+  id-token: write
 
 concurrency:
   group: website-${{ github.ref }}
@@ -32,8 +33,14 @@ jobs:
         working-directory: frontend
       - run: npm run check
         working-directory: frontend
-      - run: npm test
+      - run: npm run test:coverage
         working-directory: frontend
+      - uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f # v7.0.0
+        with:
+          use_oidc: true
+          files: frontend/coverage/lcov.info
+          flags: website-frontend
+          fail_ci_if_error: true
       - run: npm run format:check
         working-directory: frontend
       - run: npm run build
@@ -52,8 +59,14 @@ jobs:
         with:
           gradle-version: '9.6.0'
           cache-provider: basic
-      - run: gradle test bootJar --no-daemon
+      - run: gradle test jacocoTestReport bootJar --no-daemon
         working-directory: backend
+      - uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f # v7.0.0
+        with:
+          use_oidc: true
+          files: backend/build/reports/jacoco/test/jacocoTestReport.xml
+          flags: website-backend
+          fail_ci_if_error: true
 
   dependency-review:
     if: github.event_name == 'pull_request'

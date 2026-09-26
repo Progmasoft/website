@@ -5,6 +5,7 @@ plugins {
     kotlin("jvm") version "2.3.21"
     kotlin("plugin.spring") version "2.3.21"
     id("org.springframework.boot") version "4.1.1"
+    jacoco
 }
 
 group = "com.progmasoft.visual.xsharp.website"
@@ -26,6 +27,16 @@ dependencies {
 }
 
 tasks.test { useJUnitPlatform() }
+
+jacoco { toolVersion = "0.8.15" }
+
+tasks.jacocoTestReport {
+    dependsOn(tasks.test)
+    reports {
+        xml.required = true
+        html.required = false
+    }
+}
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
     compilerOptions {
