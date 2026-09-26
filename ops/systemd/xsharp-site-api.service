@@ -12,7 +12,7 @@ User=xsharp_web
 Group=xsharp_web
 WorkingDirectory=/srv/xsharp/website/current/backend
 ExecStart=/usr/bin/java -XX:MaxRAMPercentage=35 -jar /srv/xsharp/website/current/backend/visual-xsharp-website-api-1.0.0.jar
-Environment=PORT=5080
+Environment=PORT=5086
 Restart=on-failure
 RestartSec=3s
 TimeoutStopSec=15s

@@ -54,11 +54,11 @@ cd backend
 gradle test bootJar
 ```
 
-The jar is built under `backend/build/libs/`. The server unit in `ops/systemd/xsharp-web-api.service` expects it at
-`/srv/xsharp/website/current/backend/visual-xsharp-website-api-1.0.0.jar` and binds it only to loopback port 5080.
-Before switching the live website service, confirm that any legacy status route still served by its old .NET process has
-been transferred to its rightful owner. Install Java 25 on the server, test the new jar's site and health routes locally,
-and change the service only as an explicit deployment action. Committing these files does not switch the server.
+The jar is built under `backend/build/libs/`. The server unit in `ops/systemd/xsharp-site-api.service` expects it at
+`/srv/xsharp/website/current/backend/visual-xsharp-website-api-1.0.0.jar` and binds it only to loopback port 5086.
+The old .NET process remains on loopback port 5080 solely because Progmaweb's temporary ViGet status route still
+depends on it; the language site does not proxy to that process. Migrate the ViGet route within Progmaweb before
+retiring the old process. The server needs a Java 25 runtime. Committing these files alone does not deploy them.
 
 ## Links and language accuracy
 
