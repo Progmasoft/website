@@ -7,7 +7,7 @@ on:
     branches: [main]
   pull_request:
   schedule:
-    - cron: '43 4 * * 1'
+    - cron: "43 4 * * 1"
 permissions:
   actions: read
   contents: read
@@ -28,16 +28,16 @@ jobs:
           - language: java-kotlin
             build_mode: manual
     steps:
-      - uses: actions/checkout@v7
-      - uses: actions/setup-java@v6
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6 # v6.0.1
         if: matrix.language == 'java-kotlin'
         with:
           distribution: temurin
-          java-version: '25'
-      - uses: gradle/actions/setup-gradle@v6
+          java-version: "25"
+      - uses: gradle/actions/setup-gradle@9c971963bec38e04b3d30dcc455b5382be2fdbfb # v6.3.0
         if: matrix.language == 'java-kotlin'
         with:
-          gradle-version: '9.6.0'
+          gradle-version: "9.6.0"
       - uses: github/codeql-action/init@7999b86c43a865dc79d8923397f35af22de63401 # v4
         with:
           languages: ${{ matrix.language }}
@@ -51,4 +51,3 @@ jobs:
       - uses: github/codeql-action/analyze@7999b86c43a865dc79d8923397f35af22de63401 # v4
         with:
           category: /language:${{ matrix.language }}
-

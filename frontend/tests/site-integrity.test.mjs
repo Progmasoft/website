@@ -36,7 +36,10 @@ test("the forum placeholder is explicitly non-indexable and not an account servi
   assert.doesNotMatch(nginx, /unsafe-inline/);
   assert.match(forum, /src="\/site\.js"/);
   assert.match(forum, /href="\/site\.css"/);
-  assert.doesNotMatch(forum, /<script>(?:.|\n)*<\/script>/);
+  const normalizedForum = forum.toLowerCase();
+  assert.equal(normalizedForum.split("<script").length - 1, 1);
+  assert.equal(normalizedForum.split("</script>").length - 1, 1);
+  assert.ok(normalizedForum.includes('<script src="/site.js" defer></script>'));
   assert.doesNotMatch(forum, /<form\b/);
 });
 
@@ -128,6 +131,64 @@ test("maintenance mode preserves the legacy redirect without opening the languag
   assert.match(future, /location \^~ \/api\/ \{\s*return 404;/);
 });
 
+test("workflow actions are immutable and OIDC is isolated from build jobs", () => {
+  const ci = readFileSync(join(websiteRoot, ".github/workflows/ci.yml"), "utf8");
+  const codeql = readFileSync(join(websiteRoot, ".github/workflows/codeql.yml"), "utf8");
+
+  for (const workflow of [ci, codeql]) {
+    const actions = workflow
+      .split("\n")
+      .map((line) => {
+        const marker = line.indexOf("uses:");
+        return marker < 0
+          ? ""
+          : line
+              .slice(marker + "uses:".length)
+              .split("#", 1)[0]
+              .trim();
+      })
+      .filter((action) => action.length > 0);
+
+    assert.ok(actions.length > 0, "workflow must declare its action dependencies");
+    for (const action of actions) {
+      const separator = action.lastIndexOf("@");
+      assert.ok(separator > 0, `${action} must have an immutable commit reference`);
+      const commit = action.slice(separator + 1);
+      assert.equal(commit.length, 40, `${action} must use a full commit SHA`);
+      assert.ok(
+        [...commit].every((character) => "0123456789abcdef".includes(character)),
+        `${action} has a malformed commit SHA`,
+      );
+    }
+  }
+
+  const job = (name, nextName) => {
+    const start = ci.indexOf(`  ${name}:`);
+    const end = ci.indexOf(`  ${nextName}:`, start + 1);
+    assert.ok(start >= 0 && end > start, `expected CI job boundary ${name} → ${nextName}`);
+    return ci.slice(start, end);
+  };
+
+  assert.ok(!job("frontend", "backend").includes("id-token: write"));
+  assert.ok(!job("backend", "frontend-coverage").includes("id-token: write"));
+  assert.ok(job("frontend-coverage", "backend-coverage").includes("id-token: write"));
+  assert.ok(job("backend-coverage", "dependency-review").includes("id-token: write"));
+});
+
+test("the production API binds to loopback and matches its Nginx proxy port", () => {
+  const application = readFileSync(
+    join(websiteRoot, "backend/src/main/resources/application.properties"),
+    "utf8",
+  );
+  const service = readFileSync(join(websiteRoot, "ops/systemd/xsharp-site-api.service"), "utf8");
+  const nginx = readFileSync(join(websiteRoot, "ops/nginx/xsharp.conf"), "utf8");
+
+  assert.ok(application.includes("server.address=127.0.0.1"));
+  assert.ok(application.includes("server.port=${PORT:5080}"));
+  assert.ok(service.includes("Environment=PORT=5086"));
+  assert.ok(nginx.includes("proxy_pass http://127.0.0.1:5086/api/v1/site;"));
+});
+
 test("the forum assets are allowed by its restrictive Nginx policy", () => {
   const config = readFileSync(join(websiteRoot, "ops/nginx/forum.conf"), "utf8");
   const forum = readFileSync(join(websiteRoot, "forum/index.html"), "utf8");
@@ -157,9 +218,25 @@ test("every public link in the page shell uses the correct project identity", ()
   const overview = read("src/pages/OverviewPage.vue");
   const guide = read("src/pages/GettingStartedPage.vue");
   const combined = [shell, home, overview, guide].join("\n");
-  assert.match(shell, /https:\/\/forum\.xsharp-lang\.xyz\//);
-  assert.match(combined, /https:\/\/github\.com\/Progmasoft\/visual-xsharp/);
-  assert.doesNotMatch(combined, /github\.com\/(?:AlfaPC11|Leitwolf11)/i);
+  assert.ok(shell.includes("https://forum.xsharp-lang.xyz/"));
+  const githubUrls = combined
+    .split('"')
+    .filter((value) => value.startsWith("https://github.com/"))
+    .map((value) => new URL(value));
+  const repositories = githubUrls.map((url) =>
+    url.pathname
+      .split("/")
+      .filter(Boolean)
+      .slice(0, 2)
+      .map((segment) => segment.toLowerCase())
+      .join("/"),
+  );
+  assert.ok(repositories.includes("progmasoft/visual-xsharp"));
+  assert.ok(
+    githubUrls.every(
+      (url) => !["alfapc11", "leitwolf11"].includes(url.pathname.split("/")[1]?.toLowerCase()),
+    ),
+  );
   assert.doesNotMatch(combined, /support@xsharp-lang\.xyz/);
   assert.doesNotMatch(combined, /repo\.xsharp-lanng\.xyz/);
 });

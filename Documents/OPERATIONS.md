@@ -21,8 +21,10 @@ compatibility, but it does not make package functions part of this website.
 
 Do not use a catch-all `/api/` proxy for this service. The production Nginx
 configuration proxies exactly `/api/v1/site`; other `/api/` paths return 404.
-The Spring process listens only on `127.0.0.1:5080`. Its `/health` endpoint is
-for local process checks, not an advertised public route.
+The Spring process binds only to `127.0.0.1`. Local runs default to port 5080;
+the checked-in systemd unit sets `PORT=5086`, matching the future Nginx proxy.
+Its `/health` endpoint is for local process checks, not an advertised public
+route.
 
 ## Local gates
 
@@ -41,6 +43,19 @@ Run the backend gates from `backend/` with Temurin JDK 25:
 ```text
 gradle test bootJar --no-daemon
 ```
+
+The backend checks in Gradle dependency locks and SHA-256 verification metadata
+to keep transitive versions and downloaded artifacts stable. When intentionally
+updating dependencies, run these commands from `backend/`, review both generated
+files, then rerun the ordinary backend gates:
+
+```text
+gradle dependencies --write-locks --no-daemon
+gradle test jacocoTestReport bootJar --write-verification-metadata sha256 --no-daemon
+```
+
+Do not accept a checksum-only change without confirming the artifact version
+and source repository; the checksum is an integrity pin, not a trust review.
 
 The frontend tests assert canonical metadata, sitemap membership, asset shape,
 forum non-indexing, and the absence of retired site links. The Spring tests

@@ -13,6 +13,11 @@ version = "1.0.0"
 
 repositories { mavenCentral() }
 
+dependencyLocking {
+    // Keep transitive versions stable between developer machines and CI runs.
+    lockAllConfigurations()
+}
+
 kotlin { jvmToolchain(25) }
 
 dependencies {
