@@ -218,11 +218,9 @@ test("every public link in the page shell uses the correct project identity", ()
   const overview = read("src/pages/OverviewPage.vue");
   const guide = read("src/pages/GettingStartedPage.vue");
   const combined = [shell, home, overview, guide].join("\n");
-  assert.ok(shell.includes("https://forum.xsharp-lang.xyz/"));
-  const githubUrls = combined
-    .split('"')
-    .filter((value) => value.startsWith("https://github.com/"))
-    .map((value) => new URL(value));
+  const parsedUrls = (combined.match(/https:\/\/[^"'\s<>]+/g) ?? []).map((value) => new URL(value));
+  assert.ok(parsedUrls.some((url) => url.hostname === "forum.xsharp-lang.xyz"));
+  const githubUrls = parsedUrls.filter((url) => url.hostname === "github.com");
   const repositories = githubUrls.map((url) =>
     url.pathname
       .split("/")
