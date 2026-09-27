@@ -1,0 +1,58 @@
+name: Diagnostic report
+description: Report a reproducible Visual X# website, API, or deployment failure.
+title: "[Diagnostic]: "
+body:
+  - type: markdown
+    attributes:
+      value: >-
+        Include the smallest reproducible case and relevant diagnostics. Remove credentials, private user data,
+        and production secrets before submitting.
+  - type: dropdown
+    id: component
+    attributes:
+      label: Affected area
+      options:
+        - Vue website or page content
+        - Kotlin/Spring site API
+        - Localization or theme
+        - Routing, metadata, or indexing
+        - Deployment or Nginx configuration
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: summary
+    attributes:
+      label: Failure summary
+      description: State what failed, where it failed, and any visible error identifier.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction steps
+      description: Give ordered steps and a minimal URL, request, or source example when possible.
+      render: text
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected and actual behavior
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: OS/browser, website commit, Node.js version, or Java 25 version when relevant.
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant diagnostics
+      description: Include redacted browser console, server, or deployment output; never paste tokens or credentials.
+      render: text
+    validations:
+      required: true
