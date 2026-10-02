@@ -25,7 +25,7 @@ class SiteController {
             name = "Visual X#",
             phase = "development",
             defaultLocale = "en-US",
-            supportedLocales = listOf("en-US", "de-DE"),
+            supportedLocales = listOf("en-US", "de-DE", "ru-RU"),
             forumOpen = false,
         )
 

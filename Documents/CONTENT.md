@@ -94,20 +94,20 @@ management flow to link from this guide.
 The placeholder may say the forum will come later, once the community is
 ready. It must not imply that an account can be created now or that
 discussion posts are stored elsewhere. Its default is English and dark,
-with German and light options for consistency. Its noindex status applies
+with German, Russian and light options for consistency. Its noindex status applies
 both in HTML and at the server boundary.
 
 ## Translation rules
 
-`en-US` is the default and must carry complete content. `de-DE` should
-express the same meaning, not mechanically mirror sentence length. Keep
+`en-US` is the default and must carry complete content. `de-DE` and `ru-RU`
+should express the same meaning, not mechanically mirror sentence length. Keep
 technical spellings such as `Visual.XSharp.kts`, `CorePrep`, `Xpp`, and
 `Xmm` stable. Translate navigation labels, help text, figure descriptions,
-and accessible names. When adding a paragraph or an interaction, add both
-languages in the same change so a locale switch never leaves mixed copy.
+and accessible names. When adding a paragraph or an interaction, add every
+language in the same change so a locale switch never leaves mixed copy.
 
 The URL is shared between language preferences. Do not emit inaccurate
-`hreflang` alternatives implying separate German URLs. The document `lang`
+`hreflang` alternatives implying separate German or Russian URLs. The document `lang`
 attribute and browser metadata should follow the selected locale. The
 canonical URL should remain the supported route without tracking query
 parameters.

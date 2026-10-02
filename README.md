@@ -24,7 +24,7 @@ and an explicit rollout decision. The forum placeholder can be deployed independ
 
 ## Frontend
 
-The frontend is Vue 3 + Vite + TypeScript. It defaults to dark mode and `en-US`, with a `de-DE` option and a light theme.
+The frontend is Vue 3 + Vite + TypeScript. It defaults to dark mode and `en-US`, with `de-DE` and `ru-RU` options and a light theme.
 Preferences stay in local storage. Motion is limited to short interaction transitions and obeys reduced-motion preferences.
 The site uses self-hosted Fira Sans and no third-party runtime font request.
 

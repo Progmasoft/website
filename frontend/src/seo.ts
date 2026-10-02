@@ -45,6 +45,23 @@ const metadata: Record<Locale, Record<PublicRoute, PageMetadata>> = {
         "Visual X# klonen, Toolchain prüfen, Compiler bauen und testen und das erste Programm mit der aktuellen CLI untersuchen.",
     },
   },
+  "ru-RU": {
+    "/": {
+      title: "Visual X# — Сделать понятной всю программу",
+      description:
+        "Visual X# — нативный язык программирования с читаемым исходным кодом, явным владением и прозрачным конвейером компилятора.",
+    },
+    "/docs/overview": {
+      title: "Обзор · Visual X#",
+      description:
+        "Цели проектирования Visual X#, правила типов и владения, стадии компилятора и граница между спецификацией и реализацией.",
+    },
+    "/docs/getting-started": {
+      title: "Начало работы · Visual X#",
+      description:
+        "Клонируйте Visual X#, проверьте набор инструментов, соберите и протестируйте компилятор и изучите первую программу с текущим CLI.",
+    },
+  },
 };
 
 function setMeta(selector: string, content: string): void {

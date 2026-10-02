@@ -27,7 +27,7 @@ class SiteControllerTest(
         val body = response.contentAsString
         assertTrue(body.contains("\"name\":\"Visual X#\""))
         assertTrue(body.contains("\"defaultLocale\":\"en-US\""))
-        assertTrue(body.contains("\"supportedLocales\":[\"en-US\",\"de-DE\"]"))
+        assertTrue(body.contains("\"supportedLocales\":[\"en-US\",\"de-DE\",\"ru-RU\"]"))
         assertTrue(body.contains("\"forumOpen\":false"))
         assertFalse(body.contains("viget", ignoreCase = true))
     }

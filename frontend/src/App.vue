@@ -29,6 +29,17 @@ const labels = {
     status: "In aktiver Entwicklung",
     footer: "Ein Progmasoft-Projekt. Visual X# hat eine eigenständige Sprachidentität.",
   },
+  "ru-RU": {
+    home: "Главная",
+    overview: "Обзор",
+    start: "Начало работы",
+    forum: "Форум",
+    source: "Исходный код",
+    theme: "Сменить цветовую тему",
+    language: "Язык",
+    status: "В активной разработке",
+    footer: "Проект Progmasoft. Visual X# — самостоятельный язык со своей идентичностью.",
+  },
 } as const;
 const copy = computed(() => labels[locale.value]);
 
@@ -57,6 +68,7 @@ function toggleTheme() {
           <select v-model="locale" :aria-label="copy.language">
             <option value="en-US">EN</option>
             <option value="de-DE">DE</option>
+            <option value="ru-RU">RU</option>
           </select>
         </label>
         <button class="icon-button" type="button" :aria-label="copy.theme" @click="toggleTheme">

@@ -75,3 +75,19 @@ test("a missing optional metadata tag does not stop the page title", () => {
   applyPageMetadata("/docs/getting-started", "de-DE");
   assert.equal(globalThis.document.title, "Erste Schritte · Visual X#");
 });
+
+test("the Russian routes have their own titles and keep the canonical URLs", () => {
+  const { document, elements } = fakeDocument();
+  applyPageMetadata("/", "ru-RU");
+  assert.match(document.title, /^Visual X# — Сделать понятной всю программу$/);
+  assert.match(elements.get('meta[name="description"]').content, /нативный язык программирования/);
+  assert.equal(elements.get('link[rel="canonical"]').href, "https://xsharp-lang.xyz/");
+  applyPageMetadata("/docs/overview", "ru-RU");
+  assert.equal(document.title, "Обзор · Visual X#");
+  applyPageMetadata("/docs/getting-started", "ru-RU");
+  assert.equal(document.title, "Начало работы · Visual X#");
+  assert.equal(
+    elements.get('link[rel="canonical"]').href,
+    "https://xsharp-lang.xyz/docs/getting-started",
+  );
+});

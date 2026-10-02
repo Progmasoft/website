@@ -3,11 +3,13 @@
 
 import { ref, watch } from "vue";
 
-export type Locale = "en-US" | "de-DE";
+export const supportedLocales = ["en-US", "de-DE", "ru-RU"] as const;
+export type Locale = (typeof supportedLocales)[number];
 export type Theme = "dark" | "light";
 
 function storedLocale(): Locale {
-  return localStorage.getItem("vxs-locale") === "de-DE" ? "de-DE" : "en-US";
+  const stored = localStorage.getItem("vxs-locale");
+  return supportedLocales.find((supported) => supported === stored) ?? "en-US";
 }
 
 function storedTheme(): Theme {
