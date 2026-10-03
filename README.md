@@ -9,7 +9,7 @@ This repository owns the public language website at [xsharp-lang.xyz](https://xs
 Progmasoft's corporate or account sites. Visual X# uses its own supplied purple leopard SVG identity;
 the Progmasoft mark is a different brand.
 
-## Routes and rollout
+## Routes
 
 - `/` answers why Visual X# exists and gives an honest implementation-status caveat.
 - `/docs/overview` explains the design direction.
@@ -17,16 +17,27 @@ the Progmasoft mark is a different brand.
 - `forum.xsharp-lang.xyz` is a standalone informational page. It is *not* a forum service; accounts and posts do not exist
   there yet. It stays noindex until a real community forum is launched.
 
-The language domain remains on its maintenance page during the redesign. Do not replace the maintenance Nginx config with
-`ops/nginx/xsharp.conf` merely because the new frontend builds. Publishing the site requires content review, route checks,
-and an explicit rollout decision. The forum placeholder can be deployed independently. See the
-[operations runbook](Documents/OPERATIONS.md) for the exact route and rollout boundaries.
+The site is public and served with `ops/nginx/xsharp.conf`. `ops/nginx/xsharp-maintenance.conf` remains in the
+repository as the configuration to fall back to when the main domain has to be taken offline. The forum page is
+deployed independently of the main site. See the [operations runbook](Documents/OPERATIONS.md) for the route and
+release boundaries.
+
+## Documentation
+
+- [Architecture](Documents/ARCHITECTURE.md): the three parts of the repository and what each serves.
+- [Localization](Documents/LOCALIZATION.md): language selection, text direction and adding a language.
+- [Development](Documents/DEVELOPMENT.md): local setup, tests and what CI enforces.
+- [Content contract](Documents/CONTENT.md): what the pages may claim and the rules for copy.
+- [Operations](Documents/OPERATIONS.md): routes, release steps and rollback.
 
 ## Frontend
 
-The frontend is Vue 3 + Vite + TypeScript. It defaults to dark mode and `en-US`, with `de-DE` and `ru-RU` options and a light theme.
-Preferences stay in local storage. Motion is limited to short interaction transitions and obeys reduced-motion preferences.
-The site uses self-hosted Fira Sans and no third-party runtime font request.
+The frontend is Vue 3 + Vite + TypeScript. It is published in `en-US`, `de-DE`, `ru-RU` and `he-IL`. A visitor who has
+not chosen a language gets the language of their browser, and `en-US` when the browser prefers none of the four; a
+language chosen in the menu is remembered. Hebrew text runs right to left while the page layout stays as it is. The
+theme defaults to dark, with a light option. Preferences stay in local storage. Motion is limited to short interaction
+transitions and obeys reduced-motion preferences. The site uses self-hosted Fira Sans and no third-party runtime font
+request.
 
 ```text
 cd frontend
@@ -51,8 +62,11 @@ separate services and uses Next.js with ASP.NET Core 10; neither that stack nor 
 
 ```text
 cd backend
-gradle test bootJar
+gradle test bootJar dokkaGenerate
 ```
+
+`dokkaGenerate` builds the API documentation and fails on a public declaration without KDoc, so the backend's
+documentation cannot fall behind its code.
 
 The jar is built under `backend/build/libs/`. The server unit in `ops/systemd/xsharp-site-api.service` expects it at
 `/srv/xsharp/website/current/backend/visual-xsharp-website-api-1.0.0.jar` and binds it only to loopback port 5086.
