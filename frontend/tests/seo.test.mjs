@@ -91,3 +91,19 @@ test("the Russian routes have their own titles and keep the canonical URLs", () 
     "https://xsharp-lang.xyz/docs/getting-started",
   );
 });
+
+test("the Hebrew routes have their own titles and keep the canonical URLs", () => {
+  const { document, elements } = fakeDocument();
+  applyPageMetadata("/", "he-IL");
+  assert.match(document.title, /^Visual X#‎ — להפוך את התוכנית כולה למובנת$/);
+  assert.match(elements.get('meta[name="description"]').content, /שמהודרת לקוד מכונה/);
+  assert.equal(elements.get('link[rel="canonical"]').href, "https://xsharp-lang.xyz/");
+  applyPageMetadata("/docs/overview", "he-IL");
+  assert.equal(document.title, "סקירה · Visual X#‎");
+  applyPageMetadata("/docs/getting-started", "he-IL");
+  assert.equal(document.title, "צעדים ראשונים · Visual X#‎");
+  assert.equal(
+    elements.get('link[rel="canonical"]').href,
+    "https://xsharp-lang.xyz/docs/getting-started",
+  );
+});

@@ -8,17 +8,15 @@ import { test } from "node:test";
 import { fileURLToPath } from "node:url";
 import { runInNewContext } from "node:vm";
 
-const forumScript = readFileSync(
-  join(dirname(fileURLToPath(import.meta.url)), "../../forum/site.js"),
-  "utf8",
-);
+const forumDirectory = join(dirname(fileURLToPath(import.meta.url)), "../../forum");
+const forumScript = readFileSync(join(forumDirectory, "site.js"), "utf8");
+const forumPage = readFileSync(join(forumDirectory, "index.html"), "utf8");
 
 function createElement() {
   const listeners = new Map();
   const attributes = new Map();
   return {
     textContent: "",
-    value: "",
     listeners,
     attributes,
     addEventListener(name, callback) {
@@ -30,19 +28,12 @@ function createElement() {
     click() {
       listeners.get("click")();
     },
-    choose(value) {
-      this.value = value;
-      listeners.get("change")();
-    },
   };
 }
 
-function loadForum(initialStorage = {}) {
+function loadForum(navigator = { languages: ["en-US"] }, initialStorage = {}) {
   const elements = new Map(
-    ["eyebrow", "title", "message", "home", "source", "language", "theme"].map((id) => [
-      id,
-      createElement(),
-    ]),
+    ["eyebrow", "title", "message", "home", "source", "theme"].map((id) => [id, createElement()]),
   );
   const values = new Map(Object.entries(initialStorage));
   const localStorage = {
@@ -62,64 +53,71 @@ function loadForum(initialStorage = {}) {
       return element;
     },
   };
-  runInNewContext(forumScript, { document, localStorage });
+  runInNewContext(forumScript, { document, localStorage, navigator });
   return { document, elements, values };
 }
 
-test("forum starts in English and dark mode without offering sign-up", () => {
+test("forum shows English and dark mode to an English browser without offering sign-up", () => {
   const { document, elements } = loadForum();
   assert.equal(document.documentElement.lang, "en");
+  assert.equal(document.documentElement.dataset.textDirection, "ltr");
   assert.equal(document.documentElement.dataset.theme, "dark");
-  assert.equal(elements.get("language").value, "en");
-  assert.equal(elements.get("language").attributes.get("aria-label"), "Language");
   assert.match(elements.get("title").textContent, /isn't open yet/);
   assert.match(elements.get("message").textContent, /no accounts, posts/);
   assert.doesNotMatch(elements.get("message").textContent, /sign up/i);
-});
-
-test("forum switches language and keeps the choice", () => {
-  const { document, elements, values } = loadForum();
-  elements.get("language").choose("de");
-  assert.equal(document.documentElement.lang, "de");
-  assert.equal(values.get("vxs-forum-language"), "de");
-  assert.equal(elements.get("language").value, "de");
-  assert.match(elements.get("title").textContent, /nicht geöffnet/);
   assert.match(document.title, /Visual X#/);
-  assert.equal(elements.get("language").attributes.get("aria-label"), "Sprache");
-  elements.get("language").choose("ru");
-  assert.equal(document.documentElement.lang, "ru");
-  assert.equal(values.get("vxs-forum-language"), "ru");
-  assert.match(elements.get("title").textContent, /Форум пока не открыт/);
-  assert.match(elements.get("message").textContent, /нет ни аккаунтов, ни сообщений/);
-  assert.equal(elements.get("language").attributes.get("aria-label"), "Язык");
-  elements.get("language").choose("en");
-  assert.equal(document.documentElement.lang, "en");
-  assert.equal(values.get("vxs-forum-language"), "en");
 });
 
-test("forum ignores a language it does not offer", () => {
-  const { document, elements, values } = loadForum({ "vxs-forum-language": "tr" });
-  assert.equal(document.documentElement.lang, "en");
-  elements.get("language").choose("constructor");
-  assert.equal(document.documentElement.lang, "en");
-  assert.equal(elements.get("language").value, "en");
-  assert.equal(values.get("vxs-forum-language"), "tr");
+test("forum shows its one notice in the language of the browser", () => {
+  const german = loadForum({ languages: ["de-AT", "en"] });
+  assert.equal(german.document.documentElement.lang, "de");
+  assert.match(german.elements.get("title").textContent, /nicht geöffnet/);
+  assert.equal(german.elements.get("theme").attributes.get("aria-label"), "Farbschema wechseln");
+
+  const russian = loadForum({ languages: ["ru-RU"] });
+  assert.equal(russian.document.documentElement.lang, "ru");
+  assert.match(russian.elements.get("title").textContent, /Форум пока не открыт/);
+  assert.match(russian.elements.get("message").textContent, /нет ни аккаунтов, ни сообщений/);
+
+  for (const languages of [["he-IL"], ["iw"], ["HE", "en"]]) {
+    const hebrew = loadForum({ languages });
+    assert.equal(hebrew.document.documentElement.lang, "he");
+    assert.equal(hebrew.document.documentElement.dataset.textDirection, "rtl");
+    assert.match(hebrew.elements.get("title").textContent, /הפורום עדיין לא נפתח/);
+    assert.match(hebrew.elements.get("home").textContent, /←$/);
+  }
 });
 
-test("forum restores a saved Russian preference", () => {
-  const { document, elements } = loadForum({ "vxs-forum-language": "ru" });
-  assert.equal(document.documentElement.lang, "ru");
-  assert.equal(elements.get("language").value, "ru");
+test("forum falls back to English when the browser language has no translation", () => {
+  for (const navigator of [
+    { languages: ["tr-TR"] },
+    { languages: ["tr-TR", "fr"] },
+    { languages: [] },
+    { languages: ["constructor"] },
+    { language: "ja" },
+    {},
+  ]) {
+    const { document, elements } = loadForum(navigator);
+    assert.equal(document.documentElement.lang, "en", JSON.stringify(navigator));
+    assert.match(elements.get("title").textContent, /isn't open yet/);
+  }
+  // A later preference with a translation is used before English.
+  assert.equal(loadForum({ languages: ["tr-TR", "de"] }).document.documentElement.lang, "de");
+  // A browser that reports only one language is honored.
+  assert.equal(loadForum({ language: "ru" }).document.documentElement.lang, "ru");
 });
 
-test("forum restores the saved German and light preferences", () => {
-  const { document, elements } = loadForum({
-    "vxs-forum-language": "de",
-    "vxs-forum-theme": "light",
-  });
+test("forum has no language menu and ignores a language stored by an older page", () => {
+  assert.doesNotMatch(forumPage, /<select/);
+  assert.doesNotMatch(forumPage, /id="language"/);
+  const { document, values } = loadForum({ languages: ["de"] }, { "vxs-forum-language": "ru" });
   assert.equal(document.documentElement.lang, "de");
+  assert.equal(values.get("vxs-forum-language"), "ru");
+});
+
+test("forum restores the saved light preference", () => {
+  const { document } = loadForum({ languages: ["en"] }, { "vxs-forum-theme": "light" });
   assert.equal(document.documentElement.dataset.theme, "light");
-  assert.equal(elements.get("language").value, "de");
 });
 
 test("forum theme button toggles and persists in both directions", () => {

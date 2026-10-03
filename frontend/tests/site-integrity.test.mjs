@@ -246,6 +246,7 @@ test("language and theme controls remain labeled and keyboard focus is visible",
   const shell = read("src/App.vue");
   const styles = read("src/styles/site.css");
   assert.match(shell, /<select v-model="locale" :aria-label="copy\.language"/);
+  assert.match(shell, /<option v-for="supported in supportedLocales"/);
   assert.match(shell, /class="icon-button"[^>]*:aria-label="copy\.theme"/);
   assert.match(styles, /:focus-visible\s*\{/);
   assert.match(styles, /prefers-reduced-motion: reduce/);

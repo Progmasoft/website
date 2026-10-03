@@ -4,7 +4,7 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { RouterLink } from "vue-router";
-import { locale } from "../preferences";
+import { arrow, locale } from "../preferences";
 
 const text = {
   "en-US": {
@@ -184,6 +184,65 @@ const text = {
     spec: "Публичная спецификация",
     examples: "Больше примеров",
   },
+  "he-IL": {
+    navOverview: "סקירה",
+    navStart: "צעדים ראשונים",
+    section: "תיעוד / צעדים ראשונים",
+    title: "מתחילים מקוד המקור",
+    lead: "Visual X#‎ נמצאת בפיתוח פעיל. לעת עתה המאגר הוא נקודת הכניסה האמינה לבניית המהדר ולבדיקה אילו יכולות של השפה פועלות מקצה לקצה.",
+    step1: "1. השגת המאגר",
+    step1Text:
+      "שכפלו את מאגר המהדר יחד עם תת־המודולים שלו. השתמשו במחשב פיתוח נתמך עם Windows 10/11 או עם גרסה עדכנית של macOS.",
+    step2: "2. בדיקת שרשרת הכלים",
+    step2Text:
+      "פקודת הפיתוח של המאגר, הכתובה ב-Go, בודקת את הדרישות המקומיות. המהדר משתמש ב-GHC2024 ל-frontend הכתוב ב-Haskell, ב-Clang/LLVM לשלבי ה-native ב-C++20, ב-Bazel לבניית חלקי ה-native וב-Temurin JDK 25 ל-DSL של הפרויקטים.",
+    platform:
+      "מחשבי הפיתוח הנתמכים הם Windows 10/11 ו-macOS Sequoia/Tahoe. ב-Windows נעשה שימוש ב-clang-cl וב-LLD עצמאיים של LLVM יחד עם Windows SDK וספריות ה-CRT/STL של MSVC. ב-macOS יש להתקין את Xcode Command Line Tools; יישום Xcode המלא אינו נדרש.",
+    toolchainHelp:
+      "אם הבדיקה מדווחת על כלים חסרים, ה-bootstrap האופציונלי יכול להתקין את הדרישות דרך מנהל החבילות של המערכת. לאחר מכן פתחו מסוף חדש כדי ששינויי PATH ייכנסו לתוקף. LLVM_ROOT יכול להצביע על תחילית ההתקנה של חבילת הפיתוח של LLVM; אין לכתוב נתיב ייחודי למחשב בקובצי הפרויקט.",
+    bootstrap: "הכנת מחשב אופציונלית",
+    step3: "3. בנייה ובדיקה",
+    step3Text:
+      "בנו את מהדר ה-native והריצו את חבילות בדיקות החוזה שלו. פקודת ה-Go מתזמרת את הבדיקות; Bazel נשאר הבעלים של גרף הבנייה של C++20. Cabal ו-Gradle מטפלים בגבולות של Haskell ושל Kotlin.",
+    step4: "4. קריאה ובדיקה של תוכנית אמיתית",
+    step4Text:
+      "בדוגמה HelloWorld נקודת הכניסה היא מתודה של מחלקה. Visual X#‎ אינה משתמשת בפונקציה ברמה העליונה כנקודת הכניסה לתוכנית. בדקו את קובץ המקור המדויק, ואז בנו אותו בתת־הקבוצה הנוכחית של המהדר.",
+    fileCheck: "בדיקת קובץ מקור יחיד",
+    fileBuild: "בניית קובץ הרצה בקוד מכונה",
+    subset:
+      "תת־הקבוצה של קוד המקור שמתקבלת צרה מהמפרט הציבורי המלא. בנייה מוצלחת היא ראיה חזקה יותר לתוכנית מסוימת מאשר דוגמת תחביר במפרט; הרצת בדיקות מוצלחת היא ראיה חזקה יותר למשפחת יכולות.",
+    step5: "5. לעקוב אחר החוזה הציבורי",
+    step5Text:
+      "המפרט הציבורי מתאר את הסמנטיקה המיועדת של השפה, ומסמכי המאגר מפרטים את המימוש ואת הכלים. הפלט של ‎-Help במהדר מתאר את הדגלים שהקובץ המותקן מקבל.",
+    links: [
+      {
+        title: "מפרט השפה",
+        detail: "חוזי תחביר וסמנטיקה, כולל דוגמאות תקינות ושגויות.",
+        href: "https://github.com/Progmasoft/visual-xsharp/tree/main/Spec",
+      },
+      {
+        title: "מדריך בנייה",
+        detail: "מחשבים רשמיים, איתור שרשרת הכלים ויעדי הבנייה של חלקי ה-native.",
+        href: "https://github.com/Progmasoft/visual-xsharp/blob/main/Documents/BUILDING.md",
+      },
+      {
+        title: "מדריך ה-CLI",
+        detail: "הפקודות, הדגלים, התנהגות התוצרים ומצב המימוש הנוכחיים.",
+        href: "https://github.com/Progmasoft/visual-xsharp/blob/main/Documents/CLI.md",
+      },
+      {
+        title: "תוכניות לדוגמה",
+        detail: "דוגמאות קוד לצד מקבילות ב-C#‎ 13, ב-C++20 וב-Java 21.",
+        href: "https://github.com/Progmasoft/visual-xsharp/tree/main/Examples",
+      },
+    ],
+    note: "מצב המימוש",
+    noteText:
+      "דוגמה במפרט אינה הוכחה לתמיכה במהדר. לפני שמסתמכים על יכולת, הריצו את בדיקות המאגר ועיינו בהערות המימוש העדכניות. הורדות בינאריות ותהליך התקנה יציב עדיין אינם מובטחים.",
+    more: "להבין את התכנון",
+    spec: "המפרט הציבורי",
+    examples: "דוגמאות נוספות",
+  },
 } as const;
 const c = computed(() => text[locale.value]);
 const hello = `namespace Examples.HelloWorld;
@@ -248,7 +307,8 @@ vxs build -Help</code></pre>
         <p>{{ c.noteText }}</p>
       </div>
       <div class="doc-actions">
-        <RouterLink class="button button-primary" to="/docs/overview">{{ c.more }} →</RouterLink
+        <RouterLink class="button button-primary" to="/docs/overview"
+          >{{ c.more }} {{ arrow }}</RouterLink
         ><a class="inline-link" href="https://github.com/Progmasoft/visual-xsharp/tree/main/Spec"
           >{{ c.spec }} ↗</a
         ><a

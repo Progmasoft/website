@@ -55,8 +55,7 @@ header {
   display: flex;
   gap: 8px;
 }
-button,
-select {
+button {
   min-height: 36px;
   padding: 0 12px;
   border: 1px solid var(--line);
@@ -65,15 +64,10 @@ select {
   color: var(--text);
   cursor: pointer;
 }
-button:hover,
-select:hover {
+button:hover {
   border-color: var(--accent);
 }
-select {
-  font: inherit;
-}
 button:focus-visible,
-select:focus-visible,
 a:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 3px;
@@ -128,4 +122,24 @@ footer {
   * {
     scroll-behavior: auto !important;
   }
+}
+
+/*
+ * Right-to-left text. Only the text follows the direction of the language:
+ * the page layout, the navigation and code keep their left-to-right
+ * arrangement. Blocks of prose run right to left, and short pieces such as
+ * links, buttons and list items take the direction of their own first
+ * letter, so a product name on its own still reads left to right.
+ */
+[data-text-direction="rtl"] :is(h1, h2, h3, h4, h5, h6, p, blockquote, figcaption, dt, dd) {
+  direction: rtl;
+}
+
+[data-text-direction="rtl"] :is(a, button, label, li, small, strong, span, option) {
+  unicode-bidi: plaintext;
+}
+
+[data-text-direction="rtl"] :is(code, pre, kbd, samp) {
+  direction: ltr;
+  unicode-bidi: isolate;
 }

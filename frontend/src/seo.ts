@@ -1,7 +1,7 @@
 // SPDX-FileCopyrightText: 2026 Progmasoft <support@progmasoft.com>
 // SPDX-License-Identifier: AGPL-3.0-or-later WITH AdditionRef-Progmasoft-Patent-Grant-1.1
 
-import type { Locale } from "./preferences";
+import type { Locale } from "./locales";
 
 export type PublicRoute = "/" | "/docs/overview" | "/docs/getting-started";
 
@@ -60,6 +60,23 @@ const metadata: Record<Locale, Record<PublicRoute, PageMetadata>> = {
       title: "Начало работы · Visual X#",
       description:
         "Клонируйте Visual X#, проверьте набор инструментов, соберите и протестируйте компилятор и изучите первую программу с текущим CLI.",
+    },
+  },
+  "he-IL": {
+    "/": {
+      title: "Visual X#‎ — להפוך את התוכנית כולה למובנת",
+      description:
+        "הכירו את Visual X#‎: שפת תכנות שמהודרת לקוד מכונה והבנויה סביב קוד מקור קריא, בעלות מפורשת ותהליך הידור שאפשר לבחון.",
+    },
+    "/docs/overview": {
+      title: "סקירה · Visual X#‎",
+      description:
+        "יעדי התכנון של Visual X#‎, בחירות הטיפוסים והבעלות, שלבי המהדר והגבול בין המפרט למימוש.",
+    },
+    "/docs/getting-started": {
+      title: "צעדים ראשונים · Visual X#‎",
+      description:
+        "שכפלו את Visual X#‎, בדקו את שרשרת הכלים, בנו ובדקו את המהדר ובחנו את התוכנית הראשונה עם ה-CLI הנוכחי.",
     },
   },
 };
