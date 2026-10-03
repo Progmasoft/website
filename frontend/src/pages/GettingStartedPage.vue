@@ -8,6 +8,8 @@ import { locale } from "../preferences";
 
 const text = {
   "en-US": {
+    navOverview: "Overview",
+    navStart: "Getting started",
     section: "DOCUMENTATION / GETTING STARTED",
     title: "Start with the source",
     lead: "Visual X# is in active development. For now, the repository is the reliable entry point for building the compiler and checking which language features run end to end.",
@@ -65,6 +67,8 @@ const text = {
     examples: "More examples",
   },
   "de-DE": {
+    navOverview: "Überblick",
+    navStart: "Erste Schritte",
     section: "DOKUMENTATION / ERSTE SCHRITTE",
     title: "Mit dem Quellcode beginnen",
     lead: "Visual X# wird aktiv entwickelt. Das Repository ist derzeit der zuverlässige Einstieg, um den Compiler zu bauen und den tatsächlich funktionierenden Sprachumfang zu prüfen.",
@@ -121,6 +125,65 @@ const text = {
     spec: "Öffentliche Spezifikation",
     examples: "Weitere Beispiele",
   },
+  "ru-RU": {
+    navOverview: "Обзор",
+    navStart: "Начало работы",
+    section: "ДОКУМЕНТАЦИЯ / НАЧАЛО РАБОТЫ",
+    title: "Начните с исходного кода",
+    lead: "Visual X# находится в активной разработке. Пока что репозиторий — надёжная отправная точка, чтобы собрать компилятор и проверить, какие возможности языка работают от начала до конца.",
+    step1: "1. Получите репозиторий",
+    step1Text:
+      "Клонируйте репозиторий компилятора вместе с подмодулями. Используйте поддерживаемую машину разработки с Windows 10/11 или актуальной macOS.",
+    step2: "2. Проверьте набор инструментов",
+    step2Text:
+      "Команда разработки на Go из репозитория проверяет локальные требования. Компилятор использует GHC2024 для фронтенда на Haskell, Clang/LLVM для нативных стадий на C++20, Bazel для нативных сборок и Temurin JDK 25 для DSL проектов.",
+    platform:
+      "Поддерживаемые машины разработки — Windows 10/11 и macOS Sequoia/Tahoe. В Windows используются отдельные LLVM clang-cl и LLD вместе с Windows SDK и библиотеками MSVC CRT/STL. В macOS установите Xcode Command Line Tools; полное приложение Xcode не требуется.",
+    toolchainHelp:
+      "Если проверка сообщает об отсутствующих инструментах, необязательная начальная настройка может установить их через менеджер пакетов системы. После этого откройте новый терминал, чтобы изменения PATH вступили в силу. LLVM_ROOT может указывать на каталог установки LLVM для разработки; не записывайте путь, относящийся к конкретной машине, в файлы проекта.",
+    bootstrap: "Необязательная начальная настройка системы",
+    step3: "3. Соберите и протестируйте",
+    step3Text:
+      "Соберите нативный компилятор и запустите его нативные контрактные наборы тестов. Команда на Go координирует проверки; графом сборки C++20 по-прежнему владеет Bazel. Cabal и Gradle отвечают за свои области — Haskell и Kotlin.",
+    step4: "4. Прочитайте и проверьте настоящую программу",
+    step4Text:
+      "В примере HelloWorld точкой входа служит метод класса. В Visual X# функция верхнего уровня не является точкой входа программы. Проверьте сам исходный файл, а затем соберите его текущим подмножеством компилятора.",
+    fileCheck: "Проверить один исходный файл",
+    fileBuild: "Собрать нативный исполняемый файл",
+    subset:
+      "Принимаемое подмножество исходного кода уже полной публичной спецификации. Успешная сборка — более сильное свидетельство для конкретной программы, чем синтаксический пример в спецификации; успешный прогон тестов — более сильное свидетельство для семейства возможностей.",
+    step5: "5. Следуйте публичному контракту",
+    step5Text:
+      "Задуманную семантику языка смотрите в публичной спецификации, а сведения о реализации и инструментах — в каталоге Documents репозитория. Вывод -Help компилятора описывает флаги, которые принимает установленный исполняемый файл.",
+    links: [
+      {
+        title: "Спецификация языка",
+        detail: "Синтаксические и семантические контракты с допустимыми и недопустимыми примерами.",
+        href: "https://github.com/Progmasoft/visual-xsharp/tree/main/Spec",
+      },
+      {
+        title: "Руководство по сборке",
+        detail: "Официальные платформы, поиск набора инструментов и цели нативной сборки.",
+        href: "https://github.com/Progmasoft/visual-xsharp/blob/main/Documents/BUILDING.md",
+      },
+      {
+        title: "Справочник по CLI",
+        detail: "Текущие команды, флаги, поведение артефактов и состояние реализации.",
+        href: "https://github.com/Progmasoft/visual-xsharp/blob/main/Documents/CLI.md",
+      },
+      {
+        title: "Примеры программ",
+        detail: "Примеры исходного кода рядом с вариантами на C# 13, C++20 и Java 21.",
+        href: "https://github.com/Progmasoft/visual-xsharp/tree/main/Examples",
+      },
+    ],
+    note: "Состояние реализации",
+    noteText:
+      "Пример из спецификации не доказывает поддержку в компиляторе. Прежде чем полагаться на возможность, запустите тесты репозитория и сверьтесь с актуальными заметками о реализации. Готовые двоичные сборки и стабильный процесс установки пока не обещаны.",
+    more: "Понять замысел",
+    spec: "Публичная спецификация",
+    examples: "Больше примеров",
+  },
 } as const;
 const c = computed(() => text[locale.value]);
 const hello = `namespace Examples.HelloWorld;
@@ -137,12 +200,8 @@ public class HelloWorld {
   <div class="doc-layout section-wrap">
     <aside class="doc-sidebar">
       <span class="kicker">VISUAL X#</span
-      ><RouterLink to="/docs/overview">{{
-        locale === "de-DE" ? "Überblick" : "Overview"
-      }}</RouterLink
-      ><RouterLink to="/docs/getting-started" aria-current="page">{{
-        locale === "de-DE" ? "Erste Schritte" : "Getting started"
-      }}</RouterLink
+      ><RouterLink to="/docs/overview">{{ c.navOverview }}</RouterLink
+      ><RouterLink to="/docs/getting-started" aria-current="page">{{ c.navStart }}</RouterLink
       ><a href="https://github.com/Progmasoft/visual-xsharp/tree/main/Spec">Specification ↗</a>
     </aside>
     <article class="doc-content">

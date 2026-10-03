@@ -18,6 +18,7 @@ function createElement() {
   const attributes = new Map();
   return {
     textContent: "",
+    value: "",
     listeners,
     attributes,
     addEventListener(name, callback) {
@@ -28,6 +29,10 @@ function createElement() {
     },
     click() {
       listeners.get("click")();
+    },
+    choose(value) {
+      this.value = value;
+      listeners.get("change")();
     },
   };
 }
@@ -65,7 +70,8 @@ test("forum starts in English and dark mode without offering sign-up", () => {
   const { document, elements } = loadForum();
   assert.equal(document.documentElement.lang, "en");
   assert.equal(document.documentElement.dataset.theme, "dark");
-  assert.equal(elements.get("language").textContent, "DE");
+  assert.equal(elements.get("language").value, "en");
+  assert.equal(elements.get("language").attributes.get("aria-label"), "Language");
   assert.match(elements.get("title").textContent, /isn't open yet/);
   assert.match(elements.get("message").textContent, /no accounts, posts/);
   assert.doesNotMatch(elements.get("message").textContent, /sign up/i);
@@ -73,16 +79,37 @@ test("forum starts in English and dark mode without offering sign-up", () => {
 
 test("forum switches language and keeps the choice", () => {
   const { document, elements, values } = loadForum();
-  elements.get("language").click();
+  elements.get("language").choose("de");
   assert.equal(document.documentElement.lang, "de");
   assert.equal(values.get("vxs-forum-language"), "de");
-  assert.equal(elements.get("language").textContent, "EN");
+  assert.equal(elements.get("language").value, "de");
   assert.match(elements.get("title").textContent, /nicht geöffnet/);
   assert.match(document.title, /Visual X#/);
-  assert.equal(elements.get("language").attributes.get("aria-label"), "Zu Englisch wechseln");
-  elements.get("language").click();
+  assert.equal(elements.get("language").attributes.get("aria-label"), "Sprache");
+  elements.get("language").choose("ru");
+  assert.equal(document.documentElement.lang, "ru");
+  assert.equal(values.get("vxs-forum-language"), "ru");
+  assert.match(elements.get("title").textContent, /Форум пока не открыт/);
+  assert.match(elements.get("message").textContent, /нет ни аккаунтов, ни сообщений/);
+  assert.equal(elements.get("language").attributes.get("aria-label"), "Язык");
+  elements.get("language").choose("en");
   assert.equal(document.documentElement.lang, "en");
   assert.equal(values.get("vxs-forum-language"), "en");
+});
+
+test("forum ignores a language it does not offer", () => {
+  const { document, elements, values } = loadForum({ "vxs-forum-language": "tr" });
+  assert.equal(document.documentElement.lang, "en");
+  elements.get("language").choose("constructor");
+  assert.equal(document.documentElement.lang, "en");
+  assert.equal(elements.get("language").value, "en");
+  assert.equal(values.get("vxs-forum-language"), "tr");
+});
+
+test("forum restores a saved Russian preference", () => {
+  const { document, elements } = loadForum({ "vxs-forum-language": "ru" });
+  assert.equal(document.documentElement.lang, "ru");
+  assert.equal(elements.get("language").value, "ru");
 });
 
 test("forum restores the saved German and light preferences", () => {
@@ -92,7 +119,7 @@ test("forum restores the saved German and light preferences", () => {
   });
   assert.equal(document.documentElement.lang, "de");
   assert.equal(document.documentElement.dataset.theme, "light");
-  assert.equal(elements.get("language").textContent, "EN");
+  assert.equal(elements.get("language").value, "de");
 });
 
 test("forum theme button toggles and persists in both directions", () => {

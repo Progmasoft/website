@@ -9,8 +9,7 @@ const copy = {
       "We will open the Visual X# forum when the community is ready for it. There are no accounts, posts, or discussion service here today. For now, follow the language and compiler in the public repository.",
     home: "Visual X# home →",
     source: "Source repository ↗",
-    languageButton: "DE",
-    languageLabel: "Switch to German",
+    languageLabel: "Language",
     themeLabel: "Switch color theme",
   },
   de: {
@@ -20,15 +19,25 @@ const copy = {
       "Wir eröffnen das Visual X# Forum, wenn die Community dafür bereit ist. Derzeit gibt es hier keine Konten, Beiträge oder Diskussionen. Folgen Sie bis dahin der Sprache und dem Compiler im öffentlichen Repository.",
     home: "Visual X# Startseite →",
     source: "Quellcode-Repository ↗",
-    languageButton: "EN",
-    languageLabel: "Zu Englisch wechseln",
+    languageLabel: "Sprache",
     themeLabel: "Farbschema wechseln",
+  },
+  ru: {
+    eyebrow: "Сообщество / позже",
+    title: "Форум пока не открыт.",
+    message:
+      "Мы откроем форум Visual X#, когда сообщество будет к этому готово. Сейчас здесь нет ни аккаунтов, ни сообщений, ни сервиса обсуждений. Пока следите за языком и компилятором в публичном репозитории.",
+    home: "На главную Visual X# →",
+    source: "Репозиторий с исходным кодом ↗",
+    languageLabel: "Язык",
+    themeLabel: "Сменить цветовую тему",
   },
 };
 
-const languageButton = document.getElementById("language");
+const languageSelect = document.getElementById("language");
 const themeButton = document.getElementById("theme");
-let language = localStorage.getItem("vxs-forum-language") === "de" ? "de" : "en";
+const storedLanguage = localStorage.getItem("vxs-forum-language");
+let language = Object.hasOwn(copy, storedLanguage ?? "") ? storedLanguage : "en";
 
 function renderLanguage() {
   const selected = copy[language];
@@ -37,14 +46,17 @@ function renderLanguage() {
   for (const key of ["eyebrow", "title", "message", "home", "source"]) {
     document.getElementById(key).textContent = selected[key];
   }
-  languageButton.textContent = selected.languageButton;
-  languageButton.setAttribute("aria-label", selected.languageLabel);
+  languageSelect.value = language;
+  languageSelect.setAttribute("aria-label", selected.languageLabel);
   themeButton.setAttribute("aria-label", selected.themeLabel);
 }
 
-languageButton.addEventListener("click", () => {
-  language = language === "en" ? "de" : "en";
-  localStorage.setItem("vxs-forum-language", language);
+languageSelect.addEventListener("change", () => {
+  // The menu only offers known languages; anything else keeps the current one.
+  if (Object.hasOwn(copy, languageSelect.value)) {
+    language = languageSelect.value;
+    localStorage.setItem("vxs-forum-language", language);
+  }
   renderLanguage();
 });
 
