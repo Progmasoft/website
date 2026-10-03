@@ -34,12 +34,15 @@ test("the forum placeholder is explicitly non-indexable and not an account servi
   assert.match(nginx, /X-Robots-Tag "noindex, nofollow"/);
   assert.match(nginx, /script-src 'self'; style-src 'self'/);
   assert.doesNotMatch(nginx, /unsafe-inline/);
-  assert.match(forum, /src="\/site\.js"/);
-  assert.match(forum, /href="\/site\.css"/);
+  assert.match(forum, /src="\/site\.js[?"]/);
+  assert.match(forum, /href="\/site\.css[?"]/);
   const normalizedForum = forum.toLowerCase();
   assert.equal(normalizedForum.split("<script").length - 1, 1);
   assert.equal(normalizedForum.split("</script>").length - 1, 1);
-  assert.ok(normalizedForum.includes('<script src="/site.js" defer></script>'));
+  // The query string is a cache key for the edge cache. Nginx serves the
+  // exact file path, so changing the value forces a fresh copy after a deploy.
+  assert.match(normalizedForum, /<script src="\/site\.js\?v=[0-9-]+" defer><\/script>/);
+  assert.match(normalizedForum, /<link rel="stylesheet" href="\/site\.css\?v=[0-9-]+" \/>/);
   assert.doesNotMatch(forum, /<form\b/);
 });
 
