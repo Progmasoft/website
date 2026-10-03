@@ -5,6 +5,7 @@ plugins {
     kotlin("jvm") version "2.3.21"
     kotlin("plugin.spring") version "2.3.21"
     id("org.springframework.boot") version "4.1.1"
+    id("org.jetbrains.dokka") version "2.2.0"
     jacoco
 }
 
@@ -32,6 +33,17 @@ dependencies {
 }
 
 tasks.test { useJUnitPlatform() }
+
+dokka {
+    dokkaPublications.configureEach {
+        // The documentation build is a gate: a broken link, an unresolved
+        // reference or an undocumented declaration fails it.
+        failOnWarning = true
+    }
+    dokkaSourceSets.configureEach {
+        reportUndocumented = true
+    }
+}
 
 jacoco { toolVersion = "0.8.15" }
 

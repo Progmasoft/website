@@ -6,9 +6,15 @@ package com.progmasoft.visual.xsharp.website
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
+/** Spring Boot application of the Visual X# language website backend. */
 @SpringBootApplication
 class WebsiteApplication
 
+/**
+ * Starts the website backend.
+ *
+ * @param args Command-line arguments passed through to Spring Boot.
+ */
 fun main(args: Array<String>) {
     runApplication<WebsiteApplication>(*args)
 }

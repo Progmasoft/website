@@ -7,6 +7,16 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
 
+/**
+ * Public state of the language website, as served by `/api/v1/site`.
+ *
+ * @property name Product name shown by clients.
+ * @property phase Development phase of the language, for example `development`.
+ * @property defaultLocale Locale a client falls back to when the visitor's
+ *   browser prefers no supported language.
+ * @property supportedLocales Every locale the website is published in.
+ * @property forumOpen Whether the community forum accepts visitors.
+ */
 data class SiteInformation(
     val name: String,
     val phase: String,
@@ -15,21 +25,32 @@ data class SiteInformation(
     val forumOpen: Boolean,
 )
 
+/** HTTP endpoints of the language website's own backend. */
 @RestController
 class SiteController {
-    // This API reports only the language website's own public state. It does
-    // not mirror a package catalog, account service, or any other application.
+    /**
+     * Reports the website's own public state.
+     *
+     * The response does not mirror a package catalog, an account service, or
+     * any other application.
+     *
+     * @return The current [SiteInformation].
+     */
     @GetMapping("/api/v1/site")
     fun information(): SiteInformation =
         SiteInformation(
             name = "Visual X#",
             phase = "development",
             defaultLocale = "en-US",
-            supportedLocales = listOf("en-US", "de-DE", "ru-RU"),
+            supportedLocales = listOf("en-US", "de-DE", "ru-RU", "he-IL"),
             forumOpen = false,
         )
 
-    // Used by the local service manager without disclosing build or host data.
+    /**
+     * Liveness probe for the local service manager.
+     *
+     * @return An empty `200 OK`; no build or host data is disclosed.
+     */
     @GetMapping("/health")
     fun health(): ResponseEntity<Void> = ResponseEntity.ok().build()
 }

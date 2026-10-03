@@ -4,7 +4,8 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { RouterLink, RouterView } from "vue-router";
-import { locale, theme } from "./preferences";
+import { localeLabels } from "./locales";
+import { locale, supportedLocales, theme } from "./preferences";
 
 const labels = {
   "en-US": {
@@ -40,6 +41,17 @@ const labels = {
     status: "В активной разработке",
     footer: "Проект Progmasoft. Visual X# — самостоятельный язык со своей идентичностью.",
   },
+  "he-IL": {
+    home: "בית",
+    overview: "סקירה",
+    start: "צעדים ראשונים",
+    forum: "פורום",
+    source: "קוד מקור",
+    theme: "החלפת ערכת הצבעים",
+    language: "שפה",
+    status: "בפיתוח פעיל",
+    footer: "פרויקט של Progmasoft. ל-Visual X#‎ זהות שפה עצמאית.",
+  },
 } as const;
 const copy = computed(() => labels[locale.value]);
 
@@ -66,9 +78,9 @@ function toggleTheme() {
         <label class="language-control">
           <span class="sr-only">{{ copy.language }}</span>
           <select v-model="locale" :aria-label="copy.language">
-            <option value="en-US">EN</option>
-            <option value="de-DE">DE</option>
-            <option value="ru-RU">RU</option>
+            <option v-for="supported in supportedLocales" :key="supported" :value="supported">
+              {{ localeLabels[supported] }}
+            </option>
           </select>
         </label>
         <button class="icon-button" type="button" :aria-label="copy.theme" @click="toggleTheme">

@@ -4,7 +4,7 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { RouterLink } from "vue-router";
-import { locale } from "../preferences";
+import { arrow, locale } from "../preferences";
 
 const translations = {
   "en-US": {
@@ -193,6 +193,66 @@ const translations = {
     disclaimer:
       "Статус: язык и компилятор развиваются. Примеры в спецификации могут описывать задуманное поведение раньше его полной поддержки компилятором.",
   },
+  "he-IL": {
+    eyebrow: "שפה לבנייה מתוך בהירות",
+    title: "להפוך את התוכנית כולה למובנת.",
+    intro:
+      "Visual X#‎ שואפת לשלב קוד מקור רב־הבעה עם בעלות מפורשת, צינור מהדר גלוי ופלט מקומי. היא נבנית בפתיחות: המפרט מתאר את השפה המיועדת, וכיסוי המימוש עדיין הולך וגדל.",
+    start: "להתחיל לקרוא",
+    overview: "למה Visual X#‎?",
+    github: "למעקב אחר הפיתוח",
+    stage: "השפה והמהדר בפיתוח פעיל",
+    why: "למה Visual X#‎?",
+    whyIntro: "כלים טובים צריכים לאפשר לך להבין מה הקוד שלך אומר, מה בבעלותו ומה המהדר יעשה בהמשך.",
+    features: [
+      {
+        number: "01",
+        title: "קוד קריא, משמעות מפורשת",
+        text: "מפרט השפה מפריד בין תחביר לכללים סמנטיים, עם דוגמאות שמסמנות צורות תקינות ושגויות. פחות הנחות נסתרות מקלות על דיון בבסיסי קוד גדולים.",
+      },
+      {
+        number: "02",
+        title: "בעלות היא עניין של השפה",
+        text: "יש הבחנה בין טיפוסי הפניה, טיפוסי ערך וטיפוסי העתקה־בעת־כתיבה; AARC ופעולות ביניים מפורשות הם חלק מתכנון המהדר. זהו כיוון שנמצא במימוש, לא הצהרה על תמיכה מוגמרת בזמן ריצה.",
+      },
+      {
+        number: "03",
+        title: "מהדר שאפשר לבחון",
+        text: "לניתוח התחבירי, לפענוח השמות, לבדיקת הטיפוסים, ל-Core, ל-Xpp ול-Xmm יש תחומי אחריות נפרדים. הדרך אל LLVM ואל קובץ הרצה מקומי גלויה ואינה קופסה שחורה.",
+      },
+    ],
+    codeTitle: "נקודת התחלה מוכרת",
+    codeCaption: "התוכנית הראשונה רגילה בכוונה. עומק התכנון מתגלה ככל שהתוכניות גדלות.",
+    statusLabel: "המצב הנוכחי",
+    statusTitle: "תכנון שאפשר לבחון. מהדר שעדיין גדל.",
+    statusLead:
+      "למפרט ולמימוש תפקידים שונים. אנחנו מציגים את שניהם כדי שאפשר יהיה להבחין בין כלל מתוכנן לבין יכולת שאפשר להריץ כבר היום.",
+    statusItems: [
+      {
+        title: "לקרוא את החוזה",
+        body: "המפרט הציבורי מתעד את הדקדוק והסמנטיקה של השפה, כולל דוגמאות שמבחינות בין צורות תקינות לשגויות. הוא יכול לתאר התנהגות לפני שהמהדר תומך בה.",
+        link: "לפתיחת המפרט",
+        href: "https://github.com/Progmasoft/visual-xsharp/tree/main/Spec",
+      },
+      {
+        title: "לבדוק את המימוש",
+        body: "המהדר הנוכחי, בדיקות הרכיבים שלו ומדריך ה-CLI מראים אילו נתיבי קוד מקור ואילו תוצרים עובדים כעת. לפני שמסתמכים על יכולת חדשה, כדאי לבדוק אותה בתוכנית קטנה.",
+        link: "לקריאת מדריך ה-CLI",
+        href: "https://github.com/Progmasoft/visual-xsharp/blob/main/Documents/CLI.md",
+      },
+      {
+        title: "לעקוב אחר העבודה",
+        body: "המאגר מכיל את השפה, את שלבי המהדר המקומיים, את כלי הפרויקט, דוגמאות ומסמכי פיתוח. האתר הזה הוא מדריך אל העבודה הזאת, לא הצהרה על שרשרת כלים מוגמרת.",
+        link: "למאגר",
+        href: "https://github.com/Progmasoft/visual-xsharp",
+      },
+    ],
+    journey: "להכיר את השפה",
+    journeyText:
+      "קראו את הסקירה כדי להבין את התכנון, ואז המשיכו למדריך הצעדים הראשונים עם שרשרת הכלים הנוכחית. עבודה שטרם הושלמה מסומנת ביושר.",
+    disclaimer:
+      "מצב: שפה ומהדר מתפתחים. דוגמאות במפרט עשויות לתאר התנהגות מתוכננת לפני שקיימת לה תמיכה מלאה במהדר.",
+  },
 } as const;
 const c = computed(() => translations[locale.value]);
 const example = `namespace Examples.HelloWorld;
@@ -214,7 +274,7 @@ public class HelloWorld {
       <p class="hero-intro">{{ c.intro }}</p>
       <div class="hero-actions">
         <RouterLink class="button button-primary" to="/docs/getting-started"
-          >{{ c.start }} <span aria-hidden="true">→</span></RouterLink
+          >{{ c.start }} <span aria-hidden="true">{{ arrow }}</span></RouterLink
         ><RouterLink class="button button-quiet" to="/docs/overview">{{ c.overview }}</RouterLink>
       </div>
       <p class="release-note">{{ c.stage }}</p>
@@ -239,7 +299,7 @@ public class HelloWorld {
       <span class="kicker">02 / SOURCE</span>
       <h2 id="example-heading">{{ c.codeTitle }}</h2>
       <p>{{ c.codeCaption }}</p>
-      <RouterLink class="inline-link" to="/docs/overview">{{ c.overview }} →</RouterLink>
+      <RouterLink class="inline-link" to="/docs/overview">{{ c.overview }} {{ arrow }}</RouterLink>
     </div>
     <div class="code-card">
       <div class="code-bar"><span>HelloWorld.vxs</span></div>
@@ -268,7 +328,9 @@ public class HelloWorld {
       <h2>{{ c.journey }}</h2>
       <p>{{ c.journeyText }}</p>
     </div>
-    <RouterLink class="button button-primary" to="/docs/overview">{{ c.overview }} →</RouterLink>
+    <RouterLink class="button button-primary" to="/docs/overview"
+      >{{ c.overview }} {{ arrow }}</RouterLink
+    >
   </section>
   <p class="status-disclaimer section-wrap">{{ c.disclaimer }}</p>
 </template>
