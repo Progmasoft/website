@@ -66,7 +66,7 @@ const metadata: Record<Locale, Record<PublicRoute, PageMetadata>> = {
     "/": {
       title: "Visual X#‎ — להפוך את התוכנית כולה למובנת",
       description:
-        "הכירו את Visual X#‎: שפת תכנות מקומית הבנויה סביב קוד מקור קריא, בעלות מפורשת וצינור מהדר שאפשר לבחון.",
+        "הכירו את Visual X#‎: שפת תכנות שמהודרת לקוד מכונה והבנויה סביב קוד מקור קריא, בעלות מפורשת ותהליך הידור שאפשר לבחון.",
     },
     "/docs/overview": {
       title: "סקירה · Visual X#‎",

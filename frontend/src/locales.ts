@@ -53,6 +53,19 @@ export function initialLocale(chosen: string | null, languages: readonly string[
 }
 
 /**
+ * Whether a language change may be remembered as the visitor's choice.
+ *
+ * A choice needs a visitor: a change that reaches the page before anyone has
+ * clicked, tapped or typed in it did not come from the language menu, so it
+ * changes the page but is not stored. The argument is the browser's
+ * `navigator.userActivation`; a browser without it cannot tell, and there a
+ * change counts as a choice.
+ */
+export function isVisitorChoice(activation: { hasBeenActive: boolean } | undefined): boolean {
+  return activation?.hasBeenActive ?? true;
+}
+
+/**
  * The direction in which the text of a language runs.
  *
  * Only text follows it. The page layout, the navigation and code samples keep

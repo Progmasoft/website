@@ -2,7 +2,13 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later WITH AdditionRef-Progmasoft-Patent-Grant-1.1
 
 import { computed, ref, watch } from "vue";
-import { forwardArrow, initialLocale, textDirection, type Locale } from "./locales";
+import {
+  forwardArrow,
+  initialLocale,
+  isVisitorChoice,
+  textDirection,
+  type Locale,
+} from "./locales";
 
 export { supportedLocales, type Locale } from "./locales";
 export type Theme = "dark" | "light";
@@ -30,10 +36,13 @@ function showLocale(value: Locale): void {
 }
 
 showLocale(locale.value);
-// The language changes only through the menu, so a change is a choice.
+// The language changes through the menu. It is remembered only when a
+// visitor has acted on the page, so nothing but a person makes a choice.
 watch(locale, (value) => {
   showLocale(value);
-  localStorage.setItem(localeChoiceKey, value);
+  if (isVisitorChoice(navigator.userActivation)) {
+    localStorage.setItem(localeChoiceKey, value);
+  }
 });
 
 watch(

@@ -9,6 +9,7 @@ import {
   forwardArrow,
   initialLocale,
   isLocale,
+  isVisitorChoice,
   localeLabels,
   supportedLocales,
   textDirection,
@@ -63,4 +64,11 @@ test("only Hebrew text runs right to left", () => {
     assert.equal(textDirection(locale), expected, locale);
     assert.equal(forwardArrow(locale), expected === "rtl" ? "←" : "→", locale);
   }
+});
+
+test("a language change is remembered only after the visitor acted on the page", () => {
+  assert.equal(isVisitorChoice({ hasBeenActive: true }), true);
+  assert.equal(isVisitorChoice({ hasBeenActive: false }), false);
+  // A browser that does not report activation cannot tell; the change counts.
+  assert.equal(isVisitorChoice(undefined), true);
 });
