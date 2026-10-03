@@ -93,22 +93,38 @@ management flow to link from this guide.
 
 The placeholder may say the forum will come later, once the community is
 ready. It must not imply that an account can be created now or that
-discussion posts are stored elsewhere. Its default is English and dark,
-with German, Russian and light options for consistency. Its noindex status applies
+discussion posts are stored elsewhere. It shows one notice, in the language
+of the browser, with English as the fallback; it has no language menu. Its
+theme defaults to dark, with a light option. Its noindex status applies
 both in HTML and at the server boundary.
 
 ## Translation rules
 
-`en-US` is the default and must carry complete content. `de-DE` and `ru-RU`
-should express the same meaning, not mechanically mirror sentence length. Keep
-technical spellings such as `Visual.XSharp.kts`, `CorePrep`, `Xpp`, and
-`Xmm` stable. Translate navigation labels, help text, figure descriptions,
-and accessible names. When adding a paragraph or an interaction, add every
-language in the same change so a locale switch never leaves mixed copy.
+`en-US` is the fallback and must carry complete content. `de-DE`, `ru-RU`
+and `he-IL` should express the same meaning, not mechanically mirror sentence
+length. Keep technical spellings such as `Visual.XSharp.kts`, `CorePrep`,
+`Xpp`, and `Xmm` stable. Translate navigation labels, help text, figure
+descriptions, and accessible names. When adding a paragraph or an
+interaction, add every language in the same change so a locale switch never
+leaves mixed copy.
+
+Prefer the term a developer who reads that language would use over a literal
+rendering. A literal word can mean something else: in Hebrew, the literal
+words for "native" and "lowering" read as "local" and "download". Where no
+settled term exists, keep the English term in Latin letters. Avoid forms of
+address that assume the reader's gender.
+
+Hebrew text runs right to left, and the page layout does not mirror. Follow
+`Visual X#` and `C#` with a left-to-right mark in Hebrew strings so the `#`
+stays with the name. [Localization](LOCALIZATION.md) describes the mechanics
+and how a page picks its language.
+
+A translation should be read by a native speaker before it is published. The
+Hebrew text has not had that review yet.
 
 The URL is shared between language preferences. Do not emit inaccurate
-`hreflang` alternatives implying separate German or Russian URLs. The document `lang`
-attribute and browser metadata should follow the selected locale. The
+`hreflang` alternatives implying separate URLs per language. The document
+`lang` attribute and browser metadata should follow the selected locale. The
 canonical URL should remain the supported route without tracking query
 parameters.
 
@@ -150,9 +166,15 @@ has its own title, description, social title/description, and canonical URL
 when the application runs. The HTML shell has English home metadata so it
 does not present a blank title before JavaScript initializes.
 
-Opening the public site later is a separate decision from writing this
-content. Until then, main-domain 503 is expected and should not be
-misdiagnosed as a broken frontend build.
+`robots.txt` carries an explicit rule for each crawler the site has a
+position on. Crawlers that index pages for search or fetch a page to answer
+a question are allowed. Crawlers that collect training data are decided one
+by one: Google-Extended and ClaudeBot are allowed, GPTBot is disallowed.
+Changing one of those rules is a policy decision of the project owner, not a
+cleanup.
+
+When the main domain is switched to its maintenance configuration, a 503 is
+expected and should not be misdiagnosed as a broken frontend build.
 
 ## Review checklist
 
@@ -161,7 +183,8 @@ Before approving a copy change, check:
 - Is every language claim grounded in the public Spec or compiler tests?
 - Does the wording say “designed to” where implementation is incomplete?
 - Does the command match the latest CLI and toolchain guide?
-- Does the German version preserve meaning and technical identifiers?
+- Do the German, Russian and Hebrew versions preserve meaning and technical
+  identifiers?
 - Are internal notes and private file paths absent from the public page?
 - Are homepage and docs links still valid after repository movement?
 - Are source attribution and the Visual X# leopard identity intact?
