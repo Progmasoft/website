@@ -5,7 +5,7 @@ User-agent: Googlebot
 Allow: /
 
 User-agent: Google-Extended
-Disallow: /
+Allow: /
 
 User-agent: OAI-SearchBot
 Allow: /
@@ -14,7 +14,7 @@ User-agent: ChatGPT-User
 Allow: /
 
 User-agent: GPTBot
-Allow: /
+Disallow: /
 
 User-agent: Claude-SearchBot
 Allow: /
@@ -23,7 +23,7 @@ User-agent: Claude-User
 Allow: /
 
 User-agent: ClaudeBot
-Disallow: /
+Allow: /
 
 User-agent: PerplexityBot
 Disallow: /
