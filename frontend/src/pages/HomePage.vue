@@ -267,7 +267,7 @@ public class HelloWorld {
 
 <template>
   <section class="hero section-wrap">
-    <img class="hero-logo" src="/visual-xsharp.svg" width="520" height="293" alt="Visual X# logo" />
+    <img class="hero-logo" src="/tala.svg" width="520" height="293" alt="Tala logo" />
     <div class="hero-copy">
       <div class="eyebrow">{{ c.eyebrow }}</div>
       <h1>{{ c.title }}</h1>

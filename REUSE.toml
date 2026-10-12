@@ -13,9 +13,9 @@ path = [
   "frontend/package-lock.json",
   "frontend/package.json",
   "frontend/public/sitemap.xml",
-  "frontend/public/visual-xsharp.svg",
+  "frontend/public/tala.svg",
   "frontend/public/visual-xsharp-mark.svg",
-  "frontend/public/visual-xsharp-social.png",
+  "frontend/public/tala-social.png",
   "frontend/tsconfig.json",
 ]
 precedence = "aggregate"
