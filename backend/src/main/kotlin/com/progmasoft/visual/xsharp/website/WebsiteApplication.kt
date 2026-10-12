@@ -6,7 +6,7 @@ package com.progmasoft.visual.xsharp.website
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
-/** Spring Boot application of the Visual X# language website backend. */
+/** Spring Boot application of the Tala language website backend. */
 @SpringBootApplication
 class WebsiteApplication
 

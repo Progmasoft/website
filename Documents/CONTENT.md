@@ -3,7 +3,7 @@
 
 # Language-site content contract
 
-The site is an introduction to Visual X#, not the authority for every detail
+The site is an introduction to Tala, not the authority for every detail
 of the language and not a release-coverage database. This document records
 the content decisions reviewers should preserve when improving the pages.
 
@@ -12,7 +12,7 @@ the content decisions reviewers should preserve when improving the pages.
 The homepage should answer three questions before asking the reader to
 install anything:
 
-1. What is Visual X# trying to make easier to reason about?
+1. What is Tala trying to make easier to reason about?
 2. What makes that direction different enough to investigate?
 3. What can I inspect or try today without assuming the project is finished?
 
@@ -40,7 +40,7 @@ the intended rule and the current limitation separately. If an example is
 only a design example, avoid presenting it as a verified runnable tutorial.
 
 The HelloWorld block on the site is copied from
-`Examples/HelloWorld/HelloWorld.vxs`. When that file changes, update the
+`Examples/HelloWorld/HelloWorld.tala`. When that file changes, update the
 website example and the tests together. A program entry is a class method,
 not a top-level function. Do not invent source syntax for a visual flourish.
 
@@ -49,7 +49,7 @@ not a top-level function. Do not invent source syntax for a visual flourish.
 ### Home
 
 The hero introduces the project in one sentence and links to getting
-started. The principles section answers “Why Visual X#?” without requiring
+started. The principles section answers “Why Tala?” without requiring
 the reader to know internal intermediate-representation names. The source
 block is small on purpose. The current-state section distinguishes the
 language contract, compiler implementation, and ongoing work. It should
@@ -86,7 +86,7 @@ development host based on incidental compatibility.
 
 The guide may mention package managers only for installing development
 tools. A developer installing LLVM through a package manager is not the
-same thing as the Visual X# package service. There is no site-owned package
+same thing as the Tala package service. There is no site-owned package
 management flow to link from this guide.
 
 ### Forum placeholder
@@ -102,7 +102,7 @@ both in HTML and at the server boundary.
 
 `en-US` is the fallback and must carry complete content. `de-DE`, `ru-RU`
 and `he-IL` should express the same meaning, not mechanically mirror sentence
-length. Keep technical spellings such as `Visual.XSharp.kts`, `CorePrep`,
+length. Keep technical spellings such as `BUILD.kts`, `CorePrep`,
 `Xpp`, and `Xmm` stable. Translate navigation labels, help text, figure
 descriptions, and accessible names. When adding a paragraph or an
 interaction, add every language in the same change so a locale switch never
@@ -115,7 +115,7 @@ settled term exists, keep the English term in Latin letters. Avoid forms of
 address that assume the reader's gender.
 
 Hebrew text runs right to left, and the page layout does not mirror. Follow
-`Visual X#` and `C#` with a left-to-right mark in Hebrew strings so the `#`
+a name that ends in a symbol, such as `C#`, with a left-to-right mark in Hebrew strings so the `#`
 stays with the name. [Localization](LOCALIZATION.md) describes the mechanics
 and how a page picks its language.
 
@@ -132,12 +132,12 @@ parameters.
 
 The logo contains a leopard. Treat the leopard as an intentional mascot,
 not a decorative abstract flourish to be replaced by a generic X. Use the
-full Visual X# composition where it is large enough to read; use the
+full Tala composition where it is large enough to read; use the
 leopard-only vector crop for small browser and header contexts. It is
 acceptable for the SVG background to be transparent on the webpage while
 the social-preview image has a dark background.
 
-Visual X# and Progmasoft share ownership, not a single interchangeable
+Tala and Progmasoft share ownership, not a single interchangeable
 mark. The corporate four-color artwork does not substitute for the purple
 leopard logo. A footer may name Progmasoft as the project owner without
 turning the language homepage into a corporate landing page.
@@ -187,6 +187,6 @@ Before approving a copy change, check:
   identifiers?
 - Are internal notes and private file paths absent from the public page?
 - Are homepage and docs links still valid after repository movement?
-- Are source attribution and the Visual X# leopard identity intact?
+- Are source attribution and the Tala leopard identity intact?
 - Are there any unintended account or package links on this language site?
 - Can a reader distinguish site availability from compiler readiness?

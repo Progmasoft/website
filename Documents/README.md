@@ -3,7 +3,7 @@
 
 # Website documentation
 
-These documents describe the Visual X# language website as it is built and published today.
+These documents describe the Tala language website as it is built and published today.
 
 | Document | Read it when you want to know |
 | --- | --- |

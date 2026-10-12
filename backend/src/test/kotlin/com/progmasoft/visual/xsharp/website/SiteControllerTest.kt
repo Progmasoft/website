@@ -20,12 +20,12 @@ class SiteControllerTest(
     @Autowired private val client: MockMvc,
 ) {
     @Test
-    fun `site information is about Visual XSharp rather than the package registry`() {
+    fun `site information is about Tala rather than the package registry`() {
         val response = client.perform(get("/api/v1/site")).andReturn().response
         assertEquals(200, response.status)
         assertEquals("application/json", response.contentType)
         val body = response.contentAsString
-        assertTrue(body.contains("\"name\":\"Visual X#\""))
+        assertTrue(body.contains("\"name\":\"Tala\""))
         assertTrue(body.contains("\"defaultLocale\":\"en-US\""))
         assertTrue(body.contains("\"supportedLocales\":[\"en-US\",\"de-DE\",\"ru-RU\",\"he-IL\"]"))
         assertTrue(body.contains("\"forumOpen\":false"))

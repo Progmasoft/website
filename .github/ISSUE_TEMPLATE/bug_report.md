@@ -7,7 +7,7 @@ title: "[Bug] "
 <!-- SPDX-FileCopyrightText: 2026 Progmasoft <support@progmasoft.com> -->
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later WITH AdditionRef-Progmasoft-Patent-Grant-1.1 -->
 
-This repository owns the Visual X# language website, not the compiler, Progmasoft accounts, or ViGet. The page at `forum.xsharp-lang.xyz` is informational and does not yet provide posts or accounts. Do not include credentials, session cookies, or private data. Report security vulnerabilities privately to support@progmasoft.com.
+This repository owns the Tala language website, not the compiler, Progmasoft accounts, or ViGet. The page at `forum.xsharp-lang.xyz` is informational and does not yet provide posts or accounts. Do not include credentials, session cookies, or private data. Report security vulnerabilities privately to support@progmasoft.com.
 
 ### Page and problem
 

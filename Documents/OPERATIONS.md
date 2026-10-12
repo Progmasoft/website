@@ -1,7 +1,7 @@
 <!-- SPDX-FileCopyrightText: 2026 Progmasoft <support@progmasoft.com> -->
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later WITH AdditionRef-Progmasoft-Patent-Grant-1.1 -->
 
-# Visual X# website operations
+# Tala website operations
 
 This runbook covers only the language website and its not-yet-open forum page.
 The account site, corporate site, and package service have their own repositories
@@ -77,7 +77,7 @@ browser review of both themes, all four languages, and narrow screens.
 
 ## Asset checks
 
-The source brand file is the supplied Visual X# SVG. The wide, transparent
+The source brand file is the supplied Tala SVG. The wide, transparent
 composition is used in the hero. The leopard-only crop is used for favicon
 and the small header mark so the animal remains legible at small sizes. The
 social preview is a 1280 × 640 PNG with an intentional background. It is
@@ -88,12 +88,12 @@ Before publication, verify that:
 1. The leopard is not cropped at either its nose or lower outline.
 2. The full wordmark is readable in the hero at desktop and mobile widths.
 3. The light theme has adequate contrast, including links and focus rings.
-4. The social PNG matches the approved Visual X# identity.
+4. The social PNG matches the approved Tala identity.
 5. No page unintentionally uses a Progmasoft corporate logo.
 
 ## Link checks
 
-All source links should target the current `Progmasoft/visual-xsharp` default
+All source links should target the current `Progmasoft/tala` default
 branch. In particular, check the `Spec/`, `Documents/BUILDING.md`,
 `Documents/CLI.md`, and `Examples/` targets after any repository move.
 The only frontend navigation routes are `/`, `/docs/overview`, and

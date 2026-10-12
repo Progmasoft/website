@@ -39,7 +39,7 @@ class SiteController {
     @GetMapping("/api/v1/site")
     fun information(): SiteInformation =
         SiteInformation(
-            name = "Visual X#",
+            name = "Tala",
             phase = "development",
             defaultLocale = "en-US",
             supportedLocales = listOf("en-US", "de-DE", "ru-RU", "he-IL"),

@@ -61,7 +61,7 @@ follows the language.
   reads left to right.
 - Code blocks stay left to right.
 - The onward arrow comes from `forwardArrow` and points left in Hebrew.
-- A left-to-right mark (`‎`) follows `Visual X#` and `C#` in Hebrew strings. Without it the `#` jumps to the
+- A left-to-right mark (`‎`) follows a name that ends in a symbol, such as `C#`, in Hebrew strings. Without it the `#` jumps to the
   other side of the name inside right-to-left text.
 
 The rules are at the end of `frontend/src/styles/site.css` and `forum/site.css`.
