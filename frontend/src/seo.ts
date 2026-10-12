@@ -13,70 +13,70 @@ type PageMetadata = {
 const metadata: Record<Locale, Record<PublicRoute, PageMetadata>> = {
   "en-US": {
     "/": {
-      title: "Visual X# — Make the whole program understandable",
+      title: "Tala — Make the whole program understandable",
       description:
-        "Meet Visual X#: a native programming language built around readable source, explicit ownership, and an inspectable compiler pipeline.",
+        "Meet Tala: a native programming language built around readable source, explicit ownership, and an inspectable compiler pipeline.",
     },
     "/docs/overview": {
-      title: "Overview · Visual X#",
+      title: "Overview · Tala",
       description:
-        "Understand Visual X# design goals, type and ownership choices, compiler stages, and the boundary between specification and implementation.",
+        "Understand Tala design goals, type and ownership choices, compiler stages, and the boundary between specification and implementation.",
     },
     "/docs/getting-started": {
-      title: "Getting started · Visual X#",
+      title: "Getting started · Tala",
       description:
-        "Clone Visual X#, check the toolchain, build and test the compiler, and inspect the first program with the current CLI.",
+        "Clone Tala, check the toolchain, build and test the compiler, and inspect the first program with the current CLI.",
     },
   },
   "de-DE": {
     "/": {
-      title: "Visual X# — Das ganze Programm verstehen",
+      title: "Tala — Das ganze Programm verstehen",
       description:
-        "Visual X# ist eine native Programmiersprache mit lesbarem Quellcode, explizitem Ownership und nachvollziehbarer Compiler-Pipeline.",
+        "Tala ist eine native Programmiersprache mit lesbarem Quellcode, explizitem Ownership und nachvollziehbarer Compiler-Pipeline.",
     },
     "/docs/overview": {
-      title: "Überblick · Visual X#",
+      title: "Überblick · Tala",
       description:
         "Entwurfsziele, Typ- und Ownership-Regeln, Compilerstufen sowie die Grenze zwischen Spezifikation und Implementierung verstehen.",
     },
     "/docs/getting-started": {
-      title: "Erste Schritte · Visual X#",
+      title: "Erste Schritte · Tala",
       description:
-        "Visual X# klonen, Toolchain prüfen, Compiler bauen und testen und das erste Programm mit der aktuellen CLI untersuchen.",
+        "Tala klonen, Toolchain prüfen, Compiler bauen und testen und das erste Programm mit der aktuellen CLI untersuchen.",
     },
   },
   "ru-RU": {
     "/": {
-      title: "Visual X# — Сделать понятной всю программу",
+      title: "Tala — Сделать понятной всю программу",
       description:
-        "Visual X# — нативный язык программирования с читаемым исходным кодом, явным владением и прозрачным конвейером компилятора.",
+        "Tala — нативный язык программирования с читаемым исходным кодом, явным владением и прозрачным конвейером компилятора.",
     },
     "/docs/overview": {
-      title: "Обзор · Visual X#",
+      title: "Обзор · Tala",
       description:
-        "Цели проектирования Visual X#, правила типов и владения, стадии компилятора и граница между спецификацией и реализацией.",
+        "Цели проектирования Tala, правила типов и владения, стадии компилятора и граница между спецификацией и реализацией.",
     },
     "/docs/getting-started": {
-      title: "Начало работы · Visual X#",
+      title: "Начало работы · Tala",
       description:
-        "Клонируйте Visual X#, проверьте набор инструментов, соберите и протестируйте компилятор и изучите первую программу с текущим CLI.",
+        "Клонируйте Tala, проверьте набор инструментов, соберите и протестируйте компилятор и изучите первую программу с текущим CLI.",
     },
   },
   "he-IL": {
     "/": {
-      title: "Visual X#‎ — להפוך את התוכנית כולה למובנת",
+      title: "Tala — להפוך את התוכנית כולה למובנת",
       description:
-        "הכירו את Visual X#‎: שפת תכנות שמהודרת לקוד מכונה והבנויה סביב קוד מקור קריא, בעלות מפורשת ותהליך הידור שאפשר לבחון.",
+        "הכירו את Tala: שפת תכנות שמהודרת לקוד מכונה והבנויה סביב קוד מקור קריא, בעלות מפורשת ותהליך הידור שאפשר לבחון.",
     },
     "/docs/overview": {
-      title: "סקירה · Visual X#‎",
+      title: "סקירה · Tala",
       description:
-        "יעדי התכנון של Visual X#‎, בחירות הטיפוסים והבעלות, שלבי המהדר והגבול בין המפרט למימוש.",
+        "יעדי התכנון של Tala, בחירות הטיפוסים והבעלות, שלבי המהדר והגבול בין המפרט למימוש.",
     },
     "/docs/getting-started": {
-      title: "צעדים ראשונים · Visual X#‎",
+      title: "צעדים ראשונים · Tala",
       description:
-        "שכפלו את Visual X#‎, בדקו את שרשרת הכלים, בנו ובדקו את המהדר ובחנו את התוכנית הראשונה עם ה-CLI הנוכחי.",
+        "שכפלו את Tala, בדקו את שרשרת הכלים, בנו ובדקו את המהדר ובחנו את התוכנית הראשונה עם ה-CLI הנוכחי.",
     },
   },
 };
