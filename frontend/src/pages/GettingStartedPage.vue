@@ -12,7 +12,7 @@ const text = {
     navStart: "Getting started",
     section: "DOCUMENTATION / GETTING STARTED",
     title: "Start with the source",
-    lead: "Visual X# is in active development. For now, the repository is the reliable entry point for building the compiler and checking which language features run end to end.",
+    lead: "Tala is in active development. For now, the repository is the reliable entry point for building the compiler and checking which language features run end to end.",
     step1: "1. Get the repository",
     step1Text:
       "Clone the compiler repository with its submodules. Use a supported Windows 10/11 or recent macOS development host.",
@@ -29,7 +29,7 @@ const text = {
       "Build the native compiler and run its native contract suites. The Go command orchestrates the checks; Bazel remains the owner of the C++20 build graph. Cabal and Gradle handle their Haskell and Kotlin boundaries.",
     step4: "4. Read and check a real program",
     step4Text:
-      "The HelloWorld example uses a class method as the entry point. Visual X# does not use a top-level function as its program entry. Check the exact source file, then build it using the current compiler subset.",
+      "The HelloWorld example uses a class method as the entry point. Tala does not use a top-level function as its program entry. Check the exact source file, then build it using the current compiler subset.",
     fileCheck: "Check a single source file",
     fileBuild: "Build a native executable",
     subset:
@@ -41,22 +41,22 @@ const text = {
       {
         title: "Language specification",
         detail: "Syntax and semantic contracts, including valid and invalid examples.",
-        href: "https://github.com/Progmasoft/visual-xsharp/tree/main/Spec",
+        href: "https://github.com/Progmasoft/tala/tree/main/Spec",
       },
       {
         title: "Building guide",
         detail: "Official hosts, toolchain discovery, and native build targets.",
-        href: "https://github.com/Progmasoft/visual-xsharp/blob/main/Documents/BUILDING.md",
+        href: "https://github.com/Progmasoft/tala/blob/main/Documents/BUILDING.md",
       },
       {
         title: "CLI reference",
         detail: "Current commands, flags, artifact behavior, and implementation status.",
-        href: "https://github.com/Progmasoft/visual-xsharp/blob/main/Documents/CLI.md",
+        href: "https://github.com/Progmasoft/tala/blob/main/Documents/CLI.md",
       },
       {
         title: "Example programs",
         detail: "Source examples next to C# 13, C++20, and Java 21 counterparts.",
-        href: "https://github.com/Progmasoft/visual-xsharp/tree/main/Examples",
+        href: "https://github.com/Progmasoft/tala/tree/main/Examples",
       },
     ],
     note: "Implementation status",
@@ -71,7 +71,7 @@ const text = {
     navStart: "Erste Schritte",
     section: "DOKUMENTATION / ERSTE SCHRITTE",
     title: "Mit dem Quellcode beginnen",
-    lead: "Visual X# wird aktiv entwickelt. Das Repository ist derzeit der zuverlässige Einstieg, um den Compiler zu bauen und den tatsächlich funktionierenden Sprachumfang zu prüfen.",
+    lead: "Tala wird aktiv entwickelt. Das Repository ist derzeit der zuverlässige Einstieg, um den Compiler zu bauen und den tatsächlich funktionierenden Sprachumfang zu prüfen.",
     step1: "1. Repository holen",
     step1Text:
       "Klonen Sie das Compiler-Repository mit seinen Submodulen. Unterstützt werden Windows 10/11 und aktuelle macOS-Entwicklungsrechner.",
@@ -88,7 +88,7 @@ const text = {
       "Bauen Sie den nativen Compiler und führen Sie die nativen Vertragstests aus. Der Go-Befehl koordiniert die Prüfungen; Bazel besitzt weiterhin den C++20-Buildgraphen. Cabal und Gradle betreuen Haskell und Kotlin.",
     step4: "4. Ein echtes Programm lesen und prüfen",
     step4Text:
-      "Im HelloWorld-Beispiel ist eine Klassenmethode der Einstiegspunkt. Eine Top-Level-Funktion ist kein Programmeinstieg in Visual X#. Prüfen Sie die Quelldatei und bauen Sie sie mit dem derzeit unterstützten Compilerumfang.",
+      "Im HelloWorld-Beispiel ist eine Klassenmethode der Einstiegspunkt. Eine Top-Level-Funktion ist kein Programmeinstieg in Tala. Prüfen Sie die Quelldatei und bauen Sie sie mit dem derzeit unterstützten Compilerumfang.",
     fileCheck: "Eine Quelldatei prüfen",
     fileBuild: "Eine native Anwendung bauen",
     subset:
@@ -100,22 +100,22 @@ const text = {
       {
         title: "Sprachspezifikation",
         detail: "Syntax und Semantik mit gültigen und ungültigen Beispielen.",
-        href: "https://github.com/Progmasoft/visual-xsharp/tree/main/Spec",
+        href: "https://github.com/Progmasoft/tala/tree/main/Spec",
       },
       {
         title: "Build-Anleitung",
         detail: "Offizielle Hosts, Toolchain-Suche und native Build-Ziele.",
-        href: "https://github.com/Progmasoft/visual-xsharp/blob/main/Documents/BUILDING.md",
+        href: "https://github.com/Progmasoft/tala/blob/main/Documents/BUILDING.md",
       },
       {
         title: "CLI-Referenz",
         detail: "Aktuelle Befehle, Optionen, Artefakte und Implementierungsstand.",
-        href: "https://github.com/Progmasoft/visual-xsharp/blob/main/Documents/CLI.md",
+        href: "https://github.com/Progmasoft/tala/blob/main/Documents/CLI.md",
       },
       {
         title: "Beispielprogramme",
         detail: "Beispiele neben Fassungen in C# 13, C++20 und Java 21.",
-        href: "https://github.com/Progmasoft/visual-xsharp/tree/main/Examples",
+        href: "https://github.com/Progmasoft/tala/tree/main/Examples",
       },
     ],
     note: "Implementierungsstand",
@@ -130,7 +130,7 @@ const text = {
     navStart: "Начало работы",
     section: "ДОКУМЕНТАЦИЯ / НАЧАЛО РАБОТЫ",
     title: "Начните с исходного кода",
-    lead: "Visual X# находится в активной разработке. Пока что репозиторий — надёжная отправная точка, чтобы собрать компилятор и проверить, какие возможности языка работают от начала до конца.",
+    lead: "Tala находится в активной разработке. Пока что репозиторий — надёжная отправная точка, чтобы собрать компилятор и проверить, какие возможности языка работают от начала до конца.",
     step1: "1. Получите репозиторий",
     step1Text:
       "Клонируйте репозиторий компилятора вместе с подмодулями. Используйте поддерживаемую машину разработки с Windows 10/11 или актуальной macOS.",
@@ -147,7 +147,7 @@ const text = {
       "Соберите нативный компилятор и запустите его нативные контрактные наборы тестов. Команда на Go координирует проверки; графом сборки C++20 по-прежнему владеет Bazel. Cabal и Gradle отвечают за свои области — Haskell и Kotlin.",
     step4: "4. Прочитайте и проверьте настоящую программу",
     step4Text:
-      "В примере HelloWorld точкой входа служит метод класса. В Visual X# функция верхнего уровня не является точкой входа программы. Проверьте сам исходный файл, а затем соберите его текущим подмножеством компилятора.",
+      "В примере HelloWorld точкой входа служит метод класса. В Tala функция верхнего уровня не является точкой входа программы. Проверьте сам исходный файл, а затем соберите его текущим подмножеством компилятора.",
     fileCheck: "Проверить один исходный файл",
     fileBuild: "Собрать нативный исполняемый файл",
     subset:
@@ -159,22 +159,22 @@ const text = {
       {
         title: "Спецификация языка",
         detail: "Синтаксические и семантические контракты с допустимыми и недопустимыми примерами.",
-        href: "https://github.com/Progmasoft/visual-xsharp/tree/main/Spec",
+        href: "https://github.com/Progmasoft/tala/tree/main/Spec",
       },
       {
         title: "Руководство по сборке",
         detail: "Официальные платформы, поиск набора инструментов и цели нативной сборки.",
-        href: "https://github.com/Progmasoft/visual-xsharp/blob/main/Documents/BUILDING.md",
+        href: "https://github.com/Progmasoft/tala/blob/main/Documents/BUILDING.md",
       },
       {
         title: "Справочник по CLI",
         detail: "Текущие команды, флаги, поведение артефактов и состояние реализации.",
-        href: "https://github.com/Progmasoft/visual-xsharp/blob/main/Documents/CLI.md",
+        href: "https://github.com/Progmasoft/tala/blob/main/Documents/CLI.md",
       },
       {
         title: "Примеры программ",
         detail: "Примеры исходного кода рядом с вариантами на C# 13, C++20 и Java 21.",
-        href: "https://github.com/Progmasoft/visual-xsharp/tree/main/Examples",
+        href: "https://github.com/Progmasoft/tala/tree/main/Examples",
       },
     ],
     note: "Состояние реализации",
@@ -189,7 +189,7 @@ const text = {
     navStart: "צעדים ראשונים",
     section: "תיעוד / צעדים ראשונים",
     title: "מתחילים מקוד המקור",
-    lead: "Visual X#‎ נמצאת בפיתוח פעיל. לעת עתה המאגר הוא נקודת הכניסה האמינה לבניית המהדר ולבדיקה אילו יכולות של השפה פועלות מקצה לקצה.",
+    lead: "Tala נמצאת בפיתוח פעיל. לעת עתה המאגר הוא נקודת הכניסה האמינה לבניית המהדר ולבדיקה אילו יכולות של השפה פועלות מקצה לקצה.",
     step1: "1. השגת המאגר",
     step1Text:
       "שכפלו את מאגר המהדר יחד עם תת־המודולים שלו. השתמשו במחשב פיתוח נתמך עם Windows 10/11 או עם גרסה עדכנית של macOS.",
@@ -206,7 +206,7 @@ const text = {
       "בנו את מהדר ה-native והריצו את חבילות בדיקות החוזה שלו. פקודת ה-Go מתזמרת את הבדיקות; Bazel נשאר הבעלים של גרף הבנייה של C++20. Cabal ו-Gradle מטפלים בגבולות של Haskell ושל Kotlin.",
     step4: "4. קריאה ובדיקה של תוכנית אמיתית",
     step4Text:
-      "בדוגמה HelloWorld נקודת הכניסה היא מתודה של מחלקה. Visual X#‎ אינה משתמשת בפונקציה ברמה העליונה כנקודת הכניסה לתוכנית. בדקו את קובץ המקור המדויק, ואז בנו אותו בתת־הקבוצה הנוכחית של המהדר.",
+      "בדוגמה HelloWorld נקודת הכניסה היא מתודה של מחלקה. Tala אינה משתמשת בפונקציה ברמה העליונה כנקודת הכניסה לתוכנית. בדקו את קובץ המקור המדויק, ואז בנו אותו בתת־הקבוצה הנוכחית של המהדר.",
     fileCheck: "בדיקת קובץ מקור יחיד",
     fileBuild: "בניית קובץ הרצה בקוד מכונה",
     subset:
@@ -218,22 +218,22 @@ const text = {
       {
         title: "מפרט השפה",
         detail: "חוזי תחביר וסמנטיקה, כולל דוגמאות תקינות ושגויות.",
-        href: "https://github.com/Progmasoft/visual-xsharp/tree/main/Spec",
+        href: "https://github.com/Progmasoft/tala/tree/main/Spec",
       },
       {
         title: "מדריך בנייה",
         detail: "מחשבים רשמיים, איתור שרשרת הכלים ויעדי הבנייה של חלקי ה-native.",
-        href: "https://github.com/Progmasoft/visual-xsharp/blob/main/Documents/BUILDING.md",
+        href: "https://github.com/Progmasoft/tala/blob/main/Documents/BUILDING.md",
       },
       {
         title: "מדריך ה-CLI",
         detail: "הפקודות, הדגלים, התנהגות התוצרים ומצב המימוש הנוכחיים.",
-        href: "https://github.com/Progmasoft/visual-xsharp/blob/main/Documents/CLI.md",
+        href: "https://github.com/Progmasoft/tala/blob/main/Documents/CLI.md",
       },
       {
         title: "תוכניות לדוגמה",
         detail: "דוגמאות קוד לצד מקבילות ב-C#‎ 13, ב-C++20 וב-Java 21.",
-        href: "https://github.com/Progmasoft/visual-xsharp/tree/main/Examples",
+        href: "https://github.com/Progmasoft/tala/tree/main/Examples",
       },
     ],
     note: "מצב המימוש",
@@ -249,7 +249,7 @@ const hello = `namespace Examples.HelloWorld;
 
 public class HelloWorld {
     public static void Main() {
-        String language = "Visual X#";
+        String language = "Tala";
         Console.Println("Hello from " + language + "!");
     }
 }`;
@@ -258,10 +258,10 @@ public class HelloWorld {
 <template>
   <div class="doc-layout section-wrap">
     <aside class="doc-sidebar">
-      <span class="kicker">VISUAL X#</span
+      <span class="kicker">TALA</span
       ><RouterLink to="/docs/overview">{{ c.navOverview }}</RouterLink
       ><RouterLink to="/docs/getting-started" aria-current="page">{{ c.navStart }}</RouterLink
-      ><a href="https://github.com/Progmasoft/visual-xsharp/tree/main/Spec">Specification ↗</a>
+      ><a href="https://github.com/Progmasoft/tala/tree/main/Spec">Specification ↗</a>
     </aside>
     <article class="doc-content">
       <span class="kicker">{{ c.section }}</span>
@@ -271,7 +271,7 @@ public class HelloWorld {
       <p>{{ c.step1Text }}</p>
       <pre
         class="doc-code"
-      ><code>git clone --recurse-submodules https://github.com/Progmasoft/visual-xsharp.git</code></pre>
+      ><code>git clone --recurse-submodules https://github.com/Progmasoft/tala.git</code></pre>
       <h2>{{ c.step2 }}</h2>
       <p>{{ c.step2Text }}</p>
       <p>{{ c.platform }}</p>
@@ -288,14 +288,14 @@ go run scripts/develop.go test</code></pre>
       <p>{{ c.step4Text }}</p>
       <pre class="doc-code"><code>{{ hello }}</code></pre>
       <h3>{{ c.fileCheck }}</h3>
-      <pre class="doc-code"><code>vxs check -File Examples/HelloWorld/HelloWorld.vxs</code></pre>
+      <pre class="doc-code"><code>talac check -File Examples/HelloWorld/HelloWorld.tala</code></pre>
       <h3>{{ c.fileBuild }}</h3>
-      <pre class="doc-code"><code>vxs build -File Examples/HelloWorld/HelloWorld.vxs</code></pre>
+      <pre class="doc-code"><code>talac build -File Examples/HelloWorld/HelloWorld.tala</code></pre>
       <p>{{ c.subset }}</p>
       <h2>{{ c.step5 }}</h2>
       <p>{{ c.step5Text }}</p>
-      <pre class="doc-code"><code>vxs -Help
-vxs build -Help</code></pre>
+      <pre class="doc-code"><code>talac -Help
+talac build -Help</code></pre>
       <div class="doc-resource-list">
         <a v-for="link in c.links" :key="link.href" :href="link.href">
           <strong>{{ link.title }} <span aria-hidden="true">↗</span></strong>
@@ -309,11 +309,9 @@ vxs build -Help</code></pre>
       <div class="doc-actions">
         <RouterLink class="button button-primary" to="/docs/overview"
           >{{ c.more }} {{ arrow }}</RouterLink
-        ><a class="inline-link" href="https://github.com/Progmasoft/visual-xsharp/tree/main/Spec"
+        ><a class="inline-link" href="https://github.com/Progmasoft/tala/tree/main/Spec"
           >{{ c.spec }} ↗</a
-        ><a
-          class="inline-link"
-          href="https://github.com/Progmasoft/visual-xsharp/tree/main/Examples"
+        ><a class="inline-link" href="https://github.com/Progmasoft/tala/tree/main/Examples"
           >{{ c.examples }} ↗</a
         >
       </div>

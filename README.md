@@ -3,15 +3,15 @@ SPDX-FileCopyrightText: 2026 Progmasoft <support@progmasoft.com>
 SPDX-License-Identifier: AGPL-3.0-or-later WITH AdditionRef-Progmasoft-Patent-Grant-1.1
 -->
 
-# Visual X# website
+# Tala website
 
 This repository owns the public language website at [xsharp-lang.xyz](https://xsharp-lang.xyz). It does not own
-Progmasoft's corporate or account sites. Visual X# uses its own supplied purple leopard SVG identity;
+Progmasoft's corporate or account sites. Tala uses its own supplied purple leopard SVG identity;
 the Progmasoft mark is a different brand.
 
 ## Routes
 
-- `/` answers why Visual X# exists and gives an honest implementation-status caveat.
+- `/` answers why Tala exists and gives an honest implementation-status caveat.
 - `/docs/overview` explains the design direction.
 - `/docs/getting-started` links the real compiler checkout and toolchain.
 - `forum.xsharp-lang.xyz` is a standalone informational page. It is *not* a forum service; accounts and posts do not exist
@@ -76,8 +76,8 @@ retiring the old process. The server needs a Java 25 runtime. Committing these f
 
 ## Links and language accuracy
 
-The code example in the site is the repository's `Examples/HelloWorld/HelloWorld.vxs`, not an invented syntax sample.
-All links to the compiler, examples, and specification point to the `Progmasoft/visual-xsharp` repository. The design
+The code example in the site is the repository's `Examples/HelloWorld/HelloWorld.tala`, not an invented syntax sample.
+All links to the compiler, examples, and specification point to the `Progmasoft/tala` repository. The design
 examples in `Spec/` can be ahead of compiler support; website text must not turn them into implementation claims. The
 retired `docs/ARCHITECTURE.md` link has been removed; architecture documentation now lives under `Documents/` in the
 compiler repository.

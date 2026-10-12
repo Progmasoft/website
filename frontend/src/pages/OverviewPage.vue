@@ -11,8 +11,8 @@ const text = {
     navOverview: "Overview",
     navStart: "Getting started",
     section: "DOCUMENTATION / OVERVIEW",
-    title: "What Visual X# is trying to solve",
-    lead: "Visual X# is designed around a simple question: can expressive code remain understandable when ownership, types, and native compilation matter? This page explains the direction, not a promise that every feature is finished.",
+    title: "What Tala is trying to solve",
+    lead: "Tala is designed around a simple question: can expressive code remain understandable when ownership, types, and native compilation matter? This page explains the direction, not a promise that every feature is finished.",
     goals: "Design goals",
     modelHeading: "A few language choices",
     modelIntro:
@@ -72,7 +72,7 @@ const text = {
       },
       {
         label: "Project definition",
-        value: "Visual.XSharp.kts, interpreted by the Kotlin project system",
+        value: "BUILD.kts, interpreted by the Kotlin project system",
       },
       {
         label: "Website",
@@ -82,7 +82,7 @@ const text = {
     questionHeading: "Common questions",
     questions: [
       {
-        q: "Is Visual X# ready for production?",
+        q: "Is Tala ready for production?",
         a: "No general production-readiness claim is made. The compiler and runtime are still developing. Use the repository's test gates and release notes to evaluate a specific feature.",
       },
       {
@@ -94,7 +94,7 @@ const text = {
         a: "Each stage has an owner and a verifier boundary. This is meant to make compiler behavior auditable and to keep later stages from inventing source-language meaning.",
       },
       {
-        q: "Does Visual X# require a particular IDE?",
+        q: "Does Tala require a particular IDE?",
         a: "No. The supported developer workflow uses command-line tools on Windows and macOS; the Xide project is a future interface, not a prerequisite.",
       },
     ],
@@ -114,7 +114,7 @@ const text = {
     ],
     not: "What it is not",
     notText:
-      "Visual X# is not presented as a finished replacement for established production languages. The specification records intended semantics; buildable compiler coverage should be checked separately. This language website does not host accounts or package management.",
+      "Tala is not presented as a finished replacement for established production languages. The specification records intended semantics; buildable compiler coverage should be checked separately. This language website does not host accounts or package management.",
     next: "Ready to look closer?",
     nextText:
       "Start with a small program, then explore the public specification and source repository.",
@@ -126,8 +126,8 @@ const text = {
     navOverview: "Überblick",
     navStart: "Erste Schritte",
     section: "DOKUMENTATION / ÜBERBLICK",
-    title: "Welches Problem Visual X# lösen will",
-    lead: "Visual X# stellt eine Frage: Kann ausdrucksstarker Code verständlich bleiben, wenn Ownership, Typen und native Kompilierung wichtig sind? Diese Seite erklärt das Ziel, nicht die Fertigstellung aller Funktionen.",
+    title: "Welches Problem Tala lösen will",
+    lead: "Tala stellt eine Frage: Kann ausdrucksstarker Code verständlich bleiben, wenn Ownership, Typen und native Kompilierung wichtig sind? Diese Seite erklärt das Ziel, nicht die Fertigstellung aller Funktionen.",
     goals: "Entwurfsziele",
     modelHeading: "Einige Sprachentscheidungen",
     modelIntro:
@@ -187,7 +187,7 @@ const text = {
       },
       {
         label: "Projektdefinition",
-        value: "Visual.XSharp.kts, interpretiert durch das Kotlin-Projektsystem",
+        value: "BUILD.kts, interpretiert durch das Kotlin-Projektsystem",
       },
       {
         label: "Website",
@@ -197,7 +197,7 @@ const text = {
     questionHeading: "Häufige Fragen",
     questions: [
       {
-        q: "Ist Visual X# produktionsreif?",
+        q: "Ist Tala produktionsreif?",
         a: "Eine allgemeine Zusage zur Produktionsreife gibt es nicht. Compiler und Runtime entwickeln sich weiter. Prüfen Sie Tests und Release-Hinweise für die jeweils benötigte Funktion.",
       },
       {
@@ -209,7 +209,7 @@ const text = {
         a: "Jede Stufe hat eine Zuständigkeit und eine Prüfgrenze. So bleibt Compilerverhalten nachvollziehbar und spätere Stufen erfinden keine Sprachsemantik.",
       },
       {
-        q: "Benötigt Visual X# eine bestimmte IDE?",
+        q: "Benötigt Tala eine bestimmte IDE?",
         a: "Nein. Der unterstützte Entwicklungsweg nutzt Kommandozeilenwerkzeuge unter Windows und macOS; Xide ist eine künftige Oberfläche, keine Voraussetzung.",
       },
     ],
@@ -229,7 +229,7 @@ const text = {
     ],
     not: "Was es nicht ist",
     notText:
-      "Visual X# wird nicht als fertiger Ersatz für etablierte Produktionssprachen dargestellt. Die Spezifikation hält beabsichtigte Semantik fest; der tatsächlich kompilierbare Umfang ist getrennt zu prüfen. Diese Sprachwebsite bietet weder Konten noch Paketverwaltung.",
+      "Tala wird nicht als fertiger Ersatz für etablierte Produktionssprachen dargestellt. Die Spezifikation hält beabsichtigte Semantik fest; der tatsächlich kompilierbare Umfang ist getrennt zu prüfen. Diese Sprachwebsite bietet weder Konten noch Paketverwaltung.",
     next: "Mehr erfahren?",
     nextText:
       "Beginnen Sie mit einem kleinen Programm und lesen Sie anschließend die öffentliche Spezifikation und den Quellcode.",
@@ -241,8 +241,8 @@ const text = {
     navOverview: "Обзор",
     navStart: "Начало работы",
     section: "ДОКУМЕНТАЦИЯ / ОБЗОР",
-    title: "Какую задачу решает Visual X#",
-    lead: "Visual X# строится вокруг простого вопроса: может ли выразительный код оставаться понятным, когда важны владение, типы и нативная компиляция? Эта страница объясняет направление и не обещает, что каждая возможность уже готова.",
+    title: "Какую задачу решает Tala",
+    lead: "Tala строится вокруг простого вопроса: может ли выразительный код оставаться понятным, когда важны владение, типы и нативная компиляция? Эта страница объясняет направление и не обещает, что каждая возможность уже готова.",
     goals: "Цели проектирования",
     modelHeading: "Несколько решений языка",
     modelIntro:
@@ -302,7 +302,7 @@ const text = {
       },
       {
         label: "Описание проекта",
-        value: "Visual.XSharp.kts, который интерпретирует система проектов на Kotlin",
+        value: "BUILD.kts, который интерпретирует система проектов на Kotlin",
       },
       {
         label: "Сайт",
@@ -312,7 +312,7 @@ const text = {
     questionHeading: "Частые вопросы",
     questions: [
       {
-        q: "Готов ли Visual X# к использованию в продакшене?",
+        q: "Готов ли Tala к использованию в продакшене?",
         a: "Общего заявления о готовности к продакшену нет. Компилятор и среда выполнения ещё развиваются. Оценивайте конкретную возможность по тестам репозитория и заметкам к выпускам.",
       },
       {
@@ -324,7 +324,7 @@ const text = {
         a: "У каждой стадии есть владелец и граница проверки. Так поведение компилятора можно проверить, а поздние стадии не придумывают смысл исходного языка.",
       },
       {
-        q: "Нужна ли для Visual X# определённая IDE?",
+        q: "Нужна ли для Tala определённая IDE?",
         a: "Нет. Поддерживаемый процесс разработки использует инструменты командной строки в Windows и macOS; проект Xide — будущий интерфейс, а не обязательное условие.",
       },
     ],
@@ -344,7 +344,7 @@ const text = {
     ],
     not: "Чем он не является",
     notText:
-      "Visual X# не представлен как готовая замена устоявшимся языкам для продакшена. Спецификация фиксирует задуманную семантику; фактически собираемый охват компилятора следует проверять отдельно. На этом сайте языка нет аккаунтов и управления пакетами.",
+      "Tala не представлен как готовая замена устоявшимся языкам для продакшена. Спецификация фиксирует задуманную семантику; фактически собираемый охват компилятора следует проверять отдельно. На этом сайте языка нет аккаунтов и управления пакетами.",
     next: "Хотите узнать больше?",
     nextText:
       "Начните с небольшой программы, а затем изучите публичную спецификацию и репозиторий с исходным кодом.",
@@ -356,8 +356,8 @@ const text = {
     navOverview: "סקירה",
     navStart: "צעדים ראשונים",
     section: "תיעוד / סקירה",
-    title: "מה Visual X#‎ מנסה לפתור",
-    lead: "Visual X#‎ מתוכננת סביב שאלה פשוטה: האם קוד אקספרסיבי יכול להישאר מובן כאשר בעלות, טיפוסים והידור לקוד מכונה חשובים? העמוד הזה מסביר את הכיוון, ואינו הבטחה שכל יכולת כבר מוגמרת.",
+    title: "מה Tala מנסה לפתור",
+    lead: "Tala מתוכננת סביב שאלה פשוטה: האם קוד אקספרסיבי יכול להישאר מובן כאשר בעלות, טיפוסים והידור לקוד מכונה חשובים? העמוד הזה מסביר את הכיוון, ואינו הבטחה שכל יכולת כבר מוגמרת.",
     goals: "יעדי התכנון",
     modelHeading: "כמה בחירות של השפה",
     modelIntro:
@@ -417,7 +417,7 @@ const text = {
       },
       {
         label: "הגדרת הפרויקט",
-        value: "Visual.XSharp.kts, שמפרשת מערכת הפרויקטים הכתובה ב-Kotlin",
+        value: "BUILD.kts, שמפרשת מערכת הפרויקטים הכתובה ב-Kotlin",
       },
       {
         label: "האתר",
@@ -427,7 +427,7 @@ const text = {
     questionHeading: "שאלות נפוצות",
     questions: [
       {
-        q: "האם Visual X#‎ מוכנה לסביבת ייצור?",
+        q: "האם Tala מוכנה לסביבת ייצור?",
         a: "אין כאן הצהרה כללית על מוכנות לסביבת ייצור. המהדר וסביבת זמן הריצה עדיין מתפתחים. כדי להעריך יכולת מסוימת, היעזרו בשערי הבדיקות של המאגר ובהערות הגרסה.",
       },
       {
@@ -439,7 +439,7 @@ const text = {
         a: "לכל שלב יש בעלים וגבול אימות. המטרה היא שאפשר יהיה לבקר את התנהגות המהדר, ושהשלבים המאוחרים לא ימציאו משמעות לשפת המקור.",
       },
       {
-        q: "האם Visual X#‎ דורשת סביבת פיתוח מסוימת?",
+        q: "האם Tala דורשת סביבת פיתוח מסוימת?",
         a: "לא. תהליך הפיתוח הנתמך משתמש בכלי שורת פקודה ב-Windows וב-macOS; הפרויקט Xide הוא ממשק עתידי, לא דרישה מוקדמת.",
       },
     ],
@@ -459,7 +459,7 @@ const text = {
     ],
     not: "מה היא איננה",
     notText:
-      "Visual X#‎ אינה מוצגת כתחליף מוגמר לשפות ייצור מבוססות. המפרט מתעד את הסמנטיקה המיועדת; את הכיסוי שהמהדר אכן בונה יש לבדוק בנפרד. אתר השפה הזה אינו מארח חשבונות או ניהול חבילות.",
+      "Tala אינה מוצגת כתחליף מוגמר לשפות ייצור מבוססות. המפרט מתעד את הסמנטיקה המיועדת; את הכיסוי שהמהדר אכן בונה יש לבדוק בנפרד. אתר השפה הזה אינו מארח חשבונות או ניהול חבילות.",
     next: "רוצים להתעמק?",
     nextText: "התחילו בתוכנית קטנה, ואז עיינו במפרט הציבורי ובמאגר קוד המקור.",
     start: "צעדים ראשונים",
@@ -473,10 +473,10 @@ const c = computed(() => text[locale.value]);
 <template>
   <div class="doc-layout section-wrap">
     <aside class="doc-sidebar">
-      <span class="kicker">VISUAL X#</span
+      <span class="kicker">TALA</span
       ><RouterLink to="/docs/overview" aria-current="page">{{ c.navOverview }}</RouterLink
       ><RouterLink to="/docs/getting-started">{{ c.navStart }}</RouterLink
-      ><a href="https://github.com/Progmasoft/visual-xsharp/tree/main/Spec">Specification ↗</a>
+      ><a href="https://github.com/Progmasoft/tala/tree/main/Spec">Specification ↗</a>
     </aside>
     <article class="doc-content">
       <span class="kicker">{{ c.section }}</span>
@@ -527,13 +527,9 @@ const c = computed(() => text[locale.value]);
         <div class="doc-actions">
           <RouterLink class="button button-primary" to="/docs/getting-started"
             >{{ c.start }} {{ arrow }}</RouterLink
-          ><a
-            class="button button-quiet"
-            href="https://github.com/Progmasoft/visual-xsharp/tree/main/Spec"
+          ><a class="button button-quiet" href="https://github.com/Progmasoft/tala/tree/main/Spec"
             >{{ c.spec }} ↗</a
-          ><a class="inline-link" href="https://github.com/Progmasoft/visual-xsharp"
-            >{{ c.source }} ↗</a
-          >
+          ><a class="inline-link" href="https://github.com/Progmasoft/tala">{{ c.source }} ↗</a>
         </div>
       </div>
     </article>

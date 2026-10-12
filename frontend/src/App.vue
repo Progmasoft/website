@@ -17,7 +17,7 @@ const labels = {
     theme: "Switch color theme",
     language: "Language",
     status: "In active development",
-    footer: "A Progmasoft project. Visual X# is an independent language identity.",
+    footer: "A Progmasoft project. Tala is an independent language identity.",
     domainNotice:
       "This site is moving to a new domain within a month. xsharp-lang.xyz will keep working and will redirect to the new address.",
   },
@@ -30,7 +30,7 @@ const labels = {
     theme: "Farbschema wechseln",
     language: "Sprache",
     status: "In aktiver Entwicklung",
-    footer: "Ein Progmasoft-Projekt. Visual X# hat eine eigenständige Sprachidentität.",
+    footer: "Ein Progmasoft-Projekt. Tala hat eine eigenständige Sprachidentität.",
     domainNotice:
       "Diese Website zieht innerhalb eines Monats auf eine neue Domain um. xsharp-lang.xyz bleibt erreichbar und leitet dann auf die neue Adresse weiter.",
   },
@@ -43,7 +43,7 @@ const labels = {
     theme: "Сменить цветовую тему",
     language: "Язык",
     status: "В активной разработке",
-    footer: "Проект Progmasoft. Visual X# — самостоятельный язык со своей идентичностью.",
+    footer: "Проект Progmasoft. Tala — самостоятельный язык со своей идентичностью.",
     domainNotice:
       "В течение месяца сайт переедет на новый домен. xsharp-lang.xyz продолжит работать и будет перенаправлять на новый адрес.",
   },
@@ -56,7 +56,7 @@ const labels = {
     theme: "החלפת ערכת הצבעים",
     language: "שפה",
     status: "בפיתוח פעיל",
-    footer: "פרויקט של Progmasoft. ל-Visual X#‎ זהות שפה עצמאית.",
+    footer: "פרויקט של Progmasoft. ל-Tala זהות שפה עצמאית.",
     domainNotice:
       "האתר יעבור לדומיין חדש בתוך חודש. xsharp-lang.xyz ימשיך לפעול ויפנה לכתובת החדשה.",
   },
@@ -77,9 +77,9 @@ function toggleTheme() {
   <div class="site-shell">
     <p v-if="onDepartingDomain" class="domain-notice" role="status">{{ copy.domainNotice }}</p>
     <header class="site-header">
-      <RouterLink class="brand" to="/" :aria-label="`Visual X# ${copy.home}`">
+      <RouterLink class="brand" to="/" :aria-label="`Tala ${copy.home}`">
         <img src="/visual-xsharp-mark.svg" width="31" height="31" alt="" />
-        <span>Visual X#</span>
+        <span>Tala</span>
       </RouterLink>
       <nav class="primary-nav" aria-label="Primary navigation">
         <RouterLink to="/">{{ copy.home }}</RouterLink>
@@ -101,7 +101,7 @@ function toggleTheme() {
         </button>
         <a
           class="source-link"
-          href="https://github.com/Progmasoft/visual-xsharp"
+          href="https://github.com/Progmasoft/tala"
           target="_blank"
           rel="noopener noreferrer"
           >{{ copy.source }} ↗</a
@@ -111,12 +111,12 @@ function toggleTheme() {
     <main id="main"><RouterView /></main>
     <footer class="site-footer">
       <div>
-        <span class="footer-wordmark">Visual X#</span>
+        <span class="footer-wordmark">Tala</span>
         <p>{{ copy.footer }}</p>
       </div>
       <div class="footer-links">
         <RouterLink to="/docs/overview">{{ copy.overview }}</RouterLink
-        ><a href="https://github.com/Progmasoft/visual-xsharp/tree/main/Spec">Specification</a
+        ><a href="https://github.com/Progmasoft/tala/tree/main/Spec">Specification</a
         ><a href="https://github.com/Progmasoft/website">Website source</a>
       </div>
       <small>© 2026 Progmasoft</small>

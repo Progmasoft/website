@@ -6,8 +6,8 @@ const copy = {
     eyebrow: "Community / coming later",
     title: "The forum isn't open yet.",
     message:
-      "We will open the Visual X# forum when the community is ready for it. There are no accounts, posts, or discussion service here today. For now, follow the language and compiler in the public repository.",
-    home: "Visual X# home →",
+      "We will open the Tala forum when the community is ready for it. There are no accounts, posts, or discussion service here today. For now, follow the language and compiler in the public repository.",
+    home: "Tala home →",
     source: "Source repository ↗",
     themeLabel: "Switch color theme",
   },
@@ -15,8 +15,8 @@ const copy = {
     eyebrow: "Community / später",
     title: "Das Forum ist noch nicht geöffnet.",
     message:
-      "Wir eröffnen das Visual X# Forum, wenn die Community dafür bereit ist. Derzeit gibt es hier keine Konten, Beiträge oder Diskussionen. Folgen Sie bis dahin der Sprache und dem Compiler im öffentlichen Repository.",
-    home: "Visual X# Startseite →",
+      "Wir eröffnen das Tala Forum, wenn die Community dafür bereit ist. Derzeit gibt es hier keine Konten, Beiträge oder Diskussionen. Folgen Sie bis dahin der Sprache und dem Compiler im öffentlichen Repository.",
+    home: "Tala Startseite →",
     source: "Quellcode-Repository ↗",
     themeLabel: "Farbschema wechseln",
   },
@@ -24,8 +24,8 @@ const copy = {
     eyebrow: "Сообщество / позже",
     title: "Форум пока не открыт.",
     message:
-      "Мы откроем форум Visual X#, когда сообщество будет к этому готово. Сейчас здесь нет ни аккаунтов, ни сообщений, ни сервиса обсуждений. Пока следите за языком и компилятором в публичном репозитории.",
-    home: "На главную Visual X# →",
+      "Мы откроем форум Tala, когда сообщество будет к этому готово. Сейчас здесь нет ни аккаунтов, ни сообщений, ни сервиса обсуждений. Пока следите за языком и компилятором в публичном репозитории.",
+    home: "На главную Tala →",
     source: "Репозиторий с исходным кодом ↗",
     themeLabel: "Сменить цветовую тему",
   },
@@ -33,8 +33,8 @@ const copy = {
     eyebrow: "קהילה / בהמשך",
     title: "הפורום עדיין לא נפתח.",
     message:
-      "נפתח את הפורום של Visual X#‎ כשהקהילה תהיה מוכנה לכך. כרגע אין כאן חשבונות, הודעות או שירות דיונים. בינתיים אפשר לעקוב אחר השפה והמהדר במאגר הציבורי.",
-    home: "לדף הבית של Visual X#‎ ←",
+      "נפתח את הפורום של Tala כשהקהילה תהיה מוכנה לכך. כרגע אין כאן חשבונות, הודעות או שירות דיונים. בינתיים אפשר לעקוב אחר השפה והמהדר במאגר הציבורי.",
+    home: "לדף הבית של Tala ←",
     source: "מאגר קוד המקור ↗",
     themeLabel: "החלפת ערכת הצבעים",
   },
@@ -62,7 +62,7 @@ function renderLanguage() {
   const selected = copy[language];
   document.documentElement.lang = language;
   document.documentElement.dataset.textDirection = language === "he" ? "rtl" : "ltr";
-  document.title = `${selected.title} · Visual X#`;
+  document.title = `${selected.title} · Tala`;
   for (const key of ["eyebrow", "title", "message", "home", "source"]) {
     document.getElementById(key).textContent = selected[key];
   }

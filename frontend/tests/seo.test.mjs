@@ -32,7 +32,7 @@ function fakeDocument() {
 test("the English home page has a canonical URL and matching social metadata", () => {
   const { document, elements } = fakeDocument();
   applyPageMetadata("/", "en-US");
-  assert.match(document.title, /^Visual X#/);
+  assert.match(document.title, /^Tala/);
   assert.equal(elements.get('meta[property="og:title"]').content, document.title);
   assert.match(elements.get('meta[name="description"]').content, /native programming language/);
   assert.equal(elements.get('meta[property="og:url"]').content, "https://xsharp-lang.xyz/");
@@ -42,7 +42,7 @@ test("the English home page has a canonical URL and matching social metadata", (
 test("the overview route uses its own German title and description", () => {
   const { document, elements } = fakeDocument();
   applyPageMetadata("/docs/overview", "de-DE");
-  assert.equal(document.title, "Überblick · Visual X#");
+  assert.equal(document.title, "Überblick · Tala");
   assert.match(elements.get('meta[name="description"]').content, /Ownership-Regeln/);
   assert.equal(elements.get('link[rel="canonical"]').href, "https://xsharp-lang.xyz/docs/overview");
 });
@@ -51,7 +51,7 @@ test("the getting-started route does not inherit the overview metadata", () => {
   const { document, elements } = fakeDocument();
   applyPageMetadata("/docs/overview", "en-US");
   applyPageMetadata("/docs/getting-started", "en-US");
-  assert.equal(document.title, "Getting started · Visual X#");
+  assert.equal(document.title, "Getting started · Tala");
   assert.match(elements.get('meta[name="description"]').content, /toolchain/);
   assert.equal(
     elements.get('meta[property="og:url"]').content,
@@ -73,19 +73,19 @@ test("a missing optional metadata tag does not stop the page title", () => {
     },
   };
   applyPageMetadata("/docs/getting-started", "de-DE");
-  assert.equal(globalThis.document.title, "Erste Schritte · Visual X#");
+  assert.equal(globalThis.document.title, "Erste Schritte · Tala");
 });
 
 test("the Russian routes have their own titles and keep the canonical URLs", () => {
   const { document, elements } = fakeDocument();
   applyPageMetadata("/", "ru-RU");
-  assert.match(document.title, /^Visual X# — Сделать понятной всю программу$/);
+  assert.match(document.title, /^Tala — Сделать понятной всю программу$/);
   assert.match(elements.get('meta[name="description"]').content, /нативный язык программирования/);
   assert.equal(elements.get('link[rel="canonical"]').href, "https://xsharp-lang.xyz/");
   applyPageMetadata("/docs/overview", "ru-RU");
-  assert.equal(document.title, "Обзор · Visual X#");
+  assert.equal(document.title, "Обзор · Tala");
   applyPageMetadata("/docs/getting-started", "ru-RU");
-  assert.equal(document.title, "Начало работы · Visual X#");
+  assert.equal(document.title, "Начало работы · Tala");
   assert.equal(
     elements.get('link[rel="canonical"]').href,
     "https://xsharp-lang.xyz/docs/getting-started",
@@ -95,13 +95,13 @@ test("the Russian routes have their own titles and keep the canonical URLs", () 
 test("the Hebrew routes have their own titles and keep the canonical URLs", () => {
   const { document, elements } = fakeDocument();
   applyPageMetadata("/", "he-IL");
-  assert.match(document.title, /^Visual X#‎ — להפוך את התוכנית כולה למובנת$/);
+  assert.match(document.title, /^Tala — להפוך את התוכנית כולה למובנת$/);
   assert.match(elements.get('meta[name="description"]').content, /שמהודרת לקוד מכונה/);
   assert.equal(elements.get('link[rel="canonical"]').href, "https://xsharp-lang.xyz/");
   applyPageMetadata("/docs/overview", "he-IL");
-  assert.equal(document.title, "סקירה · Visual X#‎");
+  assert.equal(document.title, "סקירה · Tala");
   applyPageMetadata("/docs/getting-started", "he-IL");
-  assert.equal(document.title, "צעדים ראשונים · Visual X#‎");
+  assert.equal(document.title, "צעדים ראשונים · Tala");
   assert.equal(
     elements.get('link[rel="canonical"]').href,
     "https://xsharp-lang.xyz/docs/getting-started",

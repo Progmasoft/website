@@ -11,12 +11,12 @@ const translations = {
     eyebrow: "A language for building with clarity",
     title: "Make the whole program understandable.",
     intro:
-      "Visual X# aims to pair expressive source code with explicit ownership, a visible compiler pipeline, and native output. It is being built in the open; the specification describes the intended language, while implementation coverage is still growing.",
+      "Tala aims to pair expressive source code with explicit ownership, a visible compiler pipeline, and native output. It is being built in the open; the specification describes the intended language, while implementation coverage is still growing.",
     start: "Start reading",
-    overview: "Why Visual X#?",
+    overview: "Why Tala?",
     github: "Follow development",
     stage: "Language and compiler in active development",
-    why: "Why Visual X#?",
+    why: "Why Tala?",
     whyIntro:
       "Good tools should let you reason about what your code means, what it owns, and what the compiler does next.",
     features: [
@@ -48,19 +48,19 @@ const translations = {
         title: "Read the contract",
         body: "The public Spec records the language grammar and semantics, including examples that distinguish valid and invalid forms. It can describe behavior ahead of compiler support.",
         link: "Open the specification",
-        href: "https://github.com/Progmasoft/visual-xsharp/tree/main/Spec",
+        href: "https://github.com/Progmasoft/tala/tree/main/Spec",
       },
       {
         title: "Check the implementation",
         body: "The current compiler, its component tests, and the CLI reference show which source paths and outputs work now. For a new feature, test a small program before relying on it.",
         link: "Read the CLI reference",
-        href: "https://github.com/Progmasoft/visual-xsharp/blob/main/Documents/CLI.md",
+        href: "https://github.com/Progmasoft/tala/blob/main/Documents/CLI.md",
       },
       {
         title: "Follow the work",
         body: "The repository contains the language, native compiler stages, project tooling, examples, and development documents. This site is a guide into that work, not a claim of a finished toolchain.",
         link: "Visit the repository",
-        href: "https://github.com/Progmasoft/visual-xsharp",
+        href: "https://github.com/Progmasoft/tala",
       },
     ],
     journey: "Explore the language",
@@ -73,12 +73,12 @@ const translations = {
     eyebrow: "Eine Sprache für nachvollziehbare Software",
     title: "Das ganze Programm verstehen.",
     intro:
-      "Visual X# verbindet ausdrucksstarken Quellcode mit explizitem Ownership, einer nachvollziehbaren Compiler-Pipeline und nativer Ausgabe. Die Entwicklung erfolgt offen; die Spezifikation beschreibt das Ziel, während die Implementierung noch wächst.",
+      "Tala verbindet ausdrucksstarken Quellcode mit explizitem Ownership, einer nachvollziehbaren Compiler-Pipeline und nativer Ausgabe. Die Entwicklung erfolgt offen; die Spezifikation beschreibt das Ziel, während die Implementierung noch wächst.",
     start: "Dokumentation lesen",
-    overview: "Warum Visual X#?",
+    overview: "Warum Tala?",
     github: "Entwicklung verfolgen",
     stage: "Sprache und Compiler in aktiver Entwicklung",
-    why: "Warum Visual X#?",
+    why: "Warum Tala?",
     whyIntro:
       "Gute Werkzeuge helfen zu verstehen, was Code bedeutet, wem Daten gehören und was der Compiler als Nächstes tut.",
     features: [
@@ -110,19 +110,19 @@ const translations = {
         title: "Den Vertrag lesen",
         body: "Die öffentliche Spec beschreibt Grammatik und Semantik, auch mit gültigen und ungültigen Beispielen. Sie kann der vollständigen Compiler-Unterstützung voraus sein.",
         link: "Spezifikation öffnen",
-        href: "https://github.com/Progmasoft/visual-xsharp/tree/main/Spec",
+        href: "https://github.com/Progmasoft/tala/tree/main/Spec",
       },
       {
         title: "Die Implementierung prüfen",
         body: "Compiler, Komponententests und CLI-Referenz zeigen, welche Quellcodepfade und Ausgaben heute funktionieren. Probieren Sie eine neue Funktion zuerst in einem kleinen Programm aus.",
         link: "CLI-Referenz lesen",
-        href: "https://github.com/Progmasoft/visual-xsharp/blob/main/Documents/CLI.md",
+        href: "https://github.com/Progmasoft/tala/blob/main/Documents/CLI.md",
       },
       {
         title: "Die Entwicklung verfolgen",
         body: "Das Repository enthält Sprache, native Compilerstufen, Projektwerkzeuge, Beispiele und Entwicklerdokumentation. Diese Seite führt dorthin, statt eine fertige Toolchain zu versprechen.",
         link: "Repository besuchen",
-        href: "https://github.com/Progmasoft/visual-xsharp",
+        href: "https://github.com/Progmasoft/tala",
       },
     ],
     journey: "Die Sprache entdecken",
@@ -135,12 +135,12 @@ const translations = {
     eyebrow: "Язык для ясной разработки",
     title: "Сделать понятной всю программу.",
     intro:
-      "Visual X# стремится соединить выразительный исходный код с явным владением, прозрачным конвейером компилятора и нативным результатом. Он создаётся открыто: спецификация описывает задуманный язык, а охват реализации пока растёт.",
+      "Tala стремится соединить выразительный исходный код с явным владением, прозрачным конвейером компилятора и нативным результатом. Он создаётся открыто: спецификация описывает задуманный язык, а охват реализации пока растёт.",
     start: "Начать чтение",
-    overview: "Почему Visual X#?",
+    overview: "Почему Tala?",
     github: "Следить за разработкой",
     stage: "Язык и компилятор в активной разработке",
-    why: "Почему Visual X#?",
+    why: "Почему Tala?",
     whyIntro:
       "Хорошие инструменты помогают рассуждать о том, что означает ваш код, чем он владеет и что компилятор сделает дальше.",
     features: [
@@ -172,19 +172,19 @@ const translations = {
         title: "Прочитайте контракт",
         body: "Публичная спецификация фиксирует грамматику и семантику языка, включая примеры, различающие допустимые и недопустимые формы. Она может описывать поведение раньше, чем его поддержит компилятор.",
         link: "Открыть спецификацию",
-        href: "https://github.com/Progmasoft/visual-xsharp/tree/main/Spec",
+        href: "https://github.com/Progmasoft/tala/tree/main/Spec",
       },
       {
         title: "Проверьте реализацию",
         body: "Текущий компилятор, тесты его компонентов и справочник по CLI показывают, какие пути исходного кода и результаты работают сейчас. Новую возможность сначала проверьте на небольшой программе.",
         link: "Читать справочник по CLI",
-        href: "https://github.com/Progmasoft/visual-xsharp/blob/main/Documents/CLI.md",
+        href: "https://github.com/Progmasoft/tala/blob/main/Documents/CLI.md",
       },
       {
         title: "Следите за работой",
         body: "В репозитории находятся язык, нативные стадии компилятора, инструменты проектов, примеры и документы для разработчиков. Этот сайт — путеводитель по этой работе, а не заявление о готовом наборе инструментов.",
         link: "Перейти в репозиторий",
-        href: "https://github.com/Progmasoft/visual-xsharp",
+        href: "https://github.com/Progmasoft/tala",
       },
     ],
     journey: "Познакомьтесь с языком",
@@ -197,12 +197,12 @@ const translations = {
     eyebrow: "שפה לבנייה מתוך בהירות",
     title: "להפוך את התוכנית כולה למובנת.",
     intro:
-      "Visual X#‎ שואפת לשלב קוד מקור אקספרסיבי עם בעלות מפורשת, תהליך הידור גלוי ופלט בקוד מכונה. היא נבנית בפתיחות: המפרט מתאר את השפה המיועדת, וכיסוי המימוש עדיין הולך וגדל.",
+      "Tala שואפת לשלב קוד מקור אקספרסיבי עם בעלות מפורשת, תהליך הידור גלוי ופלט בקוד מכונה. היא נבנית בפתיחות: המפרט מתאר את השפה המיועדת, וכיסוי המימוש עדיין הולך וגדל.",
     start: "להתחיל לקרוא",
-    overview: "למה Visual X#‎?",
+    overview: "למה Tala?",
     github: "למעקב אחר הפיתוח",
     stage: "השפה והמהדר בפיתוח פעיל",
-    why: "למה Visual X#‎?",
+    why: "למה Tala?",
     whyIntro: "כלים טובים צריכים לאפשר לך להבין מה הקוד שלך אומר, מה בבעלותו ומה המהדר יעשה בהמשך.",
     features: [
       {
@@ -232,19 +232,19 @@ const translations = {
         title: "לקרוא את החוזה",
         body: "המפרט הציבורי מתעד את הדקדוק והסמנטיקה של השפה, כולל דוגמאות שמבחינות בין צורות תקינות לשגויות. הוא יכול לתאר התנהגות לפני שהמהדר תומך בה.",
         link: "לפתיחת המפרט",
-        href: "https://github.com/Progmasoft/visual-xsharp/tree/main/Spec",
+        href: "https://github.com/Progmasoft/tala/tree/main/Spec",
       },
       {
         title: "לבדוק את המימוש",
         body: "המהדר הנוכחי, בדיקות הרכיבים שלו ומדריך ה-CLI מראים אילו נתיבי קוד מקור ואילו תוצרים עובדים כעת. לפני שמסתמכים על יכולת חדשה, כדאי לבדוק אותה בתוכנית קטנה.",
         link: "לקריאת מדריך ה-CLI",
-        href: "https://github.com/Progmasoft/visual-xsharp/blob/main/Documents/CLI.md",
+        href: "https://github.com/Progmasoft/tala/blob/main/Documents/CLI.md",
       },
       {
         title: "לעקוב אחר העבודה",
         body: "המאגר מכיל את השפה, את שלבי ה-native של המהדר, את כלי הפרויקט, דוגמאות ומסמכי פיתוח. האתר הזה הוא מדריך אל העבודה הזאת, לא הצהרה על שרשרת כלים מוגמרת.",
         link: "למאגר",
-        href: "https://github.com/Progmasoft/visual-xsharp",
+        href: "https://github.com/Progmasoft/tala",
       },
     ],
     journey: "להכיר את השפה",
@@ -259,7 +259,7 @@ const example = `namespace Examples.HelloWorld;
 
 public class HelloWorld {
     public static void Main() {
-        String language = "Visual X#";
+        String language = "Tala";
         Console.Println("Hello from " + language + "!");
     }
 }`;
@@ -302,7 +302,7 @@ public class HelloWorld {
       <RouterLink class="inline-link" to="/docs/overview">{{ c.overview }} {{ arrow }}</RouterLink>
     </div>
     <div class="code-card">
-      <div class="code-bar"><span>HelloWorld.vxs</span></div>
+      <div class="code-bar"><span>HelloWorld.tala</span></div>
       <pre><code>{{ example }}</code></pre>
     </div>
   </section>

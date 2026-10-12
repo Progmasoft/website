@@ -65,7 +65,7 @@ test("forum shows English and dark mode to an English browser without offering s
   assert.match(elements.get("title").textContent, /isn't open yet/);
   assert.match(elements.get("message").textContent, /no accounts, posts/);
   assert.doesNotMatch(elements.get("message").textContent, /sign up/i);
-  assert.match(document.title, /Visual X#/);
+  assert.match(document.title, /Tala/);
 });
 
 test("forum shows its one notice in the language of the browser", () => {

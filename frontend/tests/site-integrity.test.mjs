@@ -51,7 +51,7 @@ test("the browser identity uses the supplied logo without an opaque background",
   const mark = read("public/visual-xsharp-mark.svg");
   assert.match(svg, /<svg\b/);
   assert.doesNotMatch(svg, /<rect\s+id="background"/);
-  assert.match(mark, /<title[^>]*>Visual X# leopard<\/title>/);
+  assert.match(mark, /<title[^>]*>Tala leopard<\/title>/);
   assert.match(mark, /viewBox="370 285 365 345"/);
   assert.match(read("index.html"), /rel="icon"[^>]*visual-xsharp-mark\.svg/);
   assert.match(read("src/App.vue"), /src="\/visual-xsharp-mark\.svg"/);
@@ -94,7 +94,7 @@ test("every linked repository path used by the guides exists when compiler sourc
     "Spec",
     "Documents/BUILDING.md",
     "Documents/CLI.md",
-    "Examples/HelloWorld/HelloWorld.vxs",
+    "Examples/HelloWorld/HelloWorld.tala",
   ]) {
     assert.ok(existsSync(join(compilerRoot, relativePath)), `${relativePath} is missing`);
   }
@@ -102,7 +102,7 @@ test("every linked repository path used by the guides exists when compiler sourc
 
 test("the site example is copied from the compiler repository when available", (context) => {
   const compilerRoot = join(websiteRoot, "..");
-  const examplePath = join(compilerRoot, "Examples/HelloWorld/HelloWorld.vxs");
+  const examplePath = join(compilerRoot, "Examples/HelloWorld/HelloWorld.tala");
   if (!existsSync(examplePath)) {
     context.skip("standalone website checkout has no sibling compiler repository");
     return;
@@ -232,7 +232,7 @@ test("every public link in the page shell uses the correct project identity", ()
       .map((segment) => segment.toLowerCase())
       .join("/"),
   );
-  assert.ok(repositories.includes("progmasoft/visual-xsharp"));
+  assert.ok(repositories.includes("progmasoft/tala"));
   assert.ok(
     githubUrls.every(
       (url) => !["alfapc11", "leitwolf11"].includes(url.pathname.split("/")[1]?.toLowerCase()),
