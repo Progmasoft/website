@@ -1,5 +1,5 @@
 name: Diagnostic report
-description: Report a reproducible Visual X# website, API, or deployment failure.
+description: Report a reproducible Tala website, API, or deployment failure.
 title: "[Diagnostic]: "
 body:
   - type: markdown

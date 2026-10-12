@@ -5,7 +5,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later WITH AdditionRef-Progmasoft-Patent-Gr
 
 ## User-facing change
 
-Describe the Visual X# website behavior or content changed. This repository is not the Progmasoft account/ViGet app.
+Describe the Tala website behavior or content changed. This repository is not the Progmasoft account/ViGet app.
 
 ## Verification
 
