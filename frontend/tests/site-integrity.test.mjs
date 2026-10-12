@@ -47,7 +47,7 @@ test("the forum placeholder is explicitly non-indexable and not an account servi
 });
 
 test("the browser identity uses the supplied logo without an opaque background", () => {
-  const svg = read("public/visual-xsharp.svg");
+  const svg = read("public/tala.svg");
   const mark = read("public/visual-xsharp-mark.svg");
   assert.match(svg, /<svg\b/);
   assert.doesNotMatch(svg, /<rect\s+id="background"/);
@@ -62,11 +62,11 @@ test("the browser identity uses the supplied logo without an opaque background",
 });
 
 test("the social image is a 1280 by 640 PNG suitable for the page metadata", () => {
-  const image = readFileSync(join(root, "public/visual-xsharp-social.png"));
+  const image = readFileSync(join(root, "public/tala-social.png"));
   assert.equal(image.toString("hex", 0, 8), "89504e470d0a1a0a");
   assert.equal(image.readUInt32BE(16), 1280);
   assert.equal(image.readUInt32BE(20), 640);
-  assert.match(read("index.html"), /visual-xsharp-social\.png/);
+  assert.match(read("index.html"), /tala-social\.png/);
 });
 
 test("the site has no retired public login or registry links", () => {
@@ -251,4 +251,14 @@ test("language and theme controls remain labeled and keyboard focus is visible",
   assert.match(styles, /:focus-visible\s*\{/);
   assert.match(styles, /prefers-reduced-motion: reduce/);
   assert.match(styles, /\.language-control select,\s*\.icon-button\s*\{[^}]*border-radius: 9px/s);
+});
+
+test("the domain notice is localized and shown only on the departing domain", () => {
+  const app = read("src/App.vue");
+  const notices = [...app.matchAll(/domainNotice:\s*"([^"]+)"/g)].map((match) => match[1]);
+  assert.equal(notices.length, 4, "every locale must carry the notice");
+  assert.equal(new Set(notices).size, 4, "the notice must be translated, not repeated");
+  for (const notice of notices) assert.match(notice, /xsharp-lang\.xyz/);
+  assert.match(app, /onDepartingDomain = \/.*xsharp-lang.*\/\.test\(window\.location\.hostname\)/);
+  assert.match(app, /<p v-if="onDepartingDomain" class="domain-notice" role="status">/);
 });
