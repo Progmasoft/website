@@ -41,6 +41,10 @@ dotnet run --project backend/Progmasoft.Tala.Website.Api      # serves on 127.0.
 ```
 
 - The build treats warnings as errors and requires a documentation comment on every public declaration.
+- DocFX builds the API reference from those comments. `dotnet tool restore`, then
+  `dotnet docfx Documents/api/docfx.json --warningsAsErrors` and
+  `dotnet run Documents/api/CheckDocumentation.cs -- Documents/api`; the second fails on any namespace, type or
+  member of the reference without a description. See [the API reference](api/index.md).
 - The tests run the endpoints in an in-memory host with xUnit v3 on Microsoft.Testing.Platform.
 - `PORT` changes the port; the service binds to loopback only.
 
@@ -87,7 +91,7 @@ narrow window, and keyboard focus.
 | Job | Enforces |
 | --- | --- |
 | `frontend` | `npm ci`, `npm audit` at moderate severity, type check, tests with coverage, format check, build |
-| `backend` | locked restore, build with warnings as errors, tests with coverage, and the published application |
+| `backend` | locked restore, build with warnings as errors, tests with coverage, the published application, and the DocFX documentation gate |
 | `frontend-coverage`, `backend-coverage` | upload coverage to Codecov |
 | `dependency-review` | reviews dependency changes of a pull request |
 | CodeQL | static analysis of the workflows, TypeScript and C# |

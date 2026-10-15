@@ -65,6 +65,12 @@ jobs:
       - run: dotnet build Progmasoft.Tala.Website.slnx --configuration Release --no-restore
       - run: dotnet test --project backend/Progmasoft.Tala.Website.Api.Tests/Progmasoft.Tala.Website.Api.Tests.csproj --configuration Release --no-build --coverlet --coverlet-output-format cobertura --results-directory TestResults
       - run: dotnet publish backend/Progmasoft.Tala.Website.Api/Progmasoft.Tala.Website.Api.csproj --configuration Release --no-restore --output publish
+      # Documentation gate. DocFX builds the API reference with every warning
+      # as an error; the coverage check then fails when a namespace, type or
+      # member of the reference has no description.
+      - run: dotnet tool restore
+      - run: dotnet docfx Documents/api/docfx.json --warningsAsErrors
+      - run: dotnet run Documents/api/CheckDocumentation.cs -- Documents/api
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: website-backend-coverage

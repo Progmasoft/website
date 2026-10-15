@@ -77,7 +77,8 @@ dotnet test --project backend/Progmasoft.Tala.Website.Api.Tests/Progmasoft.Tala.
 dotnet publish backend/Progmasoft.Tala.Website.Api/Progmasoft.Tala.Website.Api.csproj --configuration Release --output publish
 ```
 
-The build treats warnings as errors and requires a documentation comment on every public declaration. The server unit
+The build treats warnings as errors and requires a documentation comment on every public declaration; DocFX builds
+the API reference from those comments and fails on any undocumented item (see `Documents/api/`). The server unit
 in `ops/systemd/tala-site-api.service` runs the published DLL from `/srv/xsharp/website/current/site-api/` on the
 shared ASP.NET Core 10 runtime and binds it only to loopback port 5086. The old .NET process on loopback port 5080 in
 `current/backend/` belongs to Progmaweb's ViGet status route; the language site does not proxy to it. Committing these

@@ -5,6 +5,8 @@ SPDX-PackageDownloadLocation = "https://github.com/Progmasoft/website"
 
 [[annotations]]
 path = [
+  ".config/dotnet-tools.json",
+  "Documents/api/docfx.json",
   "Progmasoft.Tala.Website.slnx",
   "global.json",
   "backend/Progmasoft.Tala.Website.Api/appsettings.json",
