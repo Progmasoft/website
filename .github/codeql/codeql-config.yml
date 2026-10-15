@@ -5,5 +5,6 @@ name: Tala website owned sources
 paths-ignore:
   - frontend/node_modules
   - frontend/dist
-  - backend/build
+  - backend/**/bin
+  - backend/**/obj
 

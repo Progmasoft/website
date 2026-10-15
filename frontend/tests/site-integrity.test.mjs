@@ -14,15 +14,36 @@ function read(relativePath) {
   return readFileSync(join(root, relativePath), "utf8");
 }
 
-test("the published sitemap lists exactly the three supported language routes", () => {
-  const sitemap = read("public/sitemap.xml");
-  const routes = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
-  assert.deepEqual(routes, [
-    "https://xsharp-lang.xyz/",
-    "https://xsharp-lang.xyz/docs/overview",
-    "https://xsharp-lang.xyz/docs/getting-started",
+function locations(path) {
+  return [...read(path).matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
+}
+
+test("every site publishes exactly its own pages in its sitemap", () => {
+  assert.deepEqual(locations("public/sitemap.xml"), [
+    "https://tala.run/",
+    "https://tala.run/docs/overview",
+    "https://tala.run/docs/getting-started",
+    "https://tala.run/docs/syntax",
   ]);
-  assert.doesNotMatch(sitemap, /forum\.xsharp-lang\.xyz/);
+  assert.deepEqual(locations("public/hosts/talac/sitemap.xml"), [
+    "https://talac.tala.run/docs/command-line",
+    "https://talac.tala.run/docs/outputs",
+  ]);
+  assert.deepEqual(locations("public/hosts/tazel/sitemap.xml"), [
+    "https://tazel.tala.run/docs/commands",
+    "https://tazel.tala.run/docs/project-file",
+  ]);
+  assert.doesNotMatch(read("public/sitemap.xml"), /forum\.tala\.run/);
+  for (const [path, host] of [
+    ["public/robots.txt", "tala.run"],
+    ["public/hosts/talac/robots.txt", "talac.tala.run"],
+    ["public/hosts/tazel/robots.txt", "tazel.tala.run"],
+  ]) {
+    assert.match(
+      read(path),
+      new RegExp(`Sitemap: https://${host.replaceAll(".", "\\.")}/sitemap\\.xml`),
+    );
+  }
 });
 
 test("the forum placeholder is explicitly non-indexable and not an account service", () => {
@@ -48,13 +69,13 @@ test("the forum placeholder is explicitly non-indexable and not an account servi
 
 test("the browser identity uses the supplied logo without an opaque background", () => {
   const svg = read("public/tala.svg");
-  const mark = read("public/visual-xsharp-mark.svg");
+  const mark = read("public/tala-mark.svg");
   assert.match(svg, /<svg\b/);
   assert.doesNotMatch(svg, /<rect\s+id="background"/);
   assert.match(mark, /<title[^>]*>Tala leopard<\/title>/);
   assert.match(mark, /viewBox="370 285 365 345"/);
-  assert.match(read("index.html"), /rel="icon"[^>]*visual-xsharp-mark\.svg/);
-  assert.match(read("src/App.vue"), /src="\/visual-xsharp-mark\.svg"/);
+  assert.match(read("index.html"), /rel="icon"[^>]*tala-mark\.svg/);
+  assert.match(read("src/App.vue"), /src="\/tala-mark\.svg"/);
   const fullLeopard = svg.match(/<path id="leopard" d="([^"]+)"/);
   const croppedLeopard = mark.match(/<path d="([^"]+)"/);
   assert.ok(fullLeopard && croppedLeopard, "both brand variants must contain the leopard path");
@@ -78,7 +99,8 @@ test("the site has no retired public login or registry links", () => {
   ];
   for (const source of sources) {
     const content = read(source);
-    assert.doesNotMatch(content, /xsharp-lang\.xyz\/(?:login|register|repo)/);
+    assert.doesNotMatch(content, /(?:xsharp-lang\.xyz|tala\.run)\/(?:login|register|repo)/);
+    assert.doesNotMatch(content, /xsharp-lang\.xyz/);
     assert.doesNotMatch(content, /AlfaPC11/);
     assert.doesNotMatch(content, /docs\/ARCHITECTURE\.md/);
   }
@@ -123,15 +145,40 @@ test("the site example is copied from the compiler repository when available", (
 });
 
 test("maintenance mode preserves the legacy redirect without opening the language site", () => {
-  const maintenance = readFileSync(join(websiteRoot, "ops/nginx/xsharp-maintenance.conf"), "utf8");
-  const future = readFileSync(join(websiteRoot, "ops/nginx/xsharp.conf"), "utf8");
-  assert.match(maintenance, /server_name xsharp-lang\.xyz/);
+  const maintenance = readFileSync(join(websiteRoot, "ops/nginx/tala-maintenance.conf"), "utf8");
+  const live = readFileSync(join(websiteRoot, "ops/nginx/tala.conf"), "utf8");
+  assert.match(
+    maintenance,
+    /server_name tala\.run www\.tala\.run talac\.tala\.run tazel\.tala\.run;/,
+  );
   assert.match(maintenance, /location \/ \{ return 503; \}/);
   assert.match(maintenance, /server_name viget\.xsharp-lang\.xyz/);
   assert.match(maintenance, /return 308 https:\/\/viget\.progmasoft\.com\$request_uri/);
-  assert.match(future, /server_name viget\.xsharp-lang\.xyz/);
-  assert.match(future, /location = \/api\/v1\/site/);
-  assert.match(future, /location \^~ \/api\/ \{\s*return 404;/);
+  assert.match(live, /server_name viget\.xsharp-lang\.xyz/);
+  assert.match(live, /location = \/api\/v1\/site/);
+  assert.match(live, /location \^~ \/api\/ \{\s*return 404;/);
+});
+
+test("the former domain lands on the same path of tala.run and tala.run has no ViGet host", () => {
+  const live = readFileSync(join(websiteRoot, "ops/nginx/tala.conf"), "utf8");
+  const forum = readFileSync(join(websiteRoot, "ops/nginx/forum.conf"), "utf8");
+  assert.match(
+    live,
+    /server_name xsharp-lang\.xyz www\.xsharp-lang\.xyz docs\.xsharp-lang\.xyz spec\.xsharp-lang\.xyz;[^}]*return 308 https:\/\/tala\.run\$request_uri;/s,
+  );
+  assert.match(
+    live,
+    /server_name www\.tala\.run;[^}]*return 308 https:\/\/tala\.run\$request_uri;/s,
+  );
+  assert.match(
+    forum,
+    /server_name forum\.xsharp-lang\.xyz;[^}]*return 308 https:\/\/forum\.tala\.run\$request_uri;/s,
+  );
+  assert.doesNotMatch(live + forum, /viget\.tala\.run/);
+  for (const host of ["talac", "tazel"]) {
+    assert.match(live, new RegExp(`try_files /hosts/${host}/robots\\.txt =404;`));
+    assert.match(live, new RegExp(`try_files /hosts/${host}/sitemap\\.xml =404;`));
+  }
 });
 
 test("workflow actions are immutable and OIDC is isolated from build jobs", () => {
@@ -180,22 +227,24 @@ test("workflow actions are immutable and OIDC is isolated from build jobs", () =
 
 test("the production API binds to loopback and matches its Nginx proxy port", () => {
   const application = readFileSync(
-    join(websiteRoot, "backend/src/main/resources/application.properties"),
+    join(websiteRoot, "backend/Progmasoft.Tala.Website.Api/Program.cs"),
     "utf8",
   );
-  const service = readFileSync(join(websiteRoot, "ops/systemd/xsharp-site-api.service"), "utf8");
-  const nginx = readFileSync(join(websiteRoot, "ops/nginx/xsharp.conf"), "utf8");
+  const service = readFileSync(join(websiteRoot, "ops/systemd/tala-site-api.service"), "utf8");
+  const nginx = readFileSync(join(websiteRoot, "ops/nginx/tala.conf"), "utf8");
 
-  assert.ok(application.includes("server.address=127.0.0.1"));
-  assert.ok(application.includes("server.port=${PORT:5080}"));
+  assert.ok(application.includes('UseUrls($"http://127.0.0.1:{port}")'));
+  assert.ok(application.includes("public const int DefaultPort = 5086;"));
   assert.ok(service.includes("Environment=PORT=5086"));
+  assert.ok(service.includes("ExecStart=/usr/bin/dotnet "));
+  assert.doesNotMatch(service, /java/i);
   assert.ok(nginx.includes("proxy_pass http://127.0.0.1:5086/api/v1/site;"));
 });
 
 test("the forum assets are allowed by its restrictive Nginx policy", () => {
   const config = readFileSync(join(websiteRoot, "ops/nginx/forum.conf"), "utf8");
   const forum = readFileSync(join(websiteRoot, "forum/index.html"), "utf8");
-  for (const filename of ["site.css", "site.js", "visual-xsharp-mark.svg"]) {
+  for (const filename of ["site.css", "site.js", "tala-mark.svg"]) {
     assert.ok(existsSync(join(websiteRoot, "forum", filename)), `${filename} missing`);
     assert.ok(config.includes(`location = /${filename}`), `${filename} blocked by Nginx`);
     assert.ok(forum.includes(`/${filename}`), `${filename} not referenced by forum`);
@@ -209,8 +258,9 @@ test("navigation, router, and sitemap agree on the public language pages", () =>
   for (const route of ["/docs/overview", "/docs/getting-started"]) {
     assert.ok(router.includes(`path: "${route}"`), `${route} is absent from the router`);
     assert.ok(navigation.includes(`to="${route}"`), `${route} is absent from navigation`);
-    assert.ok(sitemap.includes(`xsharp-lang.xyz${route}`), `${route} is absent from sitemap`);
+    assert.ok(sitemap.includes(`tala.run${route}`), `${route} is absent from sitemap`);
   }
+  assert.ok(navigation.includes(`to="/docs/syntax"`));
   assert.match(router, /path: "\/"/);
   assert.match(navigation, /<RouterLink[^>]*to="\/"/);
 });
@@ -222,7 +272,8 @@ test("every public link in the page shell uses the correct project identity", ()
   const guide = read("src/pages/GettingStartedPage.vue");
   const combined = [shell, home, overview, guide].join("\n");
   const parsedUrls = (combined.match(/https:\/\/[^"'\s<>]+/g) ?? []).map((value) => new URL(value));
-  assert.ok(parsedUrls.some((url) => url.hostname === "forum.xsharp-lang.xyz"));
+  assert.ok(read("src/site.ts").includes('forumUrl = "https://forum.tala.run/"'));
+  assert.ok(parsedUrls.every((url) => !url.hostname.endsWith("xsharp-lang.xyz")));
   const githubUrls = parsedUrls.filter((url) => url.hostname === "github.com");
   const repositories = githubUrls.map((url) =>
     url.pathname
@@ -253,12 +304,29 @@ test("language and theme controls remain labeled and keyboard focus is visible",
   assert.match(styles, /\.language-control select,\s*\.icon-button\s*\{[^}]*border-radius: 9px/s);
 });
 
-test("the domain notice is localized and shown only on the departing domain", () => {
+test("the former domain is left to the server: the page carries no notice about it", () => {
   const app = read("src/App.vue");
-  const notices = [...app.matchAll(/domainNotice:\s*"([^"]+)"/g)].map((match) => match[1]);
-  assert.equal(notices.length, 4, "every locale must carry the notice");
-  assert.equal(new Set(notices).size, 4, "the notice must be translated, not repeated");
-  for (const notice of notices) assert.match(notice, /xsharp-lang\.xyz/);
-  assert.match(app, /onDepartingDomain = \/.*xsharp-lang.*\/\.test\(window\.location\.hostname\)/);
-  assert.match(app, /<p v-if="onDepartingDomain" class="domain-notice" role="status">/);
+  assert.doesNotMatch(app, /domainNotice|domain-notice|onDepartingDomain/);
+  assert.doesNotMatch(read("src/styles/site.css"), /\.domain-notice/);
+});
+
+test("every tala.run host behaves as if HSTS were preloaded for its top-level domain", () => {
+  for (const file of ["tala.conf", "forum.conf", "tala-maintenance.conf"]) {
+    const config = readFileSync(join(websiteRoot, "ops/nginx", file), "utf8");
+    const blocks = config.split(/\nserver \{/).slice(1);
+    for (const block of blocks) {
+      const names = block.match(/server_name ([^;]+);/)?.[1] ?? "";
+      if (!/\btala\.run\b/.test(names)) continue;
+      if (/listen 443/.test(block)) {
+        assert.match(
+          block,
+          /add_header Strict-Transport-Security "max-age=63072000; includeSubDomains; preload" always;/,
+          `${file}: ${names} must send the preload header`,
+        );
+      } else {
+        // Plain HTTP answers only the ACME challenge and otherwise sends the visitor to HTTPS.
+        assert.match(block, /return 308 https:\/\//, `${file}: ${names} must redirect to HTTPS`);
+      }
+    }
+  }
 });

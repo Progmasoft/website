@@ -18,7 +18,7 @@ const text = {
       "Clone the compiler repository with its submodules. Use a supported Windows 10/11 or recent macOS development host.",
     step2: "2. Check the toolchain",
     step2Text:
-      "The repository's Go development command checks local requirements. The compiler uses GHC2024 for its Haskell front end, Clang/LLVM for C++20 native stages, Bazel for native builds, and Temurin JDK 25 for the project DSL.",
+      "The repository's Go development command checks local requirements. The compiler uses GHC2024 for its Haskell front end, Clang/LLVM for C++20 native stages, Bazel for native builds, and Temurin JDK 25 for Tazel, the build system.",
     platform:
       "The supported development hosts are Windows 10/11 and macOS Sequoia/Tahoe. On Windows, standalone LLVM clang-cl and LLD are used with Windows SDK and MSVC CRT/STL libraries. On macOS, install the Xcode Command Line Tools; the full Xcode application is not required.",
     toolchainHelp:
@@ -36,7 +36,7 @@ const text = {
       "The accepted source subset is narrower than the full public specification. A successful build is stronger evidence for a particular program than a syntax example in the specification; a successful test run is stronger evidence for a feature family.",
     step5: "5. Follow the public contract",
     step5Text:
-      "Use the public specification for intended language semantics and the repository's Documents for implementation and tooling details. The compiler's -Help output describes the flags accepted by the installed binary.",
+      "Use the public specification for intended language semantics and the repository's Documents for implementation and tooling details. talac --help lists the options the installed compiler accepts, and tazel help the commands of the build system.",
     links: [
       {
         title: "Language specification",
@@ -77,7 +77,7 @@ const text = {
       "Klonen Sie das Compiler-Repository mit seinen Submodulen. Unterstützt werden Windows 10/11 und aktuelle macOS-Entwicklungsrechner.",
     step2: "2. Toolchain prüfen",
     step2Text:
-      "Der Go-Entwicklungsbefehl prüft lokale Voraussetzungen. Das Frontend verwendet GHC2024, die nativen C++20-Stufen Clang/LLVM und Bazel; die Projekt-DSL nutzt Temurin JDK 25.",
+      "Der Go-Entwicklungsbefehl prüft lokale Voraussetzungen. Das Frontend verwendet GHC2024, die nativen C++20-Stufen Clang/LLVM und Bazel; Tazel, das Build-System, nutzt Temurin JDK 25.",
     platform:
       "Unterstützte Entwicklungsrechner sind Windows 10/11 und macOS Sequoia/Tahoe. Unter Windows werden eigenständiges LLVM clang-cl und LLD mit Windows SDK sowie MSVC-CRT/STL-Bibliotheken verwendet. Unter macOS genügen die Xcode Command Line Tools; die vollständige Xcode-Anwendung ist nicht erforderlich.",
     toolchainHelp:
@@ -95,7 +95,7 @@ const text = {
       "Der unterstützte Quellcode-Teilumfang ist kleiner als die vollständige öffentliche Spezifikation. Ein erfolgreicher Build ist für ein konkretes Programm ein stärkerer Beleg als ein Syntaxbeispiel; ein erfolgreicher Testlauf ist für eine Funktionsgruppe aussagekräftiger.",
     step5: "5. Den öffentlichen Vertrag nachlesen",
     step5Text:
-      "Die öffentliche Spezifikation beschreibt die beabsichtigte Sprachsemantik; die Dokumente im Repository erklären Implementierung und Werkzeuge. Die -Help-Ausgabe des installierten Compilers zeigt die tatsächlich akzeptierten Optionen.",
+      "Die öffentliche Spezifikation beschreibt die beabsichtigte Sprachsemantik; die Dokumente im Repository erklären Implementierung und Werkzeuge. talac --help zeigt die Optionen, die der installierte Compiler akzeptiert, und tazel help die Befehle des Build-Systems.",
     links: [
       {
         title: "Sprachspezifikation",
@@ -136,7 +136,7 @@ const text = {
       "Клонируйте репозиторий компилятора вместе с подмодулями. Используйте поддерживаемую машину разработки с Windows 10/11 или актуальной macOS.",
     step2: "2. Проверьте набор инструментов",
     step2Text:
-      "Команда разработки на Go из репозитория проверяет локальные требования. Компилятор использует GHC2024 для фронтенда на Haskell, Clang/LLVM для нативных стадий на C++20, Bazel для нативных сборок и Temurin JDK 25 для DSL проектов.",
+      "Команда разработки на Go из репозитория проверяет локальные требования. Компилятор использует GHC2024 для фронтенда на Haskell, Clang/LLVM для нативных стадий на C++20, Bazel для нативных сборок и Temurin JDK 25 для Tazel, системы сборки.",
     platform:
       "Поддерживаемые машины разработки — Windows 10/11 и macOS Sequoia/Tahoe. В Windows используются отдельные LLVM clang-cl и LLD вместе с Windows SDK и библиотеками MSVC CRT/STL. В macOS установите Xcode Command Line Tools; полное приложение Xcode не требуется.",
     toolchainHelp:
@@ -154,7 +154,7 @@ const text = {
       "Принимаемое подмножество исходного кода уже полной публичной спецификации. Успешная сборка — более сильное свидетельство для конкретной программы, чем синтаксический пример в спецификации; успешный прогон тестов — более сильное свидетельство для семейства возможностей.",
     step5: "5. Следуйте публичному контракту",
     step5Text:
-      "Задуманную семантику языка смотрите в публичной спецификации, а сведения о реализации и инструментах — в каталоге Documents репозитория. Вывод -Help компилятора описывает флаги, которые принимает установленный исполняемый файл.",
+      "Задуманную семантику языка смотрите в публичной спецификации, а сведения о реализации и инструментах — в каталоге Documents репозитория. talac --help перечисляет параметры, которые принимает установленный компилятор, а tazel help — команды системы сборки.",
     links: [
       {
         title: "Спецификация языка",
@@ -195,7 +195,7 @@ const text = {
       "שכפלו את מאגר המהדר יחד עם תת־המודולים שלו. השתמשו במחשב פיתוח נתמך עם Windows 10/11 או עם גרסה עדכנית של macOS.",
     step2: "2. בדיקת שרשרת הכלים",
     step2Text:
-      "פקודת הפיתוח של המאגר, הכתובה ב-Go, בודקת את הדרישות המקומיות. המהדר משתמש ב-GHC2024 ל-frontend הכתוב ב-Haskell, ב-Clang/LLVM לשלבי ה-native ב-C++20, ב-Bazel לבניית חלקי ה-native וב-Temurin JDK 25 ל-DSL של הפרויקטים.",
+      "פקודת הפיתוח של המאגר, הכתובה ב-Go, בודקת את הדרישות המקומיות. המהדר משתמש ב-GHC2024 ל-frontend הכתוב ב-Haskell, ב-Clang/LLVM לשלבי ה-native ב-C++20, ב-Bazel לבניית חלקי ה-native וב-Temurin JDK 25 ל-Tazel, מערכת הבנייה.",
     platform:
       "מחשבי הפיתוח הנתמכים הם Windows 10/11 ו-macOS Sequoia/Tahoe. ב-Windows נעשה שימוש ב-clang-cl וב-LLD עצמאיים של LLVM יחד עם Windows SDK וספריות ה-CRT/STL של MSVC. ב-macOS יש להתקין את Xcode Command Line Tools; יישום Xcode המלא אינו נדרש.",
     toolchainHelp:
@@ -213,7 +213,7 @@ const text = {
       "תת־הקבוצה של קוד המקור שמתקבלת צרה מהמפרט הציבורי המלא. בנייה מוצלחת היא ראיה חזקה יותר לתוכנית מסוימת מאשר דוגמת תחביר במפרט; הרצת בדיקות מוצלחת היא ראיה חזקה יותר למשפחת יכולות.",
     step5: "5. לעקוב אחר החוזה הציבורי",
     step5Text:
-      "המפרט הציבורי מתאר את הסמנטיקה המיועדת של השפה, ומסמכי המאגר מפרטים את המימוש ואת הכלים. הפלט של ‎-Help במהדר מתאר את הדגלים שהקובץ המותקן מקבל.",
+      "המפרט הציבורי מתאר את הסמנטיקה המיועדת של השפה, ומסמכי המאגר מפרטים את המימוש ואת הכלים. ‏talac --help מפרט את האפשרויות שהמהדר המותקן מקבל, ו-tazel help את הפקודות של מערכת הבנייה.",
     links: [
       {
         title: "מפרט השפה",
@@ -275,27 +275,31 @@ public class HelloWorld {
       <h2>{{ c.step2 }}</h2>
       <p>{{ c.step2Text }}</p>
       <p>{{ c.platform }}</p>
-      <pre class="doc-code"><code>go run scripts/develop.go doctor</code></pre>
+      <pre class="doc-code"><code>go run ./helpers/cmd/develop doctor</code></pre>
       <h3>{{ c.bootstrap }}</h3>
       <p>{{ c.toolchainHelp }}</p>
-      <pre class="doc-code"><code>go run scripts/prebuild.go check
-go run scripts/prebuild.go install</code></pre>
+      <pre class="doc-code"><code>go run ./helpers/cmd/prebuild check
+go run ./helpers/cmd/prebuild install</code></pre>
       <h2>{{ c.step3 }}</h2>
       <p>{{ c.step3Text }}</p>
-      <pre class="doc-code"><code>go run scripts/develop.go build
-go run scripts/develop.go test</code></pre>
+      <pre class="doc-code"><code>go run ./helpers/cmd/develop build
+go run ./helpers/cmd/develop test</code></pre>
       <h2>{{ c.step4 }}</h2>
       <p>{{ c.step4Text }}</p>
       <pre class="doc-code"><code>{{ hello }}</code></pre>
       <h3>{{ c.fileCheck }}</h3>
-      <pre class="doc-code"><code>talac check -File Examples/HelloWorld/HelloWorld.tala</code></pre>
+      <pre
+        class="doc-code"
+      ><code>talac Examples/HelloWorld/HelloWorld.tala --emit=metadata</code></pre>
       <h3>{{ c.fileBuild }}</h3>
-      <pre class="doc-code"><code>talac build -File Examples/HelloWorld/HelloWorld.tala</code></pre>
+      <pre
+        class="doc-code"
+      ><code>talac Examples/HelloWorld/HelloWorld.tala --entry=Examples.HelloWorld.HelloWorld</code></pre>
       <p>{{ c.subset }}</p>
       <h2>{{ c.step5 }}</h2>
       <p>{{ c.step5Text }}</p>
-      <pre class="doc-code"><code>talac -Help
-talac build -Help</code></pre>
+      <pre class="doc-code"><code>talac --help
+tazel help</code></pre>
       <div class="doc-resource-list">
         <a v-for="link in c.links" :key="link.href" :href="link.href">
           <strong>{{ link.title }} <span aria-hidden="true">↗</span></strong>

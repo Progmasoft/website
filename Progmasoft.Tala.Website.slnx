@@ -1,0 +1,6 @@
+<Solution>
+  <Folder Name="/backend/">
+    <Project Path="backend/Progmasoft.Tala.Website.Api/Progmasoft.Tala.Website.Api.csproj" />
+    <Project Path="backend/Progmasoft.Tala.Website.Api.Tests/Progmasoft.Tala.Website.Api.Tests.csproj" />
+  </Folder>
+</Solution>

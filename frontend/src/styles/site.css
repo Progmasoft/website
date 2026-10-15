@@ -110,15 +110,6 @@ p {
   margin: 0 auto;
 }
 
-.domain-notice {
-  margin: 0;
-  padding: 7px max(24px, calc((100vw - 1050px) / 2));
-  border-bottom: 1px solid var(--border);
-  color: var(--muted);
-  font-size: 13px;
-  line-height: 1.45;
-  text-align: center;
-}
 .site-header {
   display: flex;
   align-items: center;

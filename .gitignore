@@ -15,3 +15,7 @@ coverage/
 out/
 build/
 *.user
+TestResults/
+publish/
+Documents/api/_site/
+Documents/api/reference/
