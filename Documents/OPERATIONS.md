@@ -3,7 +3,8 @@
 
 # Tala website operations
 
-This runbook covers only the language website and its not-yet-open forum page.
+This runbook covers only the language website, the documentation sites of the
+compiler and the build system, and the not-yet-open forum page.
 The account site, corporate site, and package service have their own repositories
 and deployments. A redirect from an old package hostname is retained for
 compatibility, but it does not make package functions part of this website.
@@ -12,22 +13,28 @@ compatibility, but it does not make package functions part of this website.
 
 | Host and path | Owner | Current treatment |
 | --- | --- | --- |
-| `xsharp-lang.xyz/` | Vue language site | Live |
-| `xsharp-lang.xyz/docs/overview` | Vue language site | Live |
-| `xsharp-lang.xyz/docs/getting-started` | Vue language site | Live |
-| `xsharp-lang.xyz/api/v1/site` | Spring language API | Live; the only proxied API path |
-| `forum.xsharp-lang.xyz/` | Static placeholder | Live; noindex |
-| `www`, `docs`, `spec` subdomains | Redirect | Permanent redirect to `xsharp-lang.xyz` |
-| `viget.xsharp-lang.xyz/*` | Legacy redirect | Permanent redirect to the new package host |
+| `tala.run/`, `/docs/overview`, `/docs/getting-started`, `/docs/syntax` | Vue language site | Live |
+| `talac.tala.run/docs/*` | Vue build, compiler documentation | Live |
+| `tazel.tala.run/docs/*` | Vue build, build-system documentation | Live |
+| `tala.run/api/v1/site` | ASP.NET Core language API | Live; the only proxied API path |
+| `forum.tala.run/` | Static placeholder | Live; noindex |
+| `www.tala.run` | Redirect | Permanent redirect to `tala.run` |
+| `xsharp-lang.xyz`, `www`, `docs`, `spec` | Former domain | Permanent redirect to the same path of `tala.run` |
+| `forum.xsharp-lang.xyz` | Former domain | Permanent redirect to `forum.tala.run` |
+| `viget.xsharp-lang.xyz/*` | Legacy redirect | Permanent redirect to the package host |
 
-The main domain is served with `ops/nginx/xsharp.conf`. While it is switched to
-`ops/nginx/xsharp-maintenance.conf`, the three language routes answer 503 and
-`/api/v1/site` is not exposed.
+tala.run has no ViGet host; the registry lives at `viget.progmasoft.com`.
+
+The sites are served with `ops/nginx/tala.conf`. While it is switched to
+`ops/nginx/tala-maintenance.conf`, the routes of the three sites answer 503 and
+`/api/v1/site` is not exposed. One certificate, `/etc/letsencrypt/live/tala.run/`,
+covers tala.run, www.tala.run, talac.tala.run, tazel.tala.run and forum.tala.run;
+the former domain keeps its own certificates for its redirects.
 
 Do not use a catch-all `/api/` proxy for this service. The production Nginx
 configuration proxies exactly `/api/v1/site`; other `/api/` paths return 404.
-The Spring process binds only to `127.0.0.1`. Local runs default to port 5080;
-the checked-in systemd unit sets `PORT=5086`, matching the Nginx proxy.
+The API process binds only to `127.0.0.1`, on port 5086 unless `PORT` says
+otherwise; the checked-in systemd unit sets `PORT=5086`, matching the Nginx proxy.
 Its `/health` endpoint is for local process checks, not an advertised public
 route.
 
@@ -43,34 +50,21 @@ npm test
 npm run build
 ```
 
-Run the backend gates from `backend/` with Temurin JDK 25:
+Run the backend gates from the repository root with the .NET 10 SDK:
 
 ```text
-gradle test bootJar dokkaGenerate --no-daemon
+dotnet restore Progmasoft.Tala.Website.slnx --locked-mode
+dotnet build Progmasoft.Tala.Website.slnx --configuration Release --no-restore
+dotnet test --project backend/Progmasoft.Tala.Website.Api.Tests/Progmasoft.Tala.Website.Api.Tests.csproj --configuration Release --no-build
+dotnet publish backend/Progmasoft.Tala.Website.Api/Progmasoft.Tala.Website.Api.csproj --configuration Release --output publish
 ```
 
-`dokkaGenerate` is the documentation gate: a public declaration without KDoc
-fails it.
-
-The backend checks in Gradle dependency locks and SHA-256 verification metadata
-to keep transitive versions and downloaded artifacts stable. When intentionally
-updating dependencies, run these commands from `backend/`, review both generated
-files, then rerun the ordinary backend gates:
-
-```text
-gradle dependencies --write-locks --no-daemon
-gradle --refresh-dependencies --write-verification-metadata sha256 help test jacocoTestReport bootJar dokkaGenerate --no-daemon
-```
-
-Keep `--refresh-dependencies`. Written from a warm local cache, the metadata
-misses files that Gradle did not download again, and the build then fails
-verification on a clean machine while it passes locally.
-
-Do not accept a checksum-only change without confirming the artifact version
-and source repository; the checksum is an integrity pin, not a trust review.
+The build is the documentation gate: a public declaration without its
+documentation comment fails it. Package versions are pinned in the
+`packages.lock.json` of each project.
 
 The frontend tests assert canonical metadata, sitemap membership, asset shape,
-forum non-indexing, and the absence of retired site links. The Spring tests
+forum non-indexing, and the absence of retired site links. The API tests
 assert site-only API behavior, health, read-only operation, and missing account
 and registry routes. These gates are necessary but not a substitute for a
 browser review of both themes, all four languages, and narrow screens.
@@ -96,8 +90,7 @@ Before publication, verify that:
 All source links should target the current `Progmasoft/tala` default
 branch. In particular, check the `Spec/`, `Documents/BUILDING.md`,
 `Documents/CLI.md`, and `Examples/` targets after any repository move.
-The only frontend navigation routes are `/`, `/docs/overview`, and
-`/docs/getting-started`. A retired login, registration, or package route must
+The routes of each site are listed in the route table above. A retired login, registration, or package route must
 not reappear in the site shell.
 
 The forum placeholder links back to the language domain and to the compiler
@@ -146,23 +139,26 @@ On the server the site lives in one directory:
   current/
     frontend/     contents of frontend/dist
     forum/        the five forum files
-    backend/      the Spring jar, next to the files of the legacy process
+    site-api/     the published ASP.NET Core API
+    backend/      the legacy .NET process of Progmaweb's ViGet status route
   previous-<timestamp>/   the release before, kept for rollback
 ```
 
 `current` is a real directory, not a symbolic link. A release replaces it by
 renaming:
 
-1. Build the frontend and the jar from the commit being released, and run the
-   local gates.
+1. Build the frontend and publish the API from the commit being released, and
+   run the local gates.
 2. On the server, copy `current` to a new directory next to it with
    `cp -a`, which keeps owners, modes and SELinux labels, and replace the
    changed parts inside the copy.
-3. Start the new jar on a free loopback port as the service user, request
+3. Start the new API on a free loopback port as the service user with
+   `PORT=<port> dotnet site-api/Progmasoft.Tala.Website.Api.dll`, request
    `/health` and `/api/v1/site`, and stop it.
 4. Rename `current` to `previous-<timestamp>` and the new directory to
    `current`.
-5. Run `restorecon -R` on `current/frontend` and `current/forum`.
+5. Run `restorecon -R` on `current/frontend`, `current/forum` and
+   `current/site-api`.
 6. Restart the API service, then check the public routes from outside.
 
 Step 5 has to come after step 4. The SELinux rules that let Nginx read the
@@ -178,8 +174,8 @@ on the server itself before concluding that a release failed.
 
 ## Maintenance mode
 
-`ops/nginx/xsharp-maintenance.conf` answers the main domain with 503 and keeps
-the legacy redirect working. `ops/nginx/xsharp.conf` serves the site. Keep the
+`ops/nginx/tala-maintenance.conf` answers the three sites with 503 and keeps
+the legacy redirect working. `ops/nginx/tala.conf` serves them. Keep the
 two mutually exclusive in the live Nginx include directory. Building the Vue
 bundle or deploying the forum does not by itself authorize switching between
 them.
@@ -196,14 +192,14 @@ Before switching the main site from maintenance to public:
 5. Run both build/test sets shown above.
 6. Install the Vue `dist/` contents at the static root named in the Nginx
    config, preserving file permissions and SELinux labels.
-7. Install Java 25 on the host and test the Spring jar on loopback before
-   replacing any running API service.
+7. Test the published API on loopback with the shared ASP.NET Core 10 runtime
+   before replacing the running API service.
 8. Confirm the old service's unrelated status function has moved to the
    correct owner before retiring the old process.
 9. Make one explicit Nginx configuration switch, run `nginx -t`, and reload.
 10. Check the public routes and headers again from outside the server.
 
-The Java service is not required for the static homepage render. If it is
+The API service is not required for the static homepage render. If it is
 not ready, do not pretend it is ready by rewriting the API path. Delay the
 rollout or explicitly publish static pages without the API after reviewing
 the impact of that decision.
@@ -212,8 +208,8 @@ the impact of that decision.
 
 The redirect hostname is intentionally split from the maintenance vhost.
 Requests to `viget.xsharp-lang.xyz` must produce 308 to
-`https://viget.progmasoft.com` and preserve path and query string. This is
-true while `xsharp-lang.xyz` itself returns 503. The redirect certificate
+`https://viget.progmasoft.com` and preserve path and query string, also while
+the sites answer 503. The redirect certificate
 uses the existing SAN entry for the old hostname. Do not remove the redirect
 in the course of cleaning up language-site copy.
 
@@ -233,7 +229,7 @@ confirms the expected 503. The forum and legacy redirect should remain
 unaffected.
 
 Do not roll back by deleting certificates, disabling SELinux, or pointing
-unrelated hostnames at the language frontend. If the Spring process fails,
+unrelated hostnames at the language frontend. If the API process fails,
 inspect its systemd journal and local `/health` response, then restore the
 previous service unit or leave the site in maintenance until the owner
 boundary is clear.
@@ -250,7 +246,7 @@ Neither the static site nor the forum placeholder should send personal data
 to a third-party analytics service. The content security policy allows
 same-origin scripts only, so a script added by an intermediary is blocked by
 the browser rather than run. Theme and language preferences are kept
-locally in the browser. Nginx and Spring logs still need normal retention
+locally in the browser. Nginx and API logs still need normal retention
 and access-control practices, but this repository does not define an account
 database or a user profile store.
 
@@ -259,8 +255,9 @@ database or a user profile store.
 After a release, perform the same checks from a clean browser profile with no
 saved language or theme choice. Confirm that the theme is dark and that the
 language is the browser's when it is one of the four, and English otherwise.
-Choose another language in the menu, navigate through both documentation
-routes, and confirm the choice persists. Choose Hebrew and confirm that text
+Choose another language in the menu, navigate through the documentation
+routes of all three sites, and confirm the choice persists on each host; a
+choice is kept per host, because the browser keeps storage per origin. Choose Hebrew and confirm that text
 runs right to left while the layout and the code blocks stay as they are.
 Switch to light mode and repeat. The forum keeps its own theme key and follows
 the browser language; it should not change the main site's settings.

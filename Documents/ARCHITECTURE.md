@@ -8,32 +8,38 @@ anything about a visitor on a server.
 
 | Part | Technology | Artifact | Serves |
 | --- | --- | --- | --- |
-| `frontend/` | Vue 3, Vite, TypeScript | static files in `frontend/dist/` | `xsharp-lang.xyz` |
-| `backend/` | Kotlin on JVM 25, Spring Boot | one executable jar | `xsharp-lang.xyz/api/v1/site` |
-| `forum/` | one HTML page with plain CSS and JavaScript | the five files as they are | `forum.xsharp-lang.xyz` |
+| `frontend/` | Vue 3, Vite, TypeScript | static files in `frontend/dist/` | `tala.run`, `talac.tala.run`, `tazel.tala.run` |
+| `backend/` | ASP.NET Core 10 | one published application | `tala.run/api/v1/site` |
+| `forum/` | one HTML page with plain CSS and JavaScript | the five files as they are | `forum.tala.run` |
 
 ```text
 browser
    |  HTTPS
    v
 Nginx
-   |-- xsharp-lang.xyz           static files of the Vue build; unknown paths fall back to index.html
-   |-- xsharp-lang.xyz/api/v1/site   ->  http://127.0.0.1:5086  (Spring)
-   |-- forum.xsharp-lang.xyz     five named static files; every other path is 404
-   `-- www, docs, spec, viget    permanent redirects
+   |-- tala.run, talac.tala.run, tazel.tala.run   static files of the Vue build; unknown paths fall back to index.html
+   |-- tala.run/api/v1/site      ->  http://127.0.0.1:5086  (ASP.NET Core)
+   |-- forum.tala.run            five named static files; every other path is 404
+   |-- www.tala.run              permanent redirect to tala.run
+   `-- xsharp-lang.xyz and its subdomains   permanent redirects to tala.run, and viget to viget.progmasoft.com
 ```
 
 ## Frontend
 
-A single-page application with three routes, defined in `frontend/src/main.ts`:
+A single-page application that serves three sites. `site.ts` decides the site from the host name, and
+`frontend/src/main.ts` registers the routes of that site:
 
-| Route | Page | Source |
-| --- | --- | --- |
-| `/` | why the language exists, and its current state | `pages/HomePage.vue` |
-| `/docs/overview` | the design direction and the compiler stages | `pages/OverviewPage.vue` |
-| `/docs/getting-started` | building the compiler from its repository | `pages/GettingStartedPage.vue` |
+| Host | Route | Page | Source |
+| --- | --- | --- | --- |
+| `tala.run` | `/` | why the language exists, and its current state | `pages/HomePage.vue` |
+| `tala.run` | `/docs/overview` | the design direction and the compiler stages | `pages/OverviewPage.vue` |
+| `tala.run` | `/docs/getting-started` | building the compiler from its repository | `pages/GettingStartedPage.vue` |
+| `tala.run` | `/docs/syntax` | a first look at the syntax | `content/syntax.ts` |
+| `talac.tala.run` | `/docs/command-line`, `/docs/outputs` | the compiler | `content/talac.ts` |
+| `tazel.tala.run` | `/docs/commands`, `/docs/project-file` | the build system | `content/tazel.ts` |
 
-Any other path redirects to `/`. The router uses history URLs, so the server must answer unknown paths with
+The pages from `content/` are rendered by `pages/DocPage.vue`; each topic carries its text in all four languages. The
+root of the two documentation hosts opens their first topic. Any other path redirects to the root. The router uses history URLs, so the server must answer unknown paths with
 `index.html`.
 
 The rest of the frontend is small:
@@ -67,7 +73,7 @@ to the backend does not publish it.
 
 ## Forum page
 
-`forum.xsharp-lang.xyz` is a notice that the forum is not open yet. It is not a forum: there are no accounts, no
+`forum.tala.run` is a notice that the forum is not open yet. It is not a forum: there are no accounts, no
 posts and no service behind it. The page shows its one notice in the language of the browser and offers a theme
 button; it has no language menu and stores no language. It is marked `noindex` in the page and in the response
 header.
@@ -80,13 +86,14 @@ allows only its own script, stylesheet and two images.
 - **Accounts and packages.** Progmasoft accounts and the ViGet package registry belong to the Progmaweb repository
   and live on `progmasoft.com` hosts. This site links to neither a sign-in nor a registry.
 - **A legacy redirect only.** `viget.xsharp-lang.xyz` redirects permanently to `viget.progmasoft.com`, keeping path
-  and query. That redirect is routing compatibility, not a feature of this site.
+  and query. That redirect is routing compatibility, not a feature of this site; tala.run has no ViGet host.
 - **Visitor data.** The language and theme a visitor chose are kept in the browser's local storage. The site sets no
   cookie and sends nothing about the visitor to the backend.
 
 ## Search engines and crawlers
 
-- `sitemap.xml` lists exactly the three routes above.
+- Each host has its own `sitemap.xml` and `robots.txt`; Nginx serves `public/hosts/talac/` and
+  `public/hosts/tazel/` for the two documentation hosts. A sitemap lists exactly the routes of its host.
 - Every route has its own title, description and canonical URL. A language is a preference, not a second URL, so
   there are no `hreflang` alternatives.
 - `robots.txt` names the crawlers the site has a rule for. Search and answer-retrieval crawlers are allowed. Among
