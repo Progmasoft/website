@@ -1,12 +1,15 @@
 version = 1
-SPDX-PackageName = "Visual XSharp Website"
+SPDX-PackageName = "Tala Website"
 SPDX-PackageSupplier = "Organization: Progmasoft"
 SPDX-PackageDownloadLocation = "https://github.com/Progmasoft/website"
 
 [[annotations]]
 path = [
-  "backend/gradle.lockfile",
-  "backend/gradle/verification-metadata.xml",
+  "Progmasoft.Tala.Website.slnx",
+  "global.json",
+  "backend/Progmasoft.Tala.Website.Api/appsettings.json",
+  "backend/Progmasoft.Tala.Website.Api/packages.lock.json",
+  "backend/Progmasoft.Tala.Website.Api.Tests/packages.lock.json",
   "forum/visual-xsharp.svg",
   "forum/visual-xsharp-mark.svg",
   "frontend/.prettierrc.json",

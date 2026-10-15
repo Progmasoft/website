@@ -13,7 +13,7 @@ body:
       label: Affected area
       options:
         - Vue website or page content
-        - Kotlin/Spring site API
+        - ASP.NET Core site API
         - Localization or theme
         - Routing, metadata, or indexing
         - Deployment or Nginx configuration
@@ -45,7 +45,7 @@ body:
     id: environment
     attributes:
       label: Environment
-      description: OS/browser, website commit, Node.js version, or Java 25 version when relevant.
+      description: OS/browser, website commit, Node.js version, or .NET 10 version when relevant.
     validations:
       required: true
   - type: textarea

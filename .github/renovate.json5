@@ -35,12 +35,12 @@
   ignorePaths: ["**/node_modules/**"],
 
   // What Dependabot watched here, and nothing more for now.
-  enabledManagers: ["github-actions", "npm", "gradle", "gradle-wrapper"],
+  enabledManagers: ["github-actions", "npm", "nuget"],
 
   // One pull request for each kind of dependency.
   packageRules: [
     { matchManagers: ["github-actions"], groupName: "GitHub Actions" },
     { matchManagers: ["npm"], groupName: "Frontend packages" },
-    { matchManagers: ["gradle", "gradle-wrapper"], groupName: "Backend plugins and libraries" },
+    { matchManagers: ["nuget"], groupName: "Backend packages" },
   ],
 }

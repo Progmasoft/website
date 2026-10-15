@@ -10,9 +10,9 @@ Describe the Tala website behavior or content changed. This repository is not th
 ## Verification
 
 - [ ] Frontend checks, tests, formatting, and build were run where relevant.
-- [ ] Kotlin/Spring tests were run where relevant.
+- [ ] ASP.NET Core tests were run where relevant.
 - [ ] en-US/de-DE, light/dark, accessibility, and small-screen behavior were considered for UI changes.
-- [ ] Internal links, forum availability messaging, and the legacy ViGet redirect were checked if affected.
+- [ ] Internal links, and forum availability messaging were checked if affected.
 - [ ] No credentials, generated output, or unrelated files are included.
 
 Commands and results (including anything not run):
