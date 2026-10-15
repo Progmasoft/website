@@ -61,4 +61,4 @@ Disallow: /
 User-agent: *
 Allow: /
 
-Sitemap: https://xsharp-lang.xyz/sitemap.xml
+Sitemap: https://tala.run/sitemap.xml

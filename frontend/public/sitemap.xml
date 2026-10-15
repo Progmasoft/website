@@ -3,17 +3,22 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later WITH AdditionRef-Progmasoft-Patent-Grant-1.1 -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://xsharp-lang.xyz/</loc>
+    <loc>https://tala.run/</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://xsharp-lang.xyz/docs/overview</loc>
+    <loc>https://tala.run/docs/overview</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://xsharp-lang.xyz/docs/getting-started</loc>
+    <loc>https://tala.run/docs/getting-started</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tala.run/docs/syntax</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>

@@ -57,7 +57,7 @@ const text = {
       },
       {
         title: "Executable",
-        body: "LLVM lowers the verified program to object code, then a platform link step creates a .vxse artifact.",
+        body: "LLVM lowers the verified program to object code, then a platform link step creates an executable of the host.",
       },
     ],
     boundariesHeading: "Where the boundaries are today",
@@ -72,7 +72,7 @@ const text = {
       },
       {
         label: "Project definition",
-        value: "BUILD.kts, interpreted by the Kotlin project system",
+        value: "BUILD.kts, evaluated by Tazel, the build system",
       },
       {
         label: "Website",
@@ -172,7 +172,7 @@ const text = {
       },
       {
         title: "Ausführbare Datei",
-        body: "LLVM senkt das geprüfte Programm zu Objektcode ab; anschließend entsteht durch den Plattform-Linker eine .vxse-Datei.",
+        body: "LLVM senkt das geprüfte Programm zu Objektcode ab; anschließend entsteht durch den Plattform-Linker eine ausführbare Datei des Hosts.",
       },
     ],
     boundariesHeading: "Die heutigen Zuständigkeiten",
@@ -187,7 +187,7 @@ const text = {
       },
       {
         label: "Projektdefinition",
-        value: "BUILD.kts, interpretiert durch das Kotlin-Projektsystem",
+        value: "BUILD.kts, ausgewertet von Tazel, dem Build-System",
       },
       {
         label: "Website",
@@ -287,7 +287,7 @@ const text = {
       },
       {
         title: "Исполняемый файл",
-        body: "LLVM понижает проверенную программу до объектного кода, после чего шаг компоновки для платформы создаёт артефакт .vxse.",
+        body: "LLVM понижает проверенную программу до объектного кода, после чего шаг компоновки для платформы создаёт исполняемый файл системы.",
       },
     ],
     boundariesHeading: "Где проходят границы сегодня",
@@ -302,7 +302,7 @@ const text = {
       },
       {
         label: "Описание проекта",
-        value: "BUILD.kts, который интерпретирует система проектов на Kotlin",
+        value: "BUILD.kts, который выполняет Tazel, система сборки",
       },
       {
         label: "Сайт",
@@ -402,7 +402,7 @@ const text = {
       },
       {
         title: "קובץ הרצה",
-        body: "LLVM מתרגם את התוכנית המאומתת לקוד אובייקט, ולאחר מכן שלב קישור של הפלטפורמה יוצר תוצר ‎.vxse.",
+        body: "LLVM מתרגם את התוכנית המאומתת לקוד אובייקט, ולאחר מכן שלב קישור של הפלטפורמה יוצר קובץ הרצה של המערכת.",
       },
     ],
     boundariesHeading: "היכן עוברים הגבולות היום",
@@ -417,7 +417,7 @@ const text = {
       },
       {
         label: "הגדרת הפרויקט",
-        value: "BUILD.kts, שמפרשת מערכת הפרויקטים הכתובה ב-Kotlin",
+        value: "BUILD.kts, ש-Tazel, מערכת הבנייה, מריצה",
       },
       {
         label: "האתר",

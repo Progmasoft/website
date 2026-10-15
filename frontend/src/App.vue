@@ -6,9 +6,11 @@ import { computed } from "vue";
 import { RouterLink, RouterView } from "vue-router";
 import { localeLabels } from "./locales";
 import { locale, supportedLocales, theme } from "./preferences";
+import { forumUrl, site, siteHome, siteUrl, type Site } from "./site";
 
 const labels = {
   "en-US": {
+    syntax: "Syntax",
     home: "Home",
     overview: "Overview",
     start: "Getting started",
@@ -18,10 +20,9 @@ const labels = {
     language: "Language",
     status: "In active development",
     footer: "A Progmasoft project. Tala is an independent language identity.",
-    domainNotice:
-      "This site is moving to a new domain within a month. xsharp-lang.xyz will keep working and will redirect to the new address.",
   },
   "de-DE": {
+    syntax: "Syntax",
     home: "Startseite",
     overview: "Überblick",
     start: "Erste Schritte",
@@ -31,10 +32,9 @@ const labels = {
     language: "Sprache",
     status: "In aktiver Entwicklung",
     footer: "Ein Progmasoft-Projekt. Tala hat eine eigenständige Sprachidentität.",
-    domainNotice:
-      "Diese Website zieht innerhalb eines Monats auf eine neue Domain um. xsharp-lang.xyz bleibt erreichbar und leitet dann auf die neue Adresse weiter.",
   },
   "ru-RU": {
+    syntax: "Синтаксис",
     home: "Главная",
     overview: "Обзор",
     start: "Начало работы",
@@ -44,10 +44,9 @@ const labels = {
     language: "Язык",
     status: "В активной разработке",
     footer: "Проект Progmasoft. Tala — самостоятельный язык со своей идентичностью.",
-    domainNotice:
-      "В течение месяца сайт переедет на новый домен. xsharp-lang.xyz продолжит работать и будет перенаправлять на новый адрес.",
   },
   "he-IL": {
+    syntax: "תחביר",
     home: "בית",
     overview: "סקירה",
     start: "צעדים ראשונים",
@@ -57,15 +56,19 @@ const labels = {
     language: "שפה",
     status: "בפיתוח פעיל",
     footer: "פרויקט של Progmasoft. ל-Tala זהות שפה עצמאית.",
-    domainNotice:
-      "האתר יעבור לדומיין חדש בתוך חודש. xsharp-lang.xyz ימשיך לפעול ויפנה לכתובת החדשה.",
   },
 } as const;
 const copy = computed(() => labels[locale.value]);
 
-// The notice belongs to the domain that is being left: a visitor of the new
-// domain, or of a preview, has nothing to be told.
-const onDepartingDomain = /(^|\.)xsharp-lang\.xyz$/.test(window.location.hostname);
+const hostname = window.location.hostname;
+const brand = { language: "Tala", talac: "talac", tazel: "Tazel" }[site];
+// The other two sites are linked by their names, which read the same in every language.
+const siblings = (["language", "talac", "tazel"] as const)
+  .filter((other): other is Site => other !== site)
+  .map((other) => ({
+    label: { language: "Tala", talac: "talac", tazel: "Tazel" }[other],
+    href: siteUrl(other, siteHome[other], hostname),
+  }));
 
 function toggleTheme() {
   theme.value = theme.value === "dark" ? "light" : "dark";
@@ -75,17 +78,22 @@ function toggleTheme() {
 <template>
   <a class="skip-link" href="#main">Skip to content</a>
   <div class="site-shell">
-    <p v-if="onDepartingDomain" class="domain-notice" role="status">{{ copy.domainNotice }}</p>
     <header class="site-header">
-      <RouterLink class="brand" to="/" :aria-label="`Tala ${copy.home}`">
-        <img src="/visual-xsharp-mark.svg" width="31" height="31" alt="" />
-        <span>Tala</span>
+      <RouterLink class="brand" :to="siteHome[site]" :aria-label="`${brand} ${copy.home}`">
+        <img src="/tala-mark.svg" width="31" height="31" alt="" />
+        <span>{{ brand }}</span>
       </RouterLink>
       <nav class="primary-nav" aria-label="Primary navigation">
-        <RouterLink to="/">{{ copy.home }}</RouterLink>
-        <RouterLink to="/docs/overview">{{ copy.overview }}</RouterLink>
-        <RouterLink to="/docs/getting-started">{{ copy.start }}</RouterLink>
-        <a href="https://forum.xsharp-lang.xyz/">{{ copy.forum }}</a>
+        <template v-if="site === 'language'">
+          <RouterLink to="/">{{ copy.home }}</RouterLink>
+          <RouterLink to="/docs/overview">{{ copy.overview }}</RouterLink>
+          <RouterLink to="/docs/getting-started">{{ copy.start }}</RouterLink>
+          <RouterLink to="/docs/syntax">{{ copy.syntax }}</RouterLink>
+        </template>
+        <a v-for="sibling in siblings" :key="sibling.href" :href="sibling.href">{{
+          sibling.label
+        }}</a>
+        <a :href="forumUrl">{{ copy.forum }}</a>
       </nav>
       <div class="header-tools">
         <label class="language-control">
@@ -115,7 +123,7 @@ function toggleTheme() {
         <p>{{ copy.footer }}</p>
       </div>
       <div class="footer-links">
-        <RouterLink to="/docs/overview">{{ copy.overview }}</RouterLink
+        <a :href="siteUrl('language', '/docs/overview', hostname)">{{ copy.overview }}</a
         ><a href="https://github.com/Progmasoft/tala/tree/main/Spec">Specification</a
         ><a href="https://github.com/Progmasoft/website">Website source</a>
       </div>

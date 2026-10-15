@@ -1,8 +1,11 @@
 // SPDX-FileCopyrightText: 2026 Progmasoft <support@progmasoft.com>
 // SPDX-License-Identifier: AGPL-3.0-or-later WITH AdditionRef-Progmasoft-Patent-Grant-1.1
 
+import { contentRoutes } from "./content/routes.ts";
 import type { Locale } from "./locales";
+import { site, siteHome, siteHosts, type Site } from "./site.ts";
 
+/** The pages of the language site that are built by hand rather than from content. */
 export type PublicRoute = "/" | "/docs/overview" | "/docs/getting-started";
 
 type PageMetadata = {
@@ -86,19 +89,37 @@ function setMeta(selector: string, content: string): void {
   if (element) element.content = content;
 }
 
+/** The title, description and canonical path of a page of [current]. */
+export function pageMetadata(
+  path: string,
+  locale: Locale,
+  current: Site = site,
+): PageMetadata & { canonicalPath: string } {
+  const content = contentRoutes[current].find((route) => route.path === path);
+  if (content) {
+    const page = content.topic[locale];
+    return { title: page.title, description: page.description, canonicalPath: path };
+  }
+  if (current === "language") {
+    // Unknown routes are redirected by the router. Their brief transitional state
+    // must not generate a canonical URL to an unlisted public page.
+    const canonicalPath: PublicRoute =
+      path === "/docs/overview" || path === "/docs/getting-started" ? path : "/";
+    return { ...metadata[locale][canonicalPath], canonicalPath };
+  }
+  return pageMetadata(siteHome[current], locale, current);
+}
+
 export function applyPageMetadata(path: string, locale: Locale): void {
-  // Unknown routes are redirected by the router. Their brief transitional state
-  // must not generate a canonical URL to an unlisted public page.
-  const canonicalPath: PublicRoute =
-    path === "/docs/overview" || path === "/docs/getting-started" ? path : "/";
-  const page = metadata[locale][canonicalPath];
+  const page = pageMetadata(path, locale);
+  const url = `https://${siteHosts[site]}${page.canonicalPath}`;
 
   document.title = page.title;
   setMeta('meta[name="description"]', page.description);
   setMeta('meta[property="og:title"]', page.title);
   setMeta('meta[property="og:description"]', page.description);
-  setMeta('meta[property="og:url"]', `https://xsharp-lang.xyz${canonicalPath}`);
+  setMeta('meta[property="og:url"]', url);
 
   const canonical = document.querySelector<HTMLLinkElement>('link[rel="canonical"]');
-  if (canonical) canonical.href = `https://xsharp-lang.xyz${canonicalPath}`;
+  if (canonical) canonical.href = url;
 }
