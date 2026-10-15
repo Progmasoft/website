@@ -309,3 +309,24 @@ test("the former domain is left to the server: the page carries no notice about 
   assert.doesNotMatch(app, /domainNotice|domain-notice|onDepartingDomain/);
   assert.doesNotMatch(read("src/styles/site.css"), /\.domain-notice/);
 });
+
+test("every tala.run host behaves as if HSTS were preloaded for its top-level domain", () => {
+  for (const file of ["tala.conf", "forum.conf", "tala-maintenance.conf"]) {
+    const config = readFileSync(join(websiteRoot, "ops/nginx", file), "utf8");
+    const blocks = config.split(/\nserver \{/).slice(1);
+    for (const block of blocks) {
+      const names = block.match(/server_name ([^;]+);/)?.[1] ?? "";
+      if (!/\btala\.run\b/.test(names)) continue;
+      if (/listen 443/.test(block)) {
+        assert.match(
+          block,
+          /add_header Strict-Transport-Security "max-age=63072000; includeSubDomains; preload" always;/,
+          `${file}: ${names} must send the preload header`,
+        );
+      } else {
+        // Plain HTTP answers only the ACME challenge and otherwise sends the visitor to HTTPS.
+        assert.match(block, /return 308 https:\/\//, `${file}: ${names} must redirect to HTTPS`);
+      }
+    }
+  }
+});
