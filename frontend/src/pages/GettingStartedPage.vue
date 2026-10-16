@@ -20,7 +20,7 @@ const text = {
     step2Text:
       "The repository's Go development command checks local requirements. The compiler uses GHC2024 for its Haskell front end, Clang/LLVM for C++20 native stages, Bazel for native builds, and Temurin JDK 25 for Tazel, the build system.",
     platform:
-      "The supported development hosts are Windows 10/11, macOS Sequoia/Tahoe, Ubuntu 26.04 LTS and Fedora 43. On Windows, standalone LLVM clang-cl and LLD are used with Windows SDK and MSVC CRT/STL libraries. On macOS, install the Xcode Command Line Tools; the full Xcode application is not required. On Ubuntu and Fedora, Clang, LLD and the LLVM development packages of the distribution are used.",
+      "The supported development hosts are Windows 10/11, macOS Sequoia/Tahoe, Ubuntu 26.04 LTS and Fedora 43. On Windows, standalone LLVM clang-cl and LLD are used with Windows SDK and MSVC CRT/STL libraries. On macOS, install the Xcode Command Line Tools; the full Xcode application is not required. On Ubuntu and Fedora, Clang, LLD and libc++ come from the distribution, and the repository's helper downloads LLVM built with libc++.",
     toolchainHelp:
       "If the check reports missing tools, the optional bootstrap can install prerequisites through the host package manager. Open a new terminal afterward so PATH changes take effect. LLVM_ROOT may point to the LLVM development installation prefix; do not put a machine-specific path in project files.",
     bootstrap: "Optional host bootstrap",
@@ -79,7 +79,7 @@ const text = {
     step2Text:
       "Der Go-Entwicklungsbefehl prüft lokale Voraussetzungen. Das Frontend verwendet GHC2024, die nativen C++20-Stufen Clang/LLVM und Bazel; Tazel, das Build-System, nutzt Temurin JDK 25.",
     platform:
-      "Unterstützte Entwicklungsrechner sind Windows 10/11, macOS Sequoia/Tahoe, Ubuntu 26.04 LTS und Fedora 43. Unter Windows werden eigenständiges LLVM clang-cl und LLD mit Windows SDK sowie MSVC-CRT/STL-Bibliotheken verwendet. Unter macOS genügen die Xcode Command Line Tools; die vollständige Xcode-Anwendung ist nicht erforderlich. Unter Ubuntu und Fedora werden Clang, LLD und die LLVM-Entwicklungspakete der Distribution verwendet.",
+      "Unterstützte Entwicklungsrechner sind Windows 10/11, macOS Sequoia/Tahoe, Ubuntu 26.04 LTS und Fedora 43. Unter Windows werden eigenständiges LLVM clang-cl und LLD mit Windows SDK sowie MSVC-CRT/STL-Bibliotheken verwendet. Unter macOS genügen die Xcode Command Line Tools; die vollständige Xcode-Anwendung ist nicht erforderlich. Unter Ubuntu und Fedora kommen Clang, LLD und libc++ aus der Distribution, und das Hilfswerkzeug des Repositorys lädt ein mit libc++ gebautes LLVM herunter.",
     toolchainHelp:
       "Falls Werkzeuge fehlen, kann der optionale Bootstrap die Voraussetzungen über den Paketmanager installieren. Öffnen Sie danach ein neues Terminal, damit PATH-Änderungen greifen. LLVM_ROOT darf auf das LLVM-Entwicklungspaket zeigen; schreiben Sie keinen rechnerbezogenen Pfad in Projektdateien.",
     bootstrap: "Optionaler Host-Bootstrap",
@@ -138,7 +138,7 @@ const text = {
     step2Text:
       "Команда разработки на Go из репозитория проверяет локальные требования. Компилятор использует GHC2024 для фронтенда на Haskell, Clang/LLVM для нативных стадий на C++20, Bazel для нативных сборок и Temurin JDK 25 для Tazel, системы сборки.",
     platform:
-      "Поддерживаемые машины разработки — Windows 10/11, macOS Sequoia/Tahoe, Ubuntu 26.04 LTS и Fedora 43. В Windows используются отдельные LLVM clang-cl и LLD вместе с Windows SDK и библиотеками MSVC CRT/STL. В macOS установите Xcode Command Line Tools; полное приложение Xcode не требуется. В Ubuntu и Fedora используются Clang, LLD и пакеты разработки LLVM из дистрибутива.",
+      "Поддерживаемые машины разработки — Windows 10/11, macOS Sequoia/Tahoe, Ubuntu 26.04 LTS и Fedora 43. В Windows используются отдельные LLVM clang-cl и LLD вместе с Windows SDK и библиотеками MSVC CRT/STL. В macOS установите Xcode Command Line Tools; полное приложение Xcode не требуется. В Ubuntu и Fedora Clang, LLD и libc++ берутся из дистрибутива, а вспомогательная утилита репозитория загружает LLVM, собранный с libc++.",
     toolchainHelp:
       "Если проверка сообщает об отсутствующих инструментах, необязательная начальная настройка может установить их через менеджер пакетов системы. После этого откройте новый терминал, чтобы изменения PATH вступили в силу. LLVM_ROOT может указывать на каталог установки LLVM для разработки; не записывайте путь, относящийся к конкретной машине, в файлы проекта.",
     bootstrap: "Необязательная начальная настройка системы",
@@ -197,7 +197,7 @@ const text = {
     step2Text:
       "פקודת הפיתוח של המאגר, הכתובה ב-Go, בודקת את הדרישות המקומיות. המהדר משתמש ב-GHC2024 ל-frontend הכתוב ב-Haskell, ב-Clang/LLVM לשלבי ה-native ב-C++20, ב-Bazel לבניית חלקי ה-native וב-Temurin JDK 25 ל-Tazel, מערכת הבנייה.",
     platform:
-      "מחשבי הפיתוח הנתמכים הם Windows 10/11, ‏macOS Sequoia/Tahoe, ‏Ubuntu 26.04 LTS ו-Fedora 43. ב-Windows נעשה שימוש ב-clang-cl וב-LLD עצמאיים של LLVM יחד עם Windows SDK וספריות ה-CRT/STL של MSVC. ב-macOS יש להתקין את Xcode Command Line Tools; יישום Xcode המלא אינו נדרש. ב-Ubuntu וב-Fedora נעשה שימוש ב-Clang, ב-LLD ובחבילות הפיתוח של LLVM מההפצה.",
+      "מחשבי הפיתוח הנתמכים הם Windows 10/11, ‏macOS Sequoia/Tahoe, ‏Ubuntu 26.04 LTS ו-Fedora 43. ב-Windows נעשה שימוש ב-clang-cl וב-LLD עצמאיים של LLVM יחד עם Windows SDK וספריות ה-CRT/STL של MSVC. ב-macOS יש להתקין את Xcode Command Line Tools; יישום Xcode המלא אינו נדרש. ב-Ubuntu וב-Fedora‏ Clang,‏ LLD ו-libc++ מגיעים מההפצה, וכלי העזר של המאגר מוריד LLVM שנבנה עם libc++.",
     toolchainHelp:
       "אם הבדיקה מדווחת על כלים חסרים, ה-bootstrap האופציונלי יכול להתקין את הדרישות דרך מנהל החבילות של המערכת. לאחר מכן פתחו מסוף חדש כדי ששינויי PATH ייכנסו לתוקף. LLVM_ROOT יכול להצביע על תחילית ההתקנה של חבילת הפיתוח של LLVM; אין לכתוב נתיב ייחודי למחשב בקובצי הפרויקט.",
     bootstrap: "הכנת מחשב אופציונלית",
