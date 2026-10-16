@@ -18,7 +18,7 @@ A page has one URL in every language. The language is a preference kept in the b
 
 The rules are pure functions in `frontend/src/locales.ts`:
 
-1. **The visitor's choice.** A language stored under `vxs-locale-choice` in local storage always wins.
+1. **The visitor's choice.** A language stored under `tala-locale-choice` in local storage always wins.
 2. **The browser.** Without a stored choice, the first entry of `navigator.languages` whose primary language is
    published is used. `de-AT` selects German, and `iw`, the former code for Hebrew, selects Hebrew.
 3. **The fallback.** A browser that prefers no published language gets `en-US`.
@@ -44,11 +44,15 @@ A language becomes the stored choice only when a visitor changes it in the menu.
 Earlier versions wrote the language under `vxs-locale` on every visit, which made a real choice indistinguishable
 from the former English default. That key is no longer read.
 
+The keys once carried the former name of the language: `vxs-locale-choice`, `vxs-theme` and `vxs-forum-theme`. A
+value stored under one of them moves to `tala-locale-choice`, `tala-theme` or `tala-forum-theme` the first time a page
+loads, and the former key is removed.
+
 ## The forum page
 
 The forum notice has no language menu. `forum/site.js` shows its one notice in the first browser language that has a
 translation and in English otherwise, and stores nothing about language. It keeps its own theme key,
-`vxs-forum-theme`.
+`tala-forum-theme`.
 
 ## Hebrew and text direction
 

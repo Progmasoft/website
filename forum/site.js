@@ -69,11 +69,19 @@ function renderLanguage() {
   themeButton.setAttribute("aria-label", selected.themeLabel);
 }
 
+// The key carried the former name of the language; a stored theme moves to
+// the current key once.
+const themeKey = "tala-forum-theme";
+const formerTheme = localStorage.getItem("vxs-forum-theme");
+if (formerTheme !== null && localStorage.getItem(themeKey) === null) {
+  localStorage.setItem(themeKey, formerTheme);
+}
+localStorage.removeItem("vxs-forum-theme");
 document.documentElement.dataset.theme =
-  localStorage.getItem("vxs-forum-theme") === "light" ? "light" : "dark";
+  localStorage.getItem(themeKey) === "light" ? "light" : "dark";
 themeButton.addEventListener("click", () => {
   const next = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
   document.documentElement.dataset.theme = next;
-  localStorage.setItem("vxs-forum-theme", next);
+  localStorage.setItem(themeKey, next);
 });
 renderLanguage();
