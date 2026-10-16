@@ -14,7 +14,7 @@ import { applyPageMetadata } from "./seo";
 import { site, siteHome } from "./site";
 import "./styles/site.css";
 
-// tala.run has its home page and two pages built by hand; the documentation of talac and Tazel, on their own
+// tala.run has its home page and two pages built by hand; the documentation of Talac and Tazel, on their own
 // hosts, is rendered from content and opens on its first topic.
 const pages: RouteRecordRaw[] =
   site === "language"
