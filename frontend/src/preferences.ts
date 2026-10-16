@@ -16,10 +16,23 @@ export type Theme = "dark" | "light";
 // Holds a language only after the visitor picked one in the menu. The earlier
 // `vxs-locale` key was written on every visit, so it cannot tell a choice
 // from the former English default and is no longer read.
-const localeChoiceKey = "vxs-locale-choice";
+const localeChoiceKey = "tala-locale-choice";
+const themeKey = "tala-theme";
+
+// The keys carried the former name of the language. A value stored under the
+// former key moves to the current one once, so no visitor loses a choice.
+function migrate(key: string, former: string): void {
+  const value = localStorage.getItem(former);
+  if (value !== null && localStorage.getItem(key) === null) {
+    localStorage.setItem(key, value);
+  }
+  localStorage.removeItem(former);
+}
+migrate(localeChoiceKey, "vxs-locale-choice");
+migrate(themeKey, "vxs-theme");
 
 function storedTheme(): Theme {
-  return localStorage.getItem("vxs-theme") === "light" ? "light" : "dark";
+  return localStorage.getItem(themeKey) === "light" ? "light" : "dark";
 }
 
 export const locale = ref<Locale>(
@@ -49,7 +62,7 @@ watch(
   theme,
   (value) => {
     document.documentElement.dataset.theme = value;
-    localStorage.setItem("vxs-theme", value);
+    localStorage.setItem(themeKey, value);
   },
   { immediate: true },
 );

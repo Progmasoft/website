@@ -302,7 +302,7 @@ const projectFile: DocTopic = {
       { kind: "code", code: minimal },
       {
         kind: "text",
-        text: "This compiles every .tala file below Sources/ and writes build/debug/Example. entry names a class by its namespace; that class provides the parameterless public static void Main(). Neither file names nor directories have to mirror namespaces.",
+        text: "This compiles every .tala file below Sources/ and writes build/debug/Example (Example.exe on Windows). entry names a class by its namespace; that class provides the parameterless public static void Main(). Neither file names nor directories have to mirror namespaces.",
       },
       { kind: "heading", text: "Compiler settings" },
       {
@@ -345,7 +345,7 @@ const projectFile: DocTopic = {
       { kind: "code", code: minimal },
       {
         kind: "text",
-        text: "Das kompiliert jede .tala-Datei unter Sources/ und schreibt build/debug/Example. entry benennt eine Klasse mit ihrem Namespace; diese Klasse stellt das parameterlose public static void Main() bereit. Weder Dateinamen noch Verzeichnisse müssen Namespaces abbilden.",
+        text: "Das kompiliert jede .tala-Datei unter Sources/ und schreibt build/debug/Example (unter Windows Example.exe). entry benennt eine Klasse mit ihrem Namespace; diese Klasse stellt das parameterlose public static void Main() bereit. Weder Dateinamen noch Verzeichnisse müssen Namespaces abbilden.",
       },
       { kind: "heading", text: "Compiler-Einstellungen" },
       {
@@ -388,7 +388,7 @@ const projectFile: DocTopic = {
       { kind: "code", code: minimal },
       {
         kind: "text",
-        text: "Так компилируется каждый .tala-файл в Sources/ и записывается build/debug/Example. entry называет класс вместе с его пространством имён; этот класс содержит public static void Main() без параметров. Ни имена файлов, ни каталоги не обязаны повторять пространства имён.",
+        text: "Так компилируется каждый .tala-файл в Sources/ и записывается build/debug/Example (в Windows — Example.exe). entry называет класс вместе с его пространством имён; этот класс содержит public static void Main() без параметров. Ни имена файлов, ни каталоги не обязаны повторять пространства имён.",
       },
       { kind: "heading", text: "Настройки компилятора" },
       {
@@ -431,7 +431,7 @@ const projectFile: DocTopic = {
       { kind: "code", code: minimal },
       {
         kind: "text",
-        text: "כך מהודר כל קובץ ‎.tala שתחת Sources/‎ ונכתב build/debug/Example. ‏entry מציין מחלקה יחד עם מרחב השמות שלה; המחלקה הזו מספקת את public static void Main() ללא פרמטרים. לא שמות הקבצים ולא התיקיות צריכים לשקף את מרחבי השמות.",
+        text: "כך מהודר כל קובץ ‎.tala שתחת Sources/‎ ונכתב build/debug/Example (ב-Windows‏ Example.exe). ‏entry מציין מחלקה יחד עם מרחב השמות שלה; המחלקה הזו מספקת את public static void Main() ללא פרמטרים. לא שמות הקבצים ולא התיקיות צריכים לשקף את מרחבי השמות.",
       },
       { kind: "heading", text: "הגדרות המהדר" },
       {

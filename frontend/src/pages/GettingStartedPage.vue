@@ -15,12 +15,12 @@ const text = {
     lead: "Tala is in active development. For now, the repository is the reliable entry point for building the compiler and checking which language features run end to end.",
     step1: "1. Get the repository",
     step1Text:
-      "Clone the compiler repository with its submodules. Use a supported Windows 10/11 or recent macOS development host.",
+      "Clone the compiler repository with its submodules. Use a supported development host: Windows 10/11, macOS Sequoia or Tahoe, Ubuntu 26.04 LTS or Fedora 43.",
     step2: "2. Check the toolchain",
     step2Text:
       "The repository's Go development command checks local requirements. The compiler uses GHC2024 for its Haskell front end, Clang/LLVM for C++20 native stages, Bazel for native builds, and Temurin JDK 25 for Tazel, the build system.",
     platform:
-      "The supported development hosts are Windows 10/11 and macOS Sequoia/Tahoe. On Windows, standalone LLVM clang-cl and LLD are used with Windows SDK and MSVC CRT/STL libraries. On macOS, install the Xcode Command Line Tools; the full Xcode application is not required.",
+      "The supported development hosts are Windows 10/11, macOS Sequoia/Tahoe, Ubuntu 26.04 LTS and Fedora 43. On Windows, standalone LLVM clang-cl and LLD are used with Windows SDK and MSVC CRT/STL libraries. On macOS, install the Xcode Command Line Tools; the full Xcode application is not required. On Ubuntu and Fedora, Clang, LLD and the LLVM development packages of the distribution are used.",
     toolchainHelp:
       "If the check reports missing tools, the optional bootstrap can install prerequisites through the host package manager. Open a new terminal afterward so PATH changes take effect. LLVM_ROOT may point to the LLVM development installation prefix; do not put a machine-specific path in project files.",
     bootstrap: "Optional host bootstrap",
@@ -55,7 +55,7 @@ const text = {
       },
       {
         title: "Example programs",
-        detail: "Source examples next to C# 13, C++20, and Java 21 counterparts.",
+        detail: "Source examples next to C# 13, C++20, Java 21 and Rust counterparts.",
         href: "https://github.com/Progmasoft/tala/tree/main/Examples",
       },
     ],
@@ -74,12 +74,12 @@ const text = {
     lead: "Tala wird aktiv entwickelt. Das Repository ist derzeit der zuverlässige Einstieg, um den Compiler zu bauen und den tatsächlich funktionierenden Sprachumfang zu prüfen.",
     step1: "1. Repository holen",
     step1Text:
-      "Klonen Sie das Compiler-Repository mit seinen Submodulen. Unterstützt werden Windows 10/11 und aktuelle macOS-Entwicklungsrechner.",
+      "Klonen Sie das Compiler-Repository mit seinen Submodulen. Unterstützt werden Entwicklungsrechner mit Windows 10/11, macOS Sequoia oder Tahoe, Ubuntu 26.04 LTS oder Fedora 43.",
     step2: "2. Toolchain prüfen",
     step2Text:
       "Der Go-Entwicklungsbefehl prüft lokale Voraussetzungen. Das Frontend verwendet GHC2024, die nativen C++20-Stufen Clang/LLVM und Bazel; Tazel, das Build-System, nutzt Temurin JDK 25.",
     platform:
-      "Unterstützte Entwicklungsrechner sind Windows 10/11 und macOS Sequoia/Tahoe. Unter Windows werden eigenständiges LLVM clang-cl und LLD mit Windows SDK sowie MSVC-CRT/STL-Bibliotheken verwendet. Unter macOS genügen die Xcode Command Line Tools; die vollständige Xcode-Anwendung ist nicht erforderlich.",
+      "Unterstützte Entwicklungsrechner sind Windows 10/11, macOS Sequoia/Tahoe, Ubuntu 26.04 LTS und Fedora 43. Unter Windows werden eigenständiges LLVM clang-cl und LLD mit Windows SDK sowie MSVC-CRT/STL-Bibliotheken verwendet. Unter macOS genügen die Xcode Command Line Tools; die vollständige Xcode-Anwendung ist nicht erforderlich. Unter Ubuntu und Fedora werden Clang, LLD und die LLVM-Entwicklungspakete der Distribution verwendet.",
     toolchainHelp:
       "Falls Werkzeuge fehlen, kann der optionale Bootstrap die Voraussetzungen über den Paketmanager installieren. Öffnen Sie danach ein neues Terminal, damit PATH-Änderungen greifen. LLVM_ROOT darf auf das LLVM-Entwicklungspaket zeigen; schreiben Sie keinen rechnerbezogenen Pfad in Projektdateien.",
     bootstrap: "Optionaler Host-Bootstrap",
@@ -114,7 +114,7 @@ const text = {
       },
       {
         title: "Beispielprogramme",
-        detail: "Beispiele neben Fassungen in C# 13, C++20 und Java 21.",
+        detail: "Beispiele neben Fassungen in C# 13, C++20, Java 21 und Rust.",
         href: "https://github.com/Progmasoft/tala/tree/main/Examples",
       },
     ],
@@ -133,12 +133,12 @@ const text = {
     lead: "Tala находится в активной разработке. Пока что репозиторий — надёжная отправная точка, чтобы собрать компилятор и проверить, какие возможности языка работают от начала до конца.",
     step1: "1. Получите репозиторий",
     step1Text:
-      "Клонируйте репозиторий компилятора вместе с подмодулями. Используйте поддерживаемую машину разработки с Windows 10/11 или актуальной macOS.",
+      "Клонируйте репозиторий компилятора вместе с подмодулями. Используйте поддерживаемую машину разработки: Windows 10/11, macOS Sequoia или Tahoe, Ubuntu 26.04 LTS или Fedora 43.",
     step2: "2. Проверьте набор инструментов",
     step2Text:
       "Команда разработки на Go из репозитория проверяет локальные требования. Компилятор использует GHC2024 для фронтенда на Haskell, Clang/LLVM для нативных стадий на C++20, Bazel для нативных сборок и Temurin JDK 25 для Tazel, системы сборки.",
     platform:
-      "Поддерживаемые машины разработки — Windows 10/11 и macOS Sequoia/Tahoe. В Windows используются отдельные LLVM clang-cl и LLD вместе с Windows SDK и библиотеками MSVC CRT/STL. В macOS установите Xcode Command Line Tools; полное приложение Xcode не требуется.",
+      "Поддерживаемые машины разработки — Windows 10/11, macOS Sequoia/Tahoe, Ubuntu 26.04 LTS и Fedora 43. В Windows используются отдельные LLVM clang-cl и LLD вместе с Windows SDK и библиотеками MSVC CRT/STL. В macOS установите Xcode Command Line Tools; полное приложение Xcode не требуется. В Ubuntu и Fedora используются Clang, LLD и пакеты разработки LLVM из дистрибутива.",
     toolchainHelp:
       "Если проверка сообщает об отсутствующих инструментах, необязательная начальная настройка может установить их через менеджер пакетов системы. После этого откройте новый терминал, чтобы изменения PATH вступили в силу. LLVM_ROOT может указывать на каталог установки LLVM для разработки; не записывайте путь, относящийся к конкретной машине, в файлы проекта.",
     bootstrap: "Необязательная начальная настройка системы",
@@ -173,7 +173,7 @@ const text = {
       },
       {
         title: "Примеры программ",
-        detail: "Примеры исходного кода рядом с вариантами на C# 13, C++20 и Java 21.",
+        detail: "Примеры исходного кода рядом с вариантами на C# 13, C++20, Java 21 и Rust.",
         href: "https://github.com/Progmasoft/tala/tree/main/Examples",
       },
     ],
@@ -192,12 +192,12 @@ const text = {
     lead: "Tala נמצאת בפיתוח פעיל. לעת עתה המאגר הוא נקודת הכניסה האמינה לבניית המהדר ולבדיקה אילו יכולות של השפה פועלות מקצה לקצה.",
     step1: "1. השגת המאגר",
     step1Text:
-      "שכפלו את מאגר המהדר יחד עם תת־המודולים שלו. השתמשו במחשב פיתוח נתמך עם Windows 10/11 או עם גרסה עדכנית של macOS.",
+      "שכפלו את מאגר המהדר יחד עם תת־המודולים שלו. השתמשו במחשב פיתוח נתמך: Windows 10/11, ‏macOS Sequoia או Tahoe, ‏Ubuntu 26.04 LTS או Fedora 43.",
     step2: "2. בדיקת שרשרת הכלים",
     step2Text:
       "פקודת הפיתוח של המאגר, הכתובה ב-Go, בודקת את הדרישות המקומיות. המהדר משתמש ב-GHC2024 ל-frontend הכתוב ב-Haskell, ב-Clang/LLVM לשלבי ה-native ב-C++20, ב-Bazel לבניית חלקי ה-native וב-Temurin JDK 25 ל-Tazel, מערכת הבנייה.",
     platform:
-      "מחשבי הפיתוח הנתמכים הם Windows 10/11 ו-macOS Sequoia/Tahoe. ב-Windows נעשה שימוש ב-clang-cl וב-LLD עצמאיים של LLVM יחד עם Windows SDK וספריות ה-CRT/STL של MSVC. ב-macOS יש להתקין את Xcode Command Line Tools; יישום Xcode המלא אינו נדרש.",
+      "מחשבי הפיתוח הנתמכים הם Windows 10/11, ‏macOS Sequoia/Tahoe, ‏Ubuntu 26.04 LTS ו-Fedora 43. ב-Windows נעשה שימוש ב-clang-cl וב-LLD עצמאיים של LLVM יחד עם Windows SDK וספריות ה-CRT/STL של MSVC. ב-macOS יש להתקין את Xcode Command Line Tools; יישום Xcode המלא אינו נדרש. ב-Ubuntu וב-Fedora נעשה שימוש ב-Clang, ב-LLD ובחבילות הפיתוח של LLVM מההפצה.",
     toolchainHelp:
       "אם הבדיקה מדווחת על כלים חסרים, ה-bootstrap האופציונלי יכול להתקין את הדרישות דרך מנהל החבילות של המערכת. לאחר מכן פתחו מסוף חדש כדי ששינויי PATH ייכנסו לתוקף. LLVM_ROOT יכול להצביע על תחילית ההתקנה של חבילת הפיתוח של LLVM; אין לכתוב נתיב ייחודי למחשב בקובצי הפרויקט.",
     bootstrap: "הכנת מחשב אופציונלית",
@@ -232,7 +232,7 @@ const text = {
       },
       {
         title: "תוכניות לדוגמה",
-        detail: "דוגמאות קוד לצד מקבילות ב-C#‎ 13, ב-C++20 וב-Java 21.",
+        detail: "דוגמאות קוד לצד מקבילות ב-C#‎ 13, ב-C++20, ב-Java 21 וב-Rust.",
         href: "https://github.com/Progmasoft/tala/tree/main/Examples",
       },
     ],

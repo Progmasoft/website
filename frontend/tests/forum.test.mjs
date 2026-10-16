@@ -43,6 +43,9 @@ function loadForum(navigator = { languages: ["en-US"] }, initialStorage = {}) {
     setItem(key, value) {
       values.set(key, value);
     },
+    removeItem(key) {
+      values.delete(key);
+    },
   };
   const document = {
     title: "",
@@ -116,16 +119,23 @@ test("forum has no language menu and ignores a language stored by an older page"
 });
 
 test("forum restores the saved light preference", () => {
-  const { document } = loadForum({ languages: ["en"] }, { "vxs-forum-theme": "light" });
+  const { document } = loadForum({ languages: ["en"] }, { "tala-forum-theme": "light" });
   assert.equal(document.documentElement.dataset.theme, "light");
+});
+
+test("forum moves a theme saved under the former key to the current one", () => {
+  const { document, values } = loadForum({ languages: ["en"] }, { "vxs-forum-theme": "light" });
+  assert.equal(document.documentElement.dataset.theme, "light");
+  assert.equal(values.get("tala-forum-theme"), "light");
+  assert.equal(values.has("vxs-forum-theme"), false);
 });
 
 test("forum theme button toggles and persists in both directions", () => {
   const { document, elements, values } = loadForum();
   elements.get("theme").click();
   assert.equal(document.documentElement.dataset.theme, "light");
-  assert.equal(values.get("vxs-forum-theme"), "light");
+  assert.equal(values.get("tala-forum-theme"), "light");
   elements.get("theme").click();
   assert.equal(document.documentElement.dataset.theme, "dark");
-  assert.equal(values.get("vxs-forum-theme"), "dark");
+  assert.equal(values.get("tala-forum-theme"), "dark");
 });

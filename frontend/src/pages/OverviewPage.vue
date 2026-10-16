@@ -72,7 +72,8 @@ const text = {
       },
       {
         label: "Project definition",
-        value: "BUILD.kts, evaluated by Tazel, the build system",
+        value:
+          "A project file, BUILD.kts or one of four other names, evaluated by Tazel, the build system",
       },
       {
         label: "Website",
@@ -95,7 +96,7 @@ const text = {
       },
       {
         q: "Does Tala require a particular IDE?",
-        a: "No. The supported developer workflow uses command-line tools on Windows and macOS; the Xide project is a future interface, not a prerequisite.",
+        a: "No. The supported developer workflow uses command-line tools on Windows, macOS and Linux; the Xide project is a future interface, not a prerequisite.",
       },
     ],
     items: [
@@ -187,7 +188,8 @@ const text = {
       },
       {
         label: "Projektdefinition",
-        value: "BUILD.kts, ausgewertet von Tazel, dem Build-System",
+        value:
+          "Eine Projektdatei, BUILD.kts oder einer von vier weiteren Namen, ausgewertet von Tazel, dem Build-System",
       },
       {
         label: "Website",
@@ -210,7 +212,7 @@ const text = {
       },
       {
         q: "Benötigt Tala eine bestimmte IDE?",
-        a: "Nein. Der unterstützte Entwicklungsweg nutzt Kommandozeilenwerkzeuge unter Windows und macOS; Xide ist eine künftige Oberfläche, keine Voraussetzung.",
+        a: "Nein. Der unterstützte Entwicklungsweg nutzt Kommandozeilenwerkzeuge unter Windows, macOS und Linux; Xide ist eine künftige Oberfläche, keine Voraussetzung.",
       },
     ],
     items: [
@@ -302,7 +304,8 @@ const text = {
       },
       {
         label: "Описание проекта",
-        value: "BUILD.kts, который выполняет Tazel, система сборки",
+        value:
+          "Файл проекта — BUILD.kts или одно из четырёх других имён, — который выполняет Tazel, система сборки",
       },
       {
         label: "Сайт",
@@ -325,7 +328,7 @@ const text = {
       },
       {
         q: "Нужна ли для Tala определённая IDE?",
-        a: "Нет. Поддерживаемый процесс разработки использует инструменты командной строки в Windows и macOS; проект Xide — будущий интерфейс, а не обязательное условие.",
+        a: "Нет. Поддерживаемый процесс разработки использует инструменты командной строки в Windows, macOS и Linux; проект Xide — будущий интерфейс, а не обязательное условие.",
       },
     ],
     items: [
@@ -417,7 +420,7 @@ const text = {
       },
       {
         label: "הגדרת הפרויקט",
-        value: "BUILD.kts, ש-Tazel, מערכת הבנייה, מריצה",
+        value: "קובץ פרויקט, BUILD.kts או אחד מארבעה שמות אחרים, ש-Tazel, מערכת הבנייה, מריצה",
       },
       {
         label: "האתר",
@@ -440,7 +443,7 @@ const text = {
       },
       {
         q: "האם Tala דורשת סביבת פיתוח מסוימת?",
-        a: "לא. תהליך הפיתוח הנתמך משתמש בכלי שורת פקודה ב-Windows וב-macOS; הפרויקט Xide הוא ממשק עתידי, לא דרישה מוקדמת.",
+        a: "לא. תהליך הפיתוח הנתמך משתמש בכלי שורת פקודה ב-Windows, ב-macOS וב-Linux; הפרויקט Xide הוא ממשק עתידי, לא דרישה מוקדמת.",
       },
     ],
     items: [
