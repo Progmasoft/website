@@ -54,12 +54,12 @@ const optionTerms = (d: {
 const commandLine: DocTopic = {
   "en-US": {
     nav: "Command line",
-    title: "Command line · talac",
+    title: "Command line · Talac",
     description:
-      "The command line of talac, the Tala compiler: inputs, options, the entry class and warnings.",
+      "The command line of Talac, the Tala compiler: inputs, options, the entry class and warnings.",
     section: "TALAC / COMMAND LINE",
     heading: "The compiler and its command line",
-    lead: "talac is the compiler and nothing else: sources or artifacts go in, one artifact comes out. Projects, dependencies, formatting and linting belong to Tazel, which starts talac as a separate program.",
+    lead: "Talac is the compiler and nothing else: sources or artifacts go in, one artifact comes out. Projects, dependencies, formatting and linting belong to Tazel, which starts Talac as a separate program.",
     blocks: [
       { kind: "code", code: compile },
       {
@@ -112,12 +112,12 @@ const commandLine: DocTopic = {
   },
   "de-DE": {
     nav: "Befehlszeile",
-    title: "Befehlszeile · talac",
+    title: "Befehlszeile · Talac",
     description:
-      "Die Befehlszeile von talac, dem Tala-Compiler: Eingaben, Optionen, die Einstiegsklasse und Warnungen.",
+      "Die Befehlszeile von Talac, dem Tala-Compiler: Eingaben, Optionen, die Einstiegsklasse und Warnungen.",
     section: "TALAC / BEFEHLSZEILE",
     heading: "Der Compiler und seine Befehlszeile",
-    lead: "talac ist der Compiler und nichts sonst: Quellen oder Artefakte gehen hinein, ein Artefakt kommt heraus. Projekte, Abhängigkeiten, Formatierung und Linting gehören zu Tazel, das talac als eigenes Programm startet.",
+    lead: "Talac ist der Compiler und nichts sonst: Quellen oder Artefakte gehen hinein, ein Artefakt kommt heraus. Projekte, Abhängigkeiten, Formatierung und Linting gehören zu Tazel, das Talac als eigenes Programm startet.",
     blocks: [
       { kind: "code", code: compile },
       {
@@ -171,12 +171,12 @@ const commandLine: DocTopic = {
   },
   "ru-RU": {
     nav: "Командная строка",
-    title: "Командная строка · talac",
+    title: "Командная строка · Talac",
     description:
-      "Командная строка talac, компилятора Tala: входные файлы, параметры, класс точки входа и предупреждения.",
+      "Командная строка Talac, компилятора Tala: входные файлы, параметры, класс точки входа и предупреждения.",
     section: "TALAC / КОМАНДНАЯ СТРОКА",
     heading: "Компилятор и его командная строка",
-    lead: "talac — это компилятор и ничего больше: на вход подаются исходники или артефакты, на выходе получается один артефакт. Проекты, зависимости, форматирование и линтинг относятся к Tazel, который запускает talac как отдельную программу.",
+    lead: "Talac — это компилятор и ничего больше: на вход подаются исходники или артефакты, на выходе получается один артефакт. Проекты, зависимости, форматирование и линтинг относятся к Tazel, который запускает Talac как отдельную программу.",
     blocks: [
       { kind: "code", code: compile },
       {
@@ -229,11 +229,11 @@ const commandLine: DocTopic = {
   },
   "he-IL": {
     nav: "שורת הפקודה",
-    title: "שורת הפקודה · talac",
-    description: "שורת הפקודה של talac, המהדר של Tala: קלטים, אפשרויות, מחלקת הכניסה ואזהרות.",
+    title: "שורת הפקודה · Talac",
+    description: "שורת הפקודה של Talac, המהדר של Tala: קלטים, אפשרויות, מחלקת הכניסה ואזהרות.",
     section: "TALAC / שורת הפקודה",
     heading: "המהדר ושורת הפקודה שלו",
-    lead: "talac הוא המהדר ותו לא: קבצי מקור או תוצרים נכנסים, ותוצר אחד יוצא. פרויקטים, תלויות, עיצוב קוד ובדיקות lint שייכים ל-Tazel, שמפעיל את talac כתוכנית נפרדת.",
+    lead: "Talac הוא המהדר ותו לא: קבצי מקור או תוצרים נכנסים, ותוצר אחד יוצא. פרויקטים, תלויות, עיצוב קוד ובדיקות lint שייכים ל-Tazel, שמפעיל את Talac כתוכנית נפרדת.",
     blocks: [
       { kind: "code", code: compile },
       {
@@ -300,9 +300,9 @@ const outputTerms = (
 const outputs: DocTopic = {
   "en-US": {
     nav: "Outputs",
-    title: "Outputs · talac",
+    title: "Outputs · Talac",
     description:
-      "What talac reads and writes: --build and --emit, the intermediate stages, and the record of a check.",
+      "What Talac reads and writes: --build and --emit, the intermediate stages, and the record of a check.",
     section: "TALAC / OUTPUTS",
     heading: "Inputs and outputs",
     lead: "--build says what the inputs are and --emit says what to write. The default is to build an executable from Tala sources. The output cannot be an earlier stage than the input.",
@@ -334,9 +334,9 @@ const outputs: DocTopic = {
   },
   "de-DE": {
     nav: "Ausgaben",
-    title: "Ausgaben · talac",
+    title: "Ausgaben · Talac",
     description:
-      "Was talac liest und schreibt: --build und --emit, die Zwischenstufen und der Nachweis einer Prüfung.",
+      "Was Talac liest und schreibt: --build und --emit, die Zwischenstufen und der Nachweis einer Prüfung.",
     section: "TALAC / AUSGABEN",
     heading: "Eingaben und Ausgaben",
     lead: "--build sagt, was die Eingaben sind, und --emit, was geschrieben wird. Vorgabe ist eine ausführbare Datei aus Tala-Quellen. Die Ausgabe kann keine frühere Stufe sein als die Eingabe.",
@@ -368,9 +368,9 @@ const outputs: DocTopic = {
   },
   "ru-RU": {
     nav: "Результаты",
-    title: "Результаты · talac",
+    title: "Результаты · Talac",
     description:
-      "Что talac читает и записывает: --build и --emit, промежуточные стадии и запись о проверке.",
+      "Что Talac читает и записывает: --build и --emit, промежуточные стадии и запись о проверке.",
     section: "TALAC / РЕЗУЛЬТАТЫ",
     heading: "Входные данные и результаты",
     lead: "--build говорит, что подаётся на вход, а --emit — что записать. По умолчанию из исходников Tala собирается исполняемый файл. Результат не может быть более ранней стадией, чем вход.",
@@ -402,8 +402,8 @@ const outputs: DocTopic = {
   },
   "he-IL": {
     nav: "פלטים",
-    title: "פלטים · talac",
-    description: "מה talac קורא וכותב: ‎--build ו-‎--emit, שלבי הביניים והרשומה של בדיקה.",
+    title: "פלטים · Talac",
+    description: "מה Talac קורא וכותב: ‎--build ו-‎--emit, שלבי הביניים והרשומה של בדיקה.",
     section: "TALAC / פלטים",
     heading: "קלטים ופלטים",
     lead: "‎--build אומר מה הקלטים, ו-‎--emit אומר מה לכתוב. ברירת המחדל היא לבנות קובץ הרצה מקבצי Tala. הפלט אינו יכול להיות שלב מוקדם יותר מהקלט.",

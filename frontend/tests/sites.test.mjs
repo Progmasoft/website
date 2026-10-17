@@ -131,7 +131,7 @@ test("the documentation teaches the current command lines only", () => {
 
 test("each site names its pages and points canonical URLs at its own host", () => {
   const talac = pageMetadata("/docs/outputs", "de-DE", "talac");
-  assert.equal(talac.title, "Ausgaben · talac");
+  assert.equal(talac.title, "Ausgaben · Talac");
   assert.equal(talac.canonicalPath, "/docs/outputs");
   const tazel = pageMetadata("/", "en-US", "tazel");
   assert.equal(tazel.canonicalPath, "/docs/commands");

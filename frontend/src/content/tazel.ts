@@ -87,14 +87,14 @@ const commands: DocTopic = {
       "The commands of Tazel, the build system and package manager of Tala, and how they select targets.",
     section: "TAZEL / COMMANDS",
     heading: "The build system and its commands",
-    lead: "Tazel reads the project file, finds the sources and starts talac, talafmt or talalint as separate programs. It compiles nothing itself. The name joins Tala and Bazel.",
+    lead: "Tazel reads the project file, finds the sources and starts Talac, talafmt or talalint as separate programs. It compiles nothing itself. The name joins Tala and Bazel.",
     blocks: [
       { kind: "code", code: everyday },
       {
         kind: "terms",
         items: commandTerms({
           check:
-            "Starts talac with --emit=metadata and the compiler options of the project. Writes no executable.",
+            "Starts Talac with --emit=metadata and the compiler options of the project. Writes no executable.",
           build:
             "Builds the executables into the output directory of the build mode, under the name of the target.",
           run: "Builds the executables and runs them; what follows -- goes to the program.",
@@ -139,14 +139,14 @@ const commands: DocTopic = {
       "Die Befehle von Tazel, dem Build-System und Paketmanager von Tala, und wie sie Ziele auswählen.",
     section: "TAZEL / BEFEHLE",
     heading: "Das Build-System und seine Befehle",
-    lead: "Tazel liest die Projektdatei, findet die Quellen und startet talac, talafmt oder talalint als eigene Programme. Selbst kompiliert es nichts. Der Name verbindet Tala und Bazel.",
+    lead: "Tazel liest die Projektdatei, findet die Quellen und startet Talac, talafmt oder talalint als eigene Programme. Selbst kompiliert es nichts. Der Name verbindet Tala und Bazel.",
     blocks: [
       { kind: "code", code: everyday },
       {
         kind: "terms",
         items: commandTerms({
           check:
-            "Startet talac mit --emit=metadata und den Compiler-Optionen des Projekts. Schreibt keine ausführbare Datei.",
+            "Startet Talac mit --emit=metadata und den Compiler-Optionen des Projekts. Schreibt keine ausführbare Datei.",
           build:
             "Baut die ausführbaren Dateien in das Ausgabeverzeichnis des Build-Modus, unter dem Namen des Ziels.",
           run: "Baut die ausführbaren Dateien und startet sie; was nach -- folgt, geht an das Programm.",
@@ -190,14 +190,14 @@ const commands: DocTopic = {
     description: "Команды Tazel, системы сборки и менеджера пакетов Tala, и как они выбирают цели.",
     section: "TAZEL / КОМАНДЫ",
     heading: "Система сборки и её команды",
-    lead: "Tazel читает файл проекта, находит исходники и запускает talac, talafmt или talalint как отдельные программы. Сам он ничего не компилирует. Название соединяет Tala и Bazel.",
+    lead: "Tazel читает файл проекта, находит исходники и запускает Talac, talafmt или talalint как отдельные программы. Сам он ничего не компилирует. Название соединяет Tala и Bazel.",
     blocks: [
       { kind: "code", code: everyday },
       {
         kind: "terms",
         items: commandTerms({
           check:
-            "Запускает talac с --emit=metadata и параметрами компилятора из проекта. Исполняемый файл не создаётся.",
+            "Запускает Talac с --emit=metadata и параметрами компилятора из проекта. Исполняемый файл не создаётся.",
           build: "Собирает исполняемые файлы в каталог результатов режима сборки под именем цели.",
           run: "Собирает исполняемые файлы и запускает их; всё после -- передаётся программе.",
           test: "Собирает и запускает наборы тестов.",
@@ -240,14 +240,14 @@ const commands: DocTopic = {
     description: "הפקודות של Tazel, מערכת הבנייה ומנהל החבילות של Tala, ואיך הן בוחרות יעדים.",
     section: "TAZEL / פקודות",
     heading: "מערכת הבנייה והפקודות שלה",
-    lead: "Tazel קורא את קובץ הפרויקט, מוצא את קבצי המקור ומפעיל את talac, ‏talafmt או talalint כתוכניות נפרדות. הוא עצמו אינו מהדר דבר. השם מחבר את Tala ואת Bazel.",
+    lead: "Tazel קורא את קובץ הפרויקט, מוצא את קבצי המקור ומפעיל את Talac, ‏talafmt או talalint כתוכניות נפרדות. הוא עצמו אינו מהדר דבר. השם מחבר את Tala ואת Bazel.",
     blocks: [
       { kind: "code", code: everyday },
       {
         kind: "terms",
         items: commandTerms({
           check:
-            "מפעיל את talac עם ‎--emit=metadata ועם אפשרויות המהדר של הפרויקט. אינו כותב קובץ הרצה.",
+            "מפעיל את Talac עם ‎--emit=metadata ועם אפשרויות המהדר של הפרויקט. אינו כותב קובץ הרצה.",
           build: "בונה את קובצי ההרצה לתיקיית הפלט של מצב הבנייה, בשם היעד.",
           run: "בונה את קובצי ההרצה ומריץ אותם; מה שאחרי ‎-- עובר לתוכנית.",
           test: "בונה ומריץ את חבילות הבדיקה.",
@@ -307,7 +307,7 @@ const projectFile: DocTopic = {
       { kind: "heading", text: "Compiler settings" },
       {
         kind: "text",
-        text: "Tazel writes every setting onto the command line of talac, the defaults too. optLevel defaults to O0 in a debug build and O3 in a release build. No warning level turns wshadow on, and wshadow with Warnings.NONE is rejected.",
+        text: "Tazel writes every setting onto the command line of Talac, the defaults too. optLevel defaults to O0 in a debug build and O3 in a release build. No warning level turns wshadow on, and wshadow with Warnings.NONE is rejected.",
       },
       { kind: "code", code: compiler },
       { kind: "heading", text: "Dependencies" },
@@ -350,7 +350,7 @@ const projectFile: DocTopic = {
       { kind: "heading", text: "Compiler-Einstellungen" },
       {
         kind: "text",
-        text: "Tazel schreibt jede Einstellung auf die Befehlszeile von talac, auch die Vorgaben. optLevel ist in einem Debug-Build O0 und in einem Release-Build O3. Keine Warnstufe schaltet wshadow ein, und wshadow zusammen mit Warnings.NONE wird abgelehnt.",
+        text: "Tazel schreibt jede Einstellung auf die Befehlszeile von Talac, auch die Vorgaben. optLevel ist in einem Debug-Build O0 und in einem Release-Build O3. Keine Warnstufe schaltet wshadow ein, und wshadow zusammen mit Warnings.NONE wird abgelehnt.",
       },
       { kind: "code", code: compiler },
       { kind: "heading", text: "Abhängigkeiten" },
@@ -393,7 +393,7 @@ const projectFile: DocTopic = {
       { kind: "heading", text: "Настройки компилятора" },
       {
         kind: "text",
-        text: "Tazel передаёт в командную строку talac каждую настройку, в том числе значения по умолчанию. optLevel по умолчанию O0 в отладочной сборке и O3 в релизной. Ни один уровень предупреждений не включает wshadow, а wshadow вместе с Warnings.NONE отклоняется.",
+        text: "Tazel передаёт в командную строку Talac каждую настройку, в том числе значения по умолчанию. optLevel по умолчанию O0 в отладочной сборке и O3 в релизной. Ни один уровень предупреждений не включает wshadow, а wshadow вместе с Warnings.NONE отклоняется.",
       },
       { kind: "code", code: compiler },
       { kind: "heading", text: "Зависимости" },
@@ -436,7 +436,7 @@ const projectFile: DocTopic = {
       { kind: "heading", text: "הגדרות המהדר" },
       {
         kind: "text",
-        text: "Tazel כותב כל הגדרה לשורת הפקודה של talac, גם את ברירות המחדל. ברירת המחדל של optLevel היא O0 בבניית debug ו-O3 בבניית release. אף רמת אזהרות אינה מפעילה את wshadow, ו-wshadow יחד עם Warnings.NONE נדחה.",
+        text: "Tazel כותב כל הגדרה לשורת הפקודה של Talac, גם את ברירות המחדל. ברירת המחדל של optLevel היא O0 בבניית debug ו-O3 בבניית release. אף רמת אזהרות אינה מפעילה את wshadow, ו-wshadow יחד עם Warnings.NONE נדחה.",
       },
       { kind: "code", code: compiler },
       { kind: "heading", text: "תלויות" },

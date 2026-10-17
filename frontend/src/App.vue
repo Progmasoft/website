@@ -61,12 +61,12 @@ const labels = {
 const copy = computed(() => labels[locale.value]);
 
 const hostname = window.location.hostname;
-const brand = { language: "Tala", talac: "talac", tazel: "Tazel" }[site];
+const brand = { language: "Tala", talac: "Talac", tazel: "Tazel" }[site];
 // The other two sites are linked by their names, which read the same in every language.
 const siblings = (["language", "talac", "tazel"] as const)
   .filter((other): other is Site => other !== site)
   .map((other) => ({
-    label: { language: "Tala", talac: "talac", tazel: "Tazel" }[other],
+    label: { language: "Tala", talac: "Talac", tazel: "Tazel" }[other],
     href: siteUrl(other, siteHome[other], hostname),
   }));
 
