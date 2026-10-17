@@ -11,6 +11,10 @@ tazel lint -- --fix`;
 const selection = `tazel build --vipkg Name          tazel build -p Name
 tazel build --executable Name     tazel build -e Name
 tazel build --library Name        tazel build -l Name`;
+const locking = `tazel lock create-dump --path reviews/Locks.sql
+tazel lock graph --locked
+tazel lock graph --invert Publisher.Name
+tazel lock graph --duplicates --depth 1`;
 const minimal = `project {
   name = "Example"
 }
@@ -58,6 +62,7 @@ const commandTerms = (
     | "test"
     | "resolve"
     | "dump"
+    | "graph"
     | "fmt"
     | "lint"
     | "version"
@@ -71,12 +76,16 @@ const commandTerms = (
   { term: "tazel run [-- arguments]", detail: d.run },
   { term: "tazel test", detail: d.test },
   { term: "tazel lock resolve", detail: d.resolve },
-  { term: "tazel lock create-dump", detail: d.dump },
+  { term: "tazel lock create-dump [--path File]", detail: d.dump },
+  { term: "tazel lock graph [options]", detail: d.graph },
   { term: "tazel fmt [-- options]", detail: d.fmt },
   { term: "tazel lint [--workspace] [-- options]", detail: d.lint },
   { term: "tazel version", detail: d.version },
   { term: "tazel help [command]", detail: d.help },
-  { term: "tazel install, update, vipkg create, viget push, viget update", detail: d.registry },
+  {
+    term: "tazel install, update, vipkg create, viget push, viget update, viget vipkg-desc",
+    detail: d.registry,
+  },
 ];
 
 const commands: DocTopic = {
@@ -100,7 +109,9 @@ const commands: DocTopic = {
           run: "Builds the executables and runs them; what follows -- goes to the program.",
           test: "Builds and runs the test suites.",
           resolve: "Records the declared dependencies in LOCK.sqlite3.",
-          dump: "Writes LOCK.dump, the lockfile as SQL text.",
+          dump: "Writes the lockfile as SQL text: to LOCK.dump, or to the file --path names. The folder of that file has to exist.",
+          graph:
+            "Prints the dependency graph and renews LOCK.sqlite3 first, unless --locked forbids it.",
           fmt: "Formats the sources with talafmt.",
           lint: "Lints the sources with talalint.",
           version: "Prints the version of Tazel.",
@@ -119,6 +130,17 @@ const commands: DocTopic = {
       {
         kind: "text",
         text: "Everything after -- goes unread to the program a command starts: tazel lint -- --fix hands --fix to talalint, tazel run -- --port 8080 hands --port 8080 to the program.",
+      },
+      { kind: "heading", text: "The lockfile and the graph" },
+      {
+        kind: "text",
+        text: "tazel lock graph prints what each project depends on. --all-features turns every feature of the project on, --duplicates shows the packages declared in more than one version, --depth limits the levels, and --invert shows who depends on one package: Publisher.Name for a ViGet package, a path ending in .vipkg for a local one, or the project.name of a project below the current folder.",
+      },
+      { kind: "code", code: locking },
+      { kind: "heading", text: "Mistyped words" },
+      {
+        kind: "text",
+        text: "A mistyped command, flag or name gets a hint under the error, such as: did you mean tazel build?",
       },
       { kind: "heading", text: "Workspaces and tools" },
       {
@@ -152,7 +174,9 @@ const commands: DocTopic = {
           run: "Baut die ausführbaren Dateien und startet sie; was nach -- folgt, geht an das Programm.",
           test: "Baut die Testsuiten und führt sie aus.",
           resolve: "Hält die deklarierten Abhängigkeiten in LOCK.sqlite3 fest.",
-          dump: "Schreibt LOCK.dump, die Lockdatei als SQL-Text.",
+          dump: "Schreibt die Lockdatei als SQL-Text: nach LOCK.dump oder in die Datei, die --path nennt. Deren Ordner muss bereits existieren.",
+          graph:
+            "Gibt den Abhängigkeitsgraphen aus und erneuert vorher LOCK.sqlite3, außer --locked verbietet es.",
           fmt: "Formatiert die Quellen mit talafmt.",
           lint: "Prüft die Quellen mit talalint.",
           version: "Gibt die Version von Tazel aus.",
@@ -171,6 +195,17 @@ const commands: DocTopic = {
       {
         kind: "text",
         text: "Alles nach -- geht ungelesen an das Programm, das ein Befehl startet: tazel lint -- --fix reicht --fix an talalint weiter, tazel run -- --port 8080 reicht --port 8080 an das Programm weiter.",
+      },
+      { kind: "heading", text: "Lockdatei und Graph" },
+      {
+        kind: "text",
+        text: "tazel lock graph zeigt, wovon jedes Projekt abhängt. --all-features schaltet jedes Feature des Projekts ein, --duplicates zeigt die Pakete, die in mehr als einer Version deklariert sind, --depth begrenzt die Ebenen, und --invert zeigt, wer von einem Paket abhängt: Publisher.Name für ein ViGet-Paket, ein Pfad auf .vipkg für ein lokales, oder der project.name eines Projekts unterhalb des aktuellen Ordners.",
+      },
+      { kind: "code", code: locking },
+      { kind: "heading", text: "Vertippte Wörter" },
+      {
+        kind: "text",
+        text: "Ein vertippter Befehl, eine Option oder ein Name bekommt unter dem Fehler einen Hinweis, etwa: did you mean tazel build?",
       },
       { kind: "heading", text: "Workspaces und Werkzeuge" },
       {
@@ -202,7 +237,9 @@ const commands: DocTopic = {
           run: "Собирает исполняемые файлы и запускает их; всё после -- передаётся программе.",
           test: "Собирает и запускает наборы тестов.",
           resolve: "Записывает объявленные зависимости в LOCK.sqlite3.",
-          dump: "Записывает LOCK.dump — lock-файл в виде SQL-текста.",
+          dump: "Записывает lock-файл в виде SQL-текста: в LOCK.dump или в файл, указанный в --path. Его каталог должен уже существовать.",
+          graph:
+            "Выводит граф зависимостей и сначала обновляет LOCK.sqlite3, если --locked этого не запрещает.",
           fmt: "Форматирует исходники с помощью talafmt.",
           lint: "Проверяет исходники с помощью talalint.",
           version: "Выводит версию Tazel.",
@@ -221,6 +258,17 @@ const commands: DocTopic = {
       {
         kind: "text",
         text: "Всё после -- без разбора передаётся программе, которую запускает команда: tazel lint -- --fix передаёт --fix в talalint, tazel run -- --port 8080 передаёт --port 8080 программе.",
+      },
+      { kind: "heading", text: "Lock-файл и граф" },
+      {
+        kind: "text",
+        text: "tazel lock graph показывает, от чего зависит каждый проект. --all-features включает все возможности проекта, --duplicates показывает пакеты, объявленные в нескольких версиях, --depth ограничивает число уровней, а --invert показывает, кто зависит от пакета: Publisher.Name для пакета ViGet, путь с окончанием .vipkg для локального или project.name проекта ниже текущего каталога.",
+      },
+      { kind: "code", code: locking },
+      { kind: "heading", text: "Опечатки" },
+      {
+        kind: "text",
+        text: "Команда, параметр или имя с опечаткой получают подсказку под ошибкой, например: did you mean tazel build?",
       },
       { kind: "heading", text: "Рабочие пространства и инструменты" },
       {
@@ -252,7 +300,8 @@ const commands: DocTopic = {
           run: "בונה את קובצי ההרצה ומריץ אותם; מה שאחרי ‎-- עובר לתוכנית.",
           test: "בונה ומריץ את חבילות הבדיקה.",
           resolve: "רושם את התלויות המוצהרות ב-LOCK.sqlite3.",
-          dump: "כותב את LOCK.dump, קובץ הנעילה כטקסט SQL.",
+          dump: "כותב את קובץ הנעילה כטקסט SQL: ל-LOCK.dump, או לקובץ ש-‎--path מציין. התיקייה של הקובץ חייבת להיות קיימת.",
+          graph: "מדפיס את גרף התלויות ומחדש קודם את LOCK.sqlite3, אלא אם ‎--locked אוסר זאת.",
           fmt: "מעצב את קבצי המקור עם talafmt.",
           lint: "בודק את קבצי המקור עם talalint.",
           version: "מדפיס את גרסת Tazel.",
@@ -270,6 +319,17 @@ const commands: DocTopic = {
       {
         kind: "text",
         text: "כל מה שאחרי ‎-- עובר בלי קריאה לתוכנית שהפקודה מפעילה: ‏tazel lint -- --fix מעביר ‎--fix ל-talalint, ו-tazel run -- --port 8080 מעביר ‎--port 8080 לתוכנית.",
+      },
+      { kind: "heading", text: "קובץ הנעילה והגרף" },
+      {
+        kind: "text",
+        text: "tazel lock graph מציג במה תלוי כל פרויקט. ‎--all-features מפעיל את כל התכונות של הפרויקט, ‎--duplicates מציג חבילות שהוצהרו ביותר מגרסה אחת, ‎--depth מגביל את מספר הרמות, ו-‎--invert מציג מי תלוי בחבילה: ‏Publisher.Name לחבילת ViGet, נתיב שמסתיים ב-‎.vipkg לחבילה מקומית, או ה-project.name של פרויקט מתחת לתיקייה הנוכחית.",
+      },
+      { kind: "code", code: locking },
+      { kind: "heading", text: "שגיאות הקלדה" },
+      {
+        kind: "text",
+        text: "פקודה, אפשרות או שם עם שגיאת הקלדה מקבלים רמז מתחת לשגיאה, למשל: ‏did you mean tazel build?",
       },
       { kind: "heading", text: "סביבות עבודה וכלים" },
       {
