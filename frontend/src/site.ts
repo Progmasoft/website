@@ -15,11 +15,11 @@ export const siteHosts: Record<Site, string> = {
 
 export const forumUrl = "https://forum.tala.run/";
 
-/** The first page of each site. */
+/** The first page of each site: its landing page. */
 export const siteHome: Record<Site, string> = {
   language: "/",
-  talac: "/docs/command-line",
-  tazel: "/docs/commands",
+  talac: "/",
+  tazel: "/",
 };
 
 /** The documentation topics of each site, in the order the sidebar lists them. */

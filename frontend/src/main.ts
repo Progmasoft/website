@@ -6,24 +6,25 @@ import { createRouter, createWebHistory, type RouteRecordRaw } from "vue-router"
 import App from "./App.vue";
 import { contentRoutes } from "./content/routes";
 import DocPage from "./pages/DocPage.vue";
-import HomePage from "./pages/HomePage.vue";
+import LandingPage from "./pages/LandingPage.vue";
 import OverviewPage from "./pages/OverviewPage.vue";
 import GettingStartedPage from "./pages/GettingStartedPage.vue";
 import { locale } from "./preferences";
 import { applyPageMetadata } from "./seo";
-import { site, siteHome } from "./site";
+import { site } from "./site";
 import "./styles/site.css";
 
-// tala.run has its home page and two pages built by hand; the documentation of Talac and Tazel, on their own
-// hosts, is rendered from content and opens on its first topic.
-const pages: RouteRecordRaw[] =
-  site === "language"
+// Every site opens on its own landing page. tala.run also has two pages built by hand; the rest of the
+// documentation of each site is rendered from content.
+const pages: RouteRecordRaw[] = [
+  { path: "/", component: LandingPage },
+  ...(site === "language"
     ? [
-        { path: "/", component: HomePage },
         { path: "/docs/overview", component: OverviewPage },
         { path: "/docs/getting-started", component: GettingStartedPage },
       ]
-    : [{ path: "/", redirect: siteHome[site] }];
+    : []),
+];
 const documentation: RouteRecordRaw[] = contentRoutes[site].map((route) => ({
   path: route.path,
   component: DocPage,

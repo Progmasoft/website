@@ -26,10 +26,12 @@ test("every site publishes exactly its own pages in its sitemap", () => {
     "https://tala.run/docs/syntax",
   ]);
   assert.deepEqual(locations("public/hosts/talac/sitemap.xml"), [
+    "https://talac.tala.run/",
     "https://talac.tala.run/docs/command-line",
     "https://talac.tala.run/docs/outputs",
   ]);
   assert.deepEqual(locations("public/hosts/tazel/sitemap.xml"), [
+    "https://tazel.tala.run/",
     "https://tazel.tala.run/docs/commands",
     "https://tazel.tala.run/docs/project-file",
   ]);
@@ -93,7 +95,8 @@ test("the social image is a 1280 by 640 PNG suitable for the page metadata", () 
 test("the site has no retired public login or registry links", () => {
   const sources = [
     "src/App.vue",
-    "src/pages/HomePage.vue",
+    "src/pages/LandingPage.vue",
+    "src/content/landing.ts",
     "src/pages/OverviewPage.vue",
     "src/pages/GettingStartedPage.vue",
   ];
@@ -122,26 +125,22 @@ test("every linked repository path used by the guides exists when compiler sourc
   }
 });
 
-test("the site example is copied from the compiler repository when available", (context) => {
+test("the site examples are copied from the compiler repository when available", async (context) => {
   const compilerRoot = join(websiteRoot, "..");
-  const examplePath = join(compilerRoot, "Examples/HelloWorld/HelloWorld.tala");
-  if (!existsSync(examplePath)) {
+  if (!existsSync(join(compilerRoot, "Examples/HelloWorld/HelloWorld.tala"))) {
     context.skip("standalone website checkout has no sibling compiler repository");
     return;
   }
-  const source = readFileSync(examplePath, "utf8");
-  const program = source
-    .slice(source.indexOf("namespace Examples.HelloWorld;"))
-    .replaceAll("\r\n", "\n")
-    .trim();
-  const pages = ["src/pages/HomePage.vue", "src/pages/GettingStartedPage.vue"];
-  for (const page of pages) {
-    const content = read(page);
-    assert.ok(
-      content.replaceAll("\r\n", "\n").includes(program),
-      `${page} diverged from the compiler example`,
-    );
-  }
+  const program = (name) => {
+    const source = readFileSync(join(compilerRoot, `Examples/${name}/${name}.tala`), "utf8");
+    return source.slice(source.indexOf("namespace ")).replaceAll("\r\n", "\n").trim();
+  };
+  const samples = await import("../src/content/landing.ts");
+  assert.equal(samples.helloWorld, program("HelloWorld"), "the HelloWorld tab diverged");
+  assert.equal(samples.primeNumbers, program("PrimeNumbers"), "the PrimeNumbers tab diverged");
+  assert.equal(samples.gcd, program("GCD"), "the GCD sample diverged");
+  const guide = read("src/pages/GettingStartedPage.vue").replaceAll("\r\n", "\n");
+  assert.ok(guide.includes(program("HelloWorld")), "the guide diverged from the compiler example");
 });
 
 test("maintenance mode preserves the legacy redirect without opening the language site", () => {
@@ -267,7 +266,7 @@ test("navigation, router, and sitemap agree on the public language pages", () =>
 
 test("every public link in the page shell uses the correct project identity", () => {
   const shell = read("src/App.vue");
-  const home = read("src/pages/HomePage.vue");
+  const home = read("src/content/landing.ts");
   const overview = read("src/pages/OverviewPage.vue");
   const guide = read("src/pages/GettingStartedPage.vue");
   const combined = [shell, home, overview, guide].join("\n");

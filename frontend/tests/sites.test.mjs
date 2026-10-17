@@ -67,8 +67,8 @@ test("every topic a sidebar lists is a page of its site", () => {
       assert.ok(sidebar.every((entry) => entry.label.length > 0 && !entry.label.startsWith("/")));
     }
   }
-  assert.equal(siteHome.talac, siteTopics.talac[0]);
-  assert.equal(siteHome.tazel, siteTopics.tazel[0]);
+  // Every site opens on its own landing page rather than on a documentation topic.
+  assert.deepEqual(siteHome, { language: "/", talac: "/", tazel: "/" });
 });
 
 test("every topic is written in every language with the same code in each", () => {
@@ -134,7 +134,8 @@ test("each site names its pages and points canonical URLs at its own host", () =
   assert.equal(talac.title, "Ausgaben · Talac");
   assert.equal(talac.canonicalPath, "/docs/outputs");
   const tazel = pageMetadata("/", "en-US", "tazel");
-  assert.equal(tazel.canonicalPath, "/docs/commands");
+  assert.equal(tazel.canonicalPath, "/");
+  assert.equal(tazel.title, "Tazel — The build system of Tala");
   assert.equal(pageMetadata("/docs/syntax", "ru-RU", "language").title, "Синтаксис · Tala");
   assert.equal(pageMetadata("/docs/outputs", "en-US", "language").canonicalPath, "/");
   assert.deepEqual(siteHosts, {

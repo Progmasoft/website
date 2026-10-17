@@ -6,7 +6,8 @@ import { computed } from "vue";
 import { RouterLink, RouterView } from "vue-router";
 import { localeLabels } from "./locales";
 import { locale, supportedLocales, theme } from "./preferences";
-import { forumUrl, site, siteHome, siteUrl, type Site } from "./site";
+import { contentRoutes } from "./content/routes";
+import { forumUrl, site, siteHome, siteTopics, siteUrl, type Site } from "./site";
 
 const labels = {
   "en-US": {
@@ -70,6 +71,14 @@ const siblings = (["language", "talac", "tazel"] as const)
     href: siteUrl(other, siteHome[other], hostname),
   }));
 
+// Talac and Tazel list their documentation topics in the header, by the names their sidebars use.
+const topicLinks = computed(() =>
+  siteTopics[site].map((path) => {
+    const route = contentRoutes[site].find((candidate) => candidate.path === path);
+    return { path, label: route ? route.topic[locale.value].nav : path };
+  }),
+);
+
 function toggleTheme() {
   theme.value = theme.value === "dark" ? "light" : "dark";
 }
@@ -79,16 +88,21 @@ function toggleTheme() {
   <a class="skip-link" href="#main">Skip to content</a>
   <div class="site-shell">
     <header class="site-header">
-      <RouterLink class="brand" :to="siteHome[site]" :aria-label="`${brand} ${copy.home}`">
+      <RouterLink class="brand" to="/" :aria-label="`${brand} ${copy.home}`">
         <img src="/tala-mark.svg" width="31" height="31" alt="" />
         <span>{{ brand }}</span>
       </RouterLink>
+      <span class="status-badge">{{ copy.status }}</span>
       <nav class="primary-nav" aria-label="Primary navigation">
         <template v-if="site === 'language'">
-          <RouterLink to="/">{{ copy.home }}</RouterLink>
           <RouterLink to="/docs/overview">{{ copy.overview }}</RouterLink>
           <RouterLink to="/docs/getting-started">{{ copy.start }}</RouterLink>
           <RouterLink to="/docs/syntax">{{ copy.syntax }}</RouterLink>
+        </template>
+        <template v-else>
+          <RouterLink v-for="topic in topicLinks" :key="topic.path" :to="topic.path">{{
+            topic.label
+          }}</RouterLink>
         </template>
         <a v-for="sibling in siblings" :key="sibling.href" :href="sibling.href">{{
           sibling.label

@@ -1,12 +1,13 @@
 // SPDX-FileCopyrightText: 2026 Progmasoft <support@progmasoft.com>
 // SPDX-License-Identifier: AGPL-3.0-or-later WITH AdditionRef-Progmasoft-Patent-Grant-1.1
 
+import { landing } from "./content/landing.ts";
 import { contentRoutes } from "./content/routes.ts";
 import type { Locale } from "./locales";
-import { site, siteHome, siteHosts, type Site } from "./site.ts";
+import { site, siteHosts, type Site } from "./site.ts";
 
-/** The pages of the language site that are built by hand rather than from content. */
-export type PublicRoute = "/" | "/docs/overview" | "/docs/getting-started";
+/** The documentation pages of the language site that are built by hand rather than from content. */
+export type PublicRoute = "/docs/overview" | "/docs/getting-started";
 
 type PageMetadata = {
   title: string;
@@ -15,11 +16,6 @@ type PageMetadata = {
 
 const metadata: Record<Locale, Record<PublicRoute, PageMetadata>> = {
   "en-US": {
-    "/": {
-      title: "Tala — Make the whole program understandable",
-      description:
-        "Meet Tala: a native programming language built around readable source, explicit ownership, and an inspectable compiler pipeline.",
-    },
     "/docs/overview": {
       title: "Overview · Tala",
       description:
@@ -32,11 +28,6 @@ const metadata: Record<Locale, Record<PublicRoute, PageMetadata>> = {
     },
   },
   "de-DE": {
-    "/": {
-      title: "Tala — Das ganze Programm verstehen",
-      description:
-        "Tala ist eine native Programmiersprache mit lesbarem Quellcode, explizitem Ownership und nachvollziehbarer Compiler-Pipeline.",
-    },
     "/docs/overview": {
       title: "Überblick · Tala",
       description:
@@ -49,11 +40,6 @@ const metadata: Record<Locale, Record<PublicRoute, PageMetadata>> = {
     },
   },
   "ru-RU": {
-    "/": {
-      title: "Tala — Сделать понятной всю программу",
-      description:
-        "Tala — нативный язык программирования с читаемым исходным кодом, явным владением и прозрачным конвейером компилятора.",
-    },
     "/docs/overview": {
       title: "Обзор · Tala",
       description:
@@ -66,11 +52,6 @@ const metadata: Record<Locale, Record<PublicRoute, PageMetadata>> = {
     },
   },
   "he-IL": {
-    "/": {
-      title: "Tala — להפוך את התוכנית כולה למובנת",
-      description:
-        "הכירו את Tala: שפת תכנות שמהודרת לקוד מכונה והבנויה סביב קוד מקור קריא, בעלות מפורשת ותהליך הידור שאפשר לבחון.",
-    },
     "/docs/overview": {
       title: "סקירה · Tala",
       description:
@@ -95,19 +76,21 @@ export function pageMetadata(
   locale: Locale,
   current: Site = site,
 ): PageMetadata & { canonicalPath: string } {
+  if (path === "/") {
+    const page = landing[current][locale];
+    return { title: page.title, description: page.description, canonicalPath: "/" };
+  }
   const content = contentRoutes[current].find((route) => route.path === path);
   if (content) {
     const page = content.topic[locale];
     return { title: page.title, description: page.description, canonicalPath: path };
   }
-  if (current === "language") {
-    // Unknown routes are redirected by the router. Their brief transitional state
-    // must not generate a canonical URL to an unlisted public page.
-    const canonicalPath: PublicRoute =
-      path === "/docs/overview" || path === "/docs/getting-started" ? path : "/";
-    return { ...metadata[locale][canonicalPath], canonicalPath };
+  // Unknown routes are redirected by the router. Their brief transitional state must not generate a canonical
+  // URL to an unlisted public page, so they are described as the landing page.
+  if (current === "language" && (path === "/docs/overview" || path === "/docs/getting-started")) {
+    return { ...metadata[locale][path], canonicalPath: path };
   }
-  return pageMetadata(siteHome[current], locale, current);
+  return pageMetadata("/", locale, current);
 }
 
 export function applyPageMetadata(path: string, locale: Locale): void {
