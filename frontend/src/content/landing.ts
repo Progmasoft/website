@@ -231,6 +231,7 @@ function tazelTabs(
 }
 
 const repository = "https://github.com/Progmasoft/tala";
+const tazelRepository = "https://github.com/Progmasoft/tazel";
 
 export const landing: Record<Site, Record<Locale, LandingText>> = {
   language: {
@@ -614,7 +615,7 @@ export const landing: Record<Site, Record<Locale, LandingText>> = {
       next: [
         { label: "Tala", href: "https://tala.run/" },
         { label: "Talac", href: "https://talac.tala.run/" },
-        { label: "Source", href: `${repository}/tree/main/Tazel` },
+        { label: "Source", href: tazelRepository },
       ],
       copy: "Copy",
       copied: "Copied",
@@ -658,7 +659,7 @@ export const landing: Record<Site, Record<Locale, LandingText>> = {
       next: [
         { label: "Tala", href: "https://tala.run/" },
         { label: "Talac", href: "https://talac.tala.run/" },
-        { label: "Quellcode", href: `${repository}/tree/main/Tazel` },
+        { label: "Quellcode", href: tazelRepository },
       ],
       copy: "Kopieren",
       copied: "Kopiert",
@@ -703,7 +704,7 @@ export const landing: Record<Site, Record<Locale, LandingText>> = {
       next: [
         { label: "Tala", href: "https://tala.run/" },
         { label: "Talac", href: "https://talac.tala.run/" },
-        { label: "Исходный код", href: `${repository}/tree/main/Tazel` },
+        { label: "Исходный код", href: tazelRepository },
       ],
       copy: "Копировать",
       copied: "Скопировано",
@@ -743,7 +744,7 @@ export const landing: Record<Site, Record<Locale, LandingText>> = {
       next: [
         { label: "Tala", href: "https://tala.run/" },
         { label: "Talac", href: "https://talac.tala.run/" },
-        { label: "קוד מקור", href: `${repository}/tree/main/Tazel` },
+        { label: "קוד מקור", href: tazelRepository },
       ],
       copy: "העתקה",
       copied: "הועתק",
