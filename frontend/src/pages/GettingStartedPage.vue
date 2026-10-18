@@ -2,6 +2,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later WITH AdditionRef-Progmasoft-Patent-Grant-1.1 -->
 
 <script setup lang="ts">
+import DocShell from "../components/DocShell.vue";
 import { computed } from "vue";
 import { RouterLink } from "vue-router";
 import { arrow, locale } from "../preferences";
@@ -256,69 +257,60 @@ public class HelloWorld {
 </script>
 
 <template>
-  <div class="doc-layout section-wrap">
-    <aside class="doc-sidebar">
-      <span class="kicker">TALA</span
-      ><RouterLink to="/docs/overview">{{ c.navOverview }}</RouterLink
-      ><RouterLink to="/docs/getting-started" aria-current="page">{{ c.navStart }}</RouterLink
-      ><a href="https://github.com/Progmasoft/tala/tree/main/Spec">Specification ↗</a>
-    </aside>
-    <article class="doc-content">
-      <span class="kicker">{{ c.section }}</span>
-      <h1>{{ c.title }}</h1>
-      <p class="doc-lead">{{ c.lead }}</p>
-      <h2>{{ c.step1 }}</h2>
-      <p>{{ c.step1Text }}</p>
-      <pre
-        class="doc-code"
-      ><code>git clone --recurse-submodules https://github.com/Progmasoft/tala.git</code></pre>
-      <h2>{{ c.step2 }}</h2>
-      <p>{{ c.step2Text }}</p>
-      <p>{{ c.platform }}</p>
-      <pre class="doc-code"><code>go run ./helpers/cmd/develop doctor</code></pre>
-      <h3>{{ c.bootstrap }}</h3>
-      <p>{{ c.toolchainHelp }}</p>
-      <pre class="doc-code"><code>go run ./helpers/cmd/prebuild check
+  <DocShell path="/docs/getting-started" edit-path="src/pages/GettingStartedPage.vue">
+    <h1>{{ c.title }}</h1>
+    <p class="doc-lead">{{ c.lead }}</p>
+    <h2>{{ c.step1 }}</h2>
+    <p>{{ c.step1Text }}</p>
+    <pre
+      class="doc-code"
+    ><code>git clone --recurse-submodules https://github.com/Progmasoft/tala.git</code></pre>
+    <h2>{{ c.step2 }}</h2>
+    <p>{{ c.step2Text }}</p>
+    <p>{{ c.platform }}</p>
+    <pre class="doc-code"><code>go run ./helpers/cmd/develop doctor</code></pre>
+    <h3>{{ c.bootstrap }}</h3>
+    <p>{{ c.toolchainHelp }}</p>
+    <pre class="doc-code"><code>go run ./helpers/cmd/prebuild check
 go run ./helpers/cmd/prebuild install</code></pre>
-      <h2>{{ c.step3 }}</h2>
-      <p>{{ c.step3Text }}</p>
-      <pre class="doc-code"><code>go run ./helpers/cmd/develop build
+    <h2>{{ c.step3 }}</h2>
+    <p>{{ c.step3Text }}</p>
+    <pre class="doc-code"><code>go run ./helpers/cmd/develop build
 go run ./helpers/cmd/develop test</code></pre>
-      <h2>{{ c.step4 }}</h2>
-      <p>{{ c.step4Text }}</p>
-      <pre class="doc-code"><code>{{ hello }}</code></pre>
-      <h3>{{ c.fileCheck }}</h3>
-      <pre
-        class="doc-code"
-      ><code>talac Examples/HelloWorld/HelloWorld.tala --emit=metadata</code></pre>
-      <h3>{{ c.fileBuild }}</h3>
-      <pre
-        class="doc-code"
-      ><code>talac Examples/HelloWorld/HelloWorld.tala --entry=Examples.HelloWorld.HelloWorld</code></pre>
-      <p>{{ c.subset }}</p>
-      <h2>{{ c.step5 }}</h2>
-      <p>{{ c.step5Text }}</p>
-      <pre class="doc-code"><code>talac --help
+    <h2>{{ c.step4 }}</h2>
+    <p>{{ c.step4Text }}</p>
+    <pre class="doc-code"><code>{{ hello }}</code></pre>
+    <h3>{{ c.fileCheck }}</h3>
+    <pre
+      class="doc-code"
+    ><code>talac Examples/HelloWorld/HelloWorld.tala --emit=metadata</code></pre>
+    <h3>{{ c.fileBuild }}</h3>
+    <pre
+      class="doc-code"
+    ><code>talac Examples/HelloWorld/HelloWorld.tala --entry=Examples.HelloWorld.HelloWorld</code></pre>
+    <p>{{ c.subset }}</p>
+    <h2>{{ c.step5 }}</h2>
+    <p>{{ c.step5Text }}</p>
+    <pre class="doc-code"><code>talac --help
 tazel help</code></pre>
-      <div class="doc-resource-list">
-        <a v-for="link in c.links" :key="link.href" :href="link.href">
-          <strong>{{ link.title }} <span aria-hidden="true">↗</span></strong>
-          <span>{{ link.detail }}</span>
-        </a>
-      </div>
-      <div class="doc-note">
-        <h3>{{ c.note }}</h3>
-        <p>{{ c.noteText }}</p>
-      </div>
-      <div class="doc-actions">
-        <RouterLink class="button button-primary" to="/docs/overview"
-          >{{ c.more }} {{ arrow }}</RouterLink
-        ><a class="inline-link" href="https://github.com/Progmasoft/tala/tree/main/Spec"
-          >{{ c.spec }} ↗</a
-        ><a class="inline-link" href="https://github.com/Progmasoft/tala/tree/main/Examples"
-          >{{ c.examples }} ↗</a
-        >
-      </div>
-    </article>
-  </div>
+    <div class="doc-resource-list">
+      <a v-for="link in c.links" :key="link.href" :href="link.href">
+        <strong>{{ link.title }} <span aria-hidden="true">↗</span></strong>
+        <span>{{ link.detail }}</span>
+      </a>
+    </div>
+    <div class="doc-note">
+      <h3>{{ c.note }}</h3>
+      <p>{{ c.noteText }}</p>
+    </div>
+    <div class="doc-actions">
+      <RouterLink class="button button-primary" to="/docs/overview"
+        >{{ c.more }} {{ arrow }}</RouterLink
+      ><a class="inline-link" href="https://github.com/Progmasoft/tala/tree/main/Spec"
+        >{{ c.spec }} ↗</a
+      ><a class="inline-link" href="https://github.com/Progmasoft/tala/tree/main/Examples"
+        >{{ c.examples }} ↗</a
+      >
+    </div>
+  </DocShell>
 </template>

@@ -2,6 +2,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later WITH AdditionRef-Progmasoft-Patent-Grant-1.1 -->
 
 <script setup lang="ts">
+import DocShell from "../components/DocShell.vue";
 import { computed } from "vue";
 import { RouterLink } from "vue-router";
 import { arrow, locale } from "../preferences";
@@ -474,67 +475,58 @@ const c = computed(() => text[locale.value]);
 </script>
 
 <template>
-  <div class="doc-layout section-wrap">
-    <aside class="doc-sidebar">
-      <span class="kicker">TALA</span
-      ><RouterLink to="/docs/overview" aria-current="page">{{ c.navOverview }}</RouterLink
-      ><RouterLink to="/docs/getting-started">{{ c.navStart }}</RouterLink
-      ><a href="https://github.com/Progmasoft/tala/tree/main/Spec">Specification ↗</a>
-    </aside>
-    <article class="doc-content">
-      <span class="kicker">{{ c.section }}</span>
-      <h1>{{ c.title }}</h1>
-      <p class="doc-lead">{{ c.lead }}</p>
-      <h2>{{ c.goals }}</h2>
-      <div class="doc-points">
-        <section v-for="item in c.items" :key="item.title">
-          <h3>{{ item.title }}</h3>
-          <p>{{ item.body }}</p>
-        </section>
+  <DocShell path="/docs/overview" edit-path="src/pages/OverviewPage.vue">
+    <h1>{{ c.title }}</h1>
+    <p class="doc-lead">{{ c.lead }}</p>
+    <h2>{{ c.goals }}</h2>
+    <div class="doc-points">
+      <section v-for="item in c.items" :key="item.title">
+        <h3>{{ item.title }}</h3>
+        <p>{{ item.body }}</p>
+      </section>
+    </div>
+    <h2>{{ c.modelHeading }}</h2>
+    <p>{{ c.modelIntro }}</p>
+    <div class="doc-points">
+      <section v-for="item in c.model" :key="item.title">
+        <h3>{{ item.title }}</h3>
+        <p>{{ item.body }}</p>
+      </section>
+    </div>
+    <h2>{{ c.pipelineHeading }}</h2>
+    <p>{{ c.pipelineIntro }}</p>
+    <ol class="doc-pipeline">
+      <li v-for="step in c.pipeline" :key="step.title">
+        <h3>{{ step.title }}</h3>
+        <p>{{ step.body }}</p>
+      </li>
+    </ol>
+    <h2>{{ c.boundariesHeading }}</h2>
+    <dl class="doc-boundaries">
+      <div v-for="boundary in c.boundaries" :key="boundary.label">
+        <dt>{{ boundary.label }}</dt>
+        <dd>{{ boundary.value }}</dd>
       </div>
-      <h2>{{ c.modelHeading }}</h2>
-      <p>{{ c.modelIntro }}</p>
-      <div class="doc-points">
-        <section v-for="item in c.model" :key="item.title">
-          <h3>{{ item.title }}</h3>
-          <p>{{ item.body }}</p>
-        </section>
+    </dl>
+    <h2>{{ c.not }}</h2>
+    <p>{{ c.notText }}</p>
+    <h2>{{ c.questionHeading }}</h2>
+    <div class="doc-points">
+      <section v-for="question in c.questions" :key="question.q">
+        <h3>{{ question.q }}</h3>
+        <p>{{ question.a }}</p>
+      </section>
+    </div>
+    <div class="doc-next">
+      <h2>{{ c.next }}</h2>
+      <p>{{ c.nextText }}</p>
+      <div class="doc-actions">
+        <RouterLink class="button button-primary" to="/docs/getting-started"
+          >{{ c.start }} {{ arrow }}</RouterLink
+        ><a class="button button-quiet" href="https://github.com/Progmasoft/tala/tree/main/Spec"
+          >{{ c.spec }} ↗</a
+        ><a class="inline-link" href="https://github.com/Progmasoft/tala">{{ c.source }} ↗</a>
       </div>
-      <h2>{{ c.pipelineHeading }}</h2>
-      <p>{{ c.pipelineIntro }}</p>
-      <ol class="doc-pipeline">
-        <li v-for="step in c.pipeline" :key="step.title">
-          <h3>{{ step.title }}</h3>
-          <p>{{ step.body }}</p>
-        </li>
-      </ol>
-      <h2>{{ c.boundariesHeading }}</h2>
-      <dl class="doc-boundaries">
-        <div v-for="boundary in c.boundaries" :key="boundary.label">
-          <dt>{{ boundary.label }}</dt>
-          <dd>{{ boundary.value }}</dd>
-        </div>
-      </dl>
-      <h2>{{ c.not }}</h2>
-      <p>{{ c.notText }}</p>
-      <h2>{{ c.questionHeading }}</h2>
-      <div class="doc-points">
-        <section v-for="question in c.questions" :key="question.q">
-          <h3>{{ question.q }}</h3>
-          <p>{{ question.a }}</p>
-        </section>
-      </div>
-      <div class="doc-next">
-        <h2>{{ c.next }}</h2>
-        <p>{{ c.nextText }}</p>
-        <div class="doc-actions">
-          <RouterLink class="button button-primary" to="/docs/getting-started"
-            >{{ c.start }} {{ arrow }}</RouterLink
-          ><a class="button button-quiet" href="https://github.com/Progmasoft/tala/tree/main/Spec"
-            >{{ c.spec }} ↗</a
-          ><a class="inline-link" href="https://github.com/Progmasoft/tala">{{ c.source }} ↗</a>
-        </div>
-      </div>
-    </article>
-  </div>
+    </div>
+  </DocShell>
 </template>

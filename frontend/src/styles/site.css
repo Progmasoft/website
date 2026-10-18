@@ -105,10 +105,6 @@ p {
 .skip-link:focus {
   top: 8px;
 }
-.section-wrap {
-  width: min(100% - 48px, 1050px);
-  margin: 0 auto;
-}
 
 .site-header {
   display: flex;
@@ -185,15 +181,6 @@ p {
 .inline-link:hover {
   text-decoration: underline;
 }
-.kicker {
-  color: var(--accent);
-  font:
-    600 11px/1.5 ui-monospace,
-    Consolas,
-    monospace;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
 .doc-actions {
   display: flex;
   align-items: center;
@@ -242,33 +229,6 @@ p {
     13px/1.85 ui-monospace,
     Consolas,
     monospace;
-}
-
-.doc-layout {
-  display: grid;
-  grid-template-columns: 200px minmax(0, 760px);
-  gap: 60px;
-  padding-top: 65px;
-  padding-bottom: 100px;
-}
-.doc-sidebar {
-  display: flex;
-  flex-direction: column;
-  align-self: start;
-  gap: 16px;
-  position: sticky;
-  top: 25px;
-  font-size: 13px;
-}
-.doc-sidebar .kicker {
-  margin-bottom: 8px;
-}
-.doc-sidebar a {
-  color: var(--muted);
-}
-.doc-sidebar a[aria-current="page"],
-.doc-sidebar a:hover {
-  color: var(--accent);
 }
 .doc-content h1 {
   margin: 13px 0 21px;
@@ -421,15 +381,6 @@ p {
   }
   .header-tools {
     margin-left: auto;
-  }
-  .doc-layout {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 27px;
-  }
-  .doc-sidebar {
-    position: static;
-    flex-direction: row;
-    flex-wrap: wrap;
   }
   .doc-boundaries div {
     grid-template-columns: 1fr;
@@ -609,5 +560,159 @@ p {
   }
   .status-badge {
     display: none;
+  }
+}
+
+/* Documentation: the topics, the page in a readable column, and its headings. */
+.docs {
+  display: grid;
+  grid-template-columns: 210px minmax(0, 720px) 190px;
+  justify-content: center;
+  gap: 48px;
+  width: min(100% - 48px, 1240px);
+  margin: 0 auto;
+  padding: 36px 0 72px;
+}
+.docs-nav-toggle > summary {
+  display: none;
+}
+.docs-nav nav {
+  position: sticky;
+  top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.docs-nav-site {
+  margin-bottom: 8px;
+  color: var(--text);
+  font-weight: 600;
+}
+.docs-nav a {
+  padding: 6px 10px;
+  border-radius: 7px;
+  color: var(--muted);
+  font-size: 14px;
+}
+.docs-nav a:hover {
+  background: var(--panel);
+  color: var(--text);
+}
+.docs-nav a[aria-current="page"] {
+  background: var(--panel);
+  color: var(--accent);
+  font-weight: 600;
+}
+.docs-crumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 18px;
+  color: var(--quiet);
+  font-size: 13px;
+}
+.docs-crumbs a:hover {
+  color: var(--accent);
+}
+.docs-main .doc-content h1 {
+  margin-bottom: 14px;
+  font-size: clamp(30px, 4vw, 40px);
+  line-height: 1.15;
+}
+.docs-main .doc-content h2 {
+  scroll-margin-top: 20px;
+}
+.docs-pager {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+}
+.docs-pager a {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 14px 16px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+.docs-pager a:hover {
+  border-color: var(--accent);
+}
+.docs-pager span {
+  color: var(--quiet);
+  font-size: 13px;
+}
+.docs-pager-next {
+  grid-column: 2;
+  text-align: end;
+}
+.docs-edit {
+  margin-top: 18px;
+  font-size: 13px;
+}
+.docs-edit a {
+  color: var(--quiet);
+}
+.docs-edit a:hover {
+  color: var(--accent);
+}
+.docs-toc {
+  position: sticky;
+  top: 24px;
+  align-self: start;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 13px;
+}
+.docs-toc p {
+  margin-bottom: 4px;
+  color: var(--text);
+  font-weight: 600;
+}
+.docs-toc a {
+  color: var(--muted);
+  line-height: 1.4;
+}
+.docs-toc a:hover {
+  color: var(--accent);
+}
+@media (max-width: 1100px) {
+  .docs {
+    grid-template-columns: 200px minmax(0, 1fr);
+  }
+  .docs-toc {
+    display: none;
+  }
+}
+@media (max-width: 760px) {
+  .docs {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+    width: calc(100% - 32px);
+    padding-top: 20px;
+  }
+  .docs-nav-toggle {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+  }
+  .docs-nav-toggle > summary {
+    display: block;
+    padding: 10px 14px;
+    cursor: pointer;
+    font-weight: 600;
+  }
+  .docs-nav nav {
+    position: static;
+    padding: 0 8px 10px;
+  }
+  .docs-pager {
+    grid-template-columns: 1fr;
+  }
+  .docs-pager-next {
+    grid-column: 1;
   }
 }
