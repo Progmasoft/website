@@ -7,14 +7,14 @@ import { RouterLink } from "vue-router";
 import WhyTabs from "../components/WhyTabs.vue";
 import { landing } from "../content/landing";
 import { locale } from "../preferences";
-import { site } from "../site";
+import { site, siteBrand } from "../site";
 
 /**
  * The first page of a site: one headline, two ways in, the "Why" tabs and a short row of next links. The state of
  * the project is said once, in the header, rather than in every paragraph.
  */
 const text = computed(() => landing[site][locale.value]);
-const brand = { language: "Tala", talac: "Talac", tazel: "Tazel" }[site];
+const brand = siteBrand[site];
 </script>
 
 <template>

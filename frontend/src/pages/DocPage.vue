@@ -15,6 +15,8 @@ const source = {
   language: "src/content/syntax.ts",
   talac: "src/content/talac.ts",
   tazel: "src/content/tazel.ts",
+  talafmt: "src/content/talafmt.ts",
+  talalint: "src/content/talalint.ts",
 }[site];
 </script>
 

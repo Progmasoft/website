@@ -3,6 +3,8 @@
 
 import type { Locale } from "../locales";
 import type { Site } from "../site";
+import { talafmtLanding } from "./talafmt.ts";
+import { talalintLanding } from "./talalint.ts";
 
 /** One tab of a "Why" section: a strength, a sentence about it and a sample that shows it. */
 export type WhyTab = { label: string; caption: string; file: string; code: string };
@@ -750,4 +752,6 @@ export const landing: Record<Site, Record<Locale, LandingText>> = {
       copied: "הועתק",
     },
   },
+  talafmt: talafmtLanding,
+  talalint: talalintLanding,
 };

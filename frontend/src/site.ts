@@ -2,15 +2,28 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later WITH AdditionRef-Progmasoft-Patent-Grant-1.1
 
 /**
- * The three sites one build serves. tala.run is about the language; talac.tala.run documents the compiler and
- * tazel.tala.run the build system. Which one a visitor sees follows from the host name alone.
+ * The sites one build serves. tala.run is about the language; talac.tala.run documents the compiler,
+ * tazel.tala.run the build system, talafmt.tala.run the formatter and talalint.tala.run the linter. Which one a
+ * visitor sees follows from the host name alone.
  */
-export type Site = "language" | "talac" | "tazel";
+export const sites = ["language", "talac", "tazel", "talafmt", "talalint"] as const;
+export type Site = (typeof sites)[number];
 
 export const siteHosts: Record<Site, string> = {
   language: "tala.run",
   talac: "talac.tala.run",
   tazel: "tazel.tala.run",
+  talafmt: "talafmt.tala.run",
+  talalint: "talalint.tala.run",
+};
+
+/** The name of each site, the same in every language. */
+export const siteBrand: Record<Site, string> = {
+  language: "Tala",
+  talac: "Talac",
+  tazel: "Tazel",
+  talafmt: "Talafmt",
+  talalint: "Talalint",
 };
 
 export const forumUrl = "https://forum.tala.run/";
@@ -20,6 +33,8 @@ export const siteHome: Record<Site, string> = {
   language: "/",
   talac: "/",
   tazel: "/",
+  talafmt: "/",
+  talalint: "/",
 };
 
 /** The documentation topics of each site, in the order the sidebar lists them. */
@@ -27,13 +42,15 @@ export const siteTopics: Record<Site, readonly string[]> = {
   language: ["/docs/overview", "/docs/getting-started", "/docs/syntax"],
   talac: ["/docs/command-line", "/docs/outputs"],
   tazel: ["/docs/commands", "/docs/project-file"],
+  talafmt: ["/docs/command-line", "/docs/layout"],
+  talalint: ["/docs/command-line", "/docs/checks"],
 };
 
 const localHost = /^(localhost|127\.0\.0\.1|\[::1\]|.+\.localhost)$/;
 const developmentKey = "tala-site";
 
 function isSite(value: string | null): value is Site {
-  return value === "language" || value === "talac" || value === "tazel";
+  return sites.includes(value as Site);
 }
 
 /**
@@ -45,8 +62,10 @@ export function siteOf(
   search: string,
   storage?: Pick<Storage, "getItem" | "setItem">,
 ): Site {
-  if (hostname === siteHosts.talac) return "talac";
-  if (hostname === siteHosts.tazel) return "tazel";
+  const hosted = sites.find(
+    (candidate) => candidate !== "language" && siteHosts[candidate] === hostname,
+  );
+  if (hosted) return hosted;
   if (!localHost.test(hostname)) return "language";
   const requested = new URLSearchParams(search).get("site");
   try {
