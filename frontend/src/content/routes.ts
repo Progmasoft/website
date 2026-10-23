@@ -5,6 +5,8 @@ import type { Locale } from "../locales";
 import { siteTopics, type Site } from "../site.ts";
 import { syntaxRoutes } from "./syntax.ts";
 import { talacRoutes } from "./talac.ts";
+import { talafmtRoutes } from "./talafmt.ts";
+import { talalintRoutes } from "./talalint.ts";
 import { tazelRoutes } from "./tazel.ts";
 import type { DocRoute } from "./types";
 
@@ -13,6 +15,8 @@ export const contentRoutes: Record<Site, readonly DocRoute[]> = {
   language: syntaxRoutes,
   talac: talacRoutes,
   tazel: tazelRoutes,
+  talafmt: talafmtRoutes,
+  talalint: talalintRoutes,
 };
 
 // The two hand-built pages of the language site name themselves in their own components; the sidebar of a content

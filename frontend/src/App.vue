@@ -7,7 +7,7 @@ import { RouterLink, RouterView } from "vue-router";
 import { localeLabels } from "./locales";
 import { locale, supportedLocales, theme } from "./preferences";
 import { contentRoutes } from "./content/routes";
-import { forumUrl, site, siteHome, siteTopics, siteUrl, type Site } from "./site";
+import { forumUrl, site, siteBrand, siteHome, sites, siteTopics, siteUrl, type Site } from "./site";
 
 const labels = {
   "en-US": {
@@ -62,12 +62,12 @@ const labels = {
 const copy = computed(() => labels[locale.value]);
 
 const hostname = window.location.hostname;
-const brand = { language: "Tala", talac: "Talac", tazel: "Tazel" }[site];
-// The other two sites are linked by their names, which read the same in every language.
-const siblings = (["language", "talac", "tazel"] as const)
+const brand = siteBrand[site];
+// The other sites are linked by their names, which read the same in every language.
+const siblings = sites
   .filter((other): other is Site => other !== site)
   .map((other) => ({
-    label: { language: "Tala", talac: "Talac", tazel: "Tazel" }[other],
+    label: siteBrand[other],
     href: siteUrl(other, siteHome[other], hostname),
   }));
 

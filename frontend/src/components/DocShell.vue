@@ -6,7 +6,7 @@ import { computed, nextTick, onMounted, ref, watch } from "vue";
 import { RouterLink } from "vue-router";
 import { sidebarFor } from "../content/routes";
 import { locale } from "../preferences";
-import { site } from "../site";
+import { site, siteBrand } from "../site";
 
 /**
  * The frame of every documentation page: the topics of the site on the left, the page in a readable column, the
@@ -50,7 +50,7 @@ const labels = {
   },
 } as const;
 const copy = computed(() => labels[locale.value]);
-const brand = { language: "Tala", talac: "Talac", tazel: "Tazel" }[site];
+const brand = siteBrand[site];
 
 const sidebar = computed(() => sidebarFor(site, locale.value));
 const position = computed(() => sidebar.value.findIndex((entry) => entry.path === props.path));

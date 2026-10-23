@@ -35,11 +35,23 @@ test("every site publishes exactly its own pages in its sitemap", () => {
     "https://tazel.tala.run/docs/commands",
     "https://tazel.tala.run/docs/project-file",
   ]);
+  assert.deepEqual(locations("public/hosts/talafmt/sitemap.xml"), [
+    "https://talafmt.tala.run/",
+    "https://talafmt.tala.run/docs/command-line",
+    "https://talafmt.tala.run/docs/layout",
+  ]);
+  assert.deepEqual(locations("public/hosts/talalint/sitemap.xml"), [
+    "https://talalint.tala.run/",
+    "https://talalint.tala.run/docs/command-line",
+    "https://talalint.tala.run/docs/checks",
+  ]);
   assert.doesNotMatch(read("public/sitemap.xml"), /forum\.tala\.run/);
   for (const [path, host] of [
     ["public/robots.txt", "tala.run"],
     ["public/hosts/talac/robots.txt", "talac.tala.run"],
     ["public/hosts/tazel/robots.txt", "tazel.tala.run"],
+    ["public/hosts/talafmt/robots.txt", "talafmt.tala.run"],
+    ["public/hosts/talalint/robots.txt", "talalint.tala.run"],
   ]) {
     assert.match(
       read(path),
@@ -161,15 +173,17 @@ test("maintenance mode preserves the legacy redirect without opening the languag
 test("only the routes of the application get the app shell; other paths answer 404", () => {
   const live = readFileSync(join(websiteRoot, "ops/nginx/tala.conf"), "utf8");
   assert.doesNotMatch(live, /try_files \$uri \$uri\/ \/index\.html;/);
-  assert.equal(live.match(/try_files \$uri \$uri\/ @application;/g)?.length, 3);
-  assert.equal(live.match(/error_page 404 \/index\.html;/g)?.length, 3);
+  assert.equal(live.match(/try_files \$uri \$uri\/ @application;/g)?.length, 5);
+  assert.equal(live.match(/error_page 404 \/index\.html;/g)?.length, 5);
   const patterns = [...live.matchAll(/if \(\$uri !~ "([^"]+)"\)/g)].map((match) => match[1]);
-  assert.equal(new Set(patterns).size, 1, "the three sites must accept the same routes");
+  assert.equal(new Set(patterns).size, 1, "every site must accept the same routes");
   const route = new RegExp(patterns[0]);
   const pages = [
     "public/sitemap.xml",
     "public/hosts/talac/sitemap.xml",
     "public/hosts/tazel/sitemap.xml",
+    "public/hosts/talafmt/sitemap.xml",
+    "public/hosts/talalint/sitemap.xml",
   ]
     .flatMap(locations)
     .map((url) => new URL(url).pathname);
@@ -206,7 +220,7 @@ test("the former domain lands on the same path of tala.run and tala.run has no V
     /server_name forum\.xsharp-lang\.xyz;[^}]*return 308 https:\/\/forum\.tala\.run\$request_uri;/s,
   );
   assert.doesNotMatch(live + forum, /viget\.tala\.run/);
-  for (const host of ["talac", "tazel"]) {
+  for (const host of ["talac", "tazel", "talafmt", "talalint"]) {
     assert.match(live, new RegExp(`try_files /hosts/${host}/robots\\.txt =404;`));
     assert.match(live, new RegExp(`try_files /hosts/${host}/sitemap\\.xml =404;`));
   }
