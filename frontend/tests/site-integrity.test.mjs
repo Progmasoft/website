@@ -166,14 +166,26 @@ test("only the routes of the application get the app shell; other paths answer 4
   const patterns = [...live.matchAll(/if \(\$uri !~ "([^"]+)"\)/g)].map((match) => match[1]);
   assert.equal(new Set(patterns).size, 1, "the three sites must accept the same routes");
   const route = new RegExp(patterns[0]);
-  const pages = ["public/sitemap.xml", "public/hosts/talac/sitemap.xml", "public/hosts/tazel/sitemap.xml"]
+  const pages = [
+    "public/sitemap.xml",
+    "public/hosts/talac/sitemap.xml",
+    "public/hosts/tazel/sitemap.xml",
+  ]
     .flatMap(locations)
     .map((url) => new URL(url).pathname);
   assert.ok(pages.length > 3);
   for (const path of pages) {
     assert.match(path, route, `${path} is in a sitemap but would answer 404`);
   }
-  for (const path of ["/wp-login.php", "/wp-admin/install.php", "/docs", "/docs/", "/docs/a/b", "/.env", "/a"]) {
+  for (const path of [
+    "/wp-login.php",
+    "/wp-admin/install.php",
+    "/docs",
+    "/docs/",
+    "/docs/a/b",
+    "/.env",
+    "/a",
+  ]) {
     assert.doesNotMatch(path, route, `${path} would be served as a page`);
   }
 });
