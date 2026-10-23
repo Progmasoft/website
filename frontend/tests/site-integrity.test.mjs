@@ -158,6 +158,26 @@ test("maintenance mode preserves the legacy redirect without opening the languag
   assert.match(live, /location \^~ \/api\/ \{\s*return 404;/);
 });
 
+test("only the routes of the application get the app shell; other paths answer 404", () => {
+  const live = readFileSync(join(websiteRoot, "ops/nginx/tala.conf"), "utf8");
+  assert.doesNotMatch(live, /try_files \$uri \$uri\/ \/index\.html;/);
+  assert.equal(live.match(/try_files \$uri \$uri\/ @application;/g)?.length, 3);
+  assert.equal(live.match(/error_page 404 \/index\.html;/g)?.length, 3);
+  const patterns = [...live.matchAll(/if \(\$uri !~ "([^"]+)"\)/g)].map((match) => match[1]);
+  assert.equal(new Set(patterns).size, 1, "the three sites must accept the same routes");
+  const route = new RegExp(patterns[0]);
+  const pages = ["public/sitemap.xml", "public/hosts/talac/sitemap.xml", "public/hosts/tazel/sitemap.xml"]
+    .flatMap(locations)
+    .map((url) => new URL(url).pathname);
+  assert.ok(pages.length > 3);
+  for (const path of pages) {
+    assert.match(path, route, `${path} is in a sitemap but would answer 404`);
+  }
+  for (const path of ["/wp-login.php", "/wp-admin/install.php", "/docs", "/docs/", "/docs/a/b", "/.env", "/a"]) {
+    assert.doesNotMatch(path, route, `${path} would be served as a page`);
+  }
+});
+
 test("the former domain lands on the same path of tala.run and tala.run has no ViGet host", () => {
   const live = readFileSync(join(websiteRoot, "ops/nginx/tala.conf"), "utf8");
   const forum = readFileSync(join(websiteRoot, "ops/nginx/forum.conf"), "utf8");

@@ -151,7 +151,11 @@ renaming:
    run the local gates.
 2. On the server, copy `current` to a new directory next to it with
    `cp -a`, which keeps owners, modes and SELinux labels, and replace the
-   changed parts inside the copy.
+   changed parts inside the copy. Unpack archives with `--no-same-owner` and
+   run `chown -R root:root` on the replaced parts: an archive made on a
+   developer machine carries that machine's user and group IDs, which name
+   no account on the server, or a different one. Install Nginx and systemd
+   files with LF line endings.
 3. Start the new API on a free loopback port as the service user with
    `PORT=<port> dotnet site-api/Progmasoft.Tala.Website.Api.dll`, request
    `/health` and `/api/v1/site`, and stop it.
@@ -237,7 +241,10 @@ boundary is clear.
 ## Monitoring and privacy
 
 The main language routes answer 200, and `/api/v1/site` returns only the
-website's non-sensitive state. Expected forum responses are 200 for the five
+website's non-sensitive state. The three sites answer 200 only for files and
+for the routes of the application, `/` and `/docs/<page>`; every other path,
+such as a scanner's `/wp-login.php`, answers 404, with the application as
+the body so that a visitor still reaches the landing page. Expected forum responses are 200 for the five
 static files and 404 for other paths. Expected legacy redirect responses are
 308. In maintenance mode the main domain answers 503 with `Retry-After`. A 200
 from a retired login or registry route is a regression.
