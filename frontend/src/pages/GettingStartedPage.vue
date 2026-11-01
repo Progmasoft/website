@@ -19,7 +19,7 @@ const text = {
       "Clone the compiler repository with its submodules. Use a supported development host: Windows 10/11, macOS 26 Tahoe on Apple silicon or Ubuntu 26.04 LTS.",
     step2: "2. Check the toolchain",
     step2Text:
-      "The repository's Go development command checks local requirements. The compiler uses GHC2024 for its Haskell front end, Clang/LLVM for C++20 native stages, Bazel for native builds, and Temurin JDK 25 for Tazel, the build system.",
+      "The repository's Go development command checks local requirements. The compiler uses GHC2024 for its Haskell front end, Clang/LLVM for C++20 native stages and Bazel for native builds.",
     platform:
       "The supported development hosts are Windows 10/11, macOS 26 Tahoe on Apple silicon and Ubuntu 26.04 LTS. On Windows, standalone LLVM clang-cl and LLD are used with Windows SDK and MSVC CRT/STL libraries. On macOS, install the Xcode Command Line Tools; the full Xcode application is not required. On Ubuntu, Clang, LLD and libc++ come from the distribution, and the repository's helper downloads LLVM built with libc++.",
     toolchainHelp:
@@ -27,7 +27,7 @@ const text = {
     bootstrap: "Optional host bootstrap",
     step3: "3. Build and test",
     step3Text:
-      "Build the native compiler and run its native contract suites. The Go command orchestrates the checks; Bazel remains the owner of the C++20 build graph. Cabal and Gradle handle their Haskell and Kotlin boundaries.",
+      "Build the native compiler and run its native contract suites. The Go command orchestrates the checks; Bazel remains the owner of the C++20 build graph. Cabal builds the Haskell packages.",
     step4: "4. Read and check a real program",
     step4Text:
       "The HelloWorld example uses a class method as the entry point. Tala does not use a top-level function as its program entry. Check the exact source file, then build it using the current compiler subset.",
@@ -59,6 +59,11 @@ const text = {
         detail: "Source examples next to C# 13, C++20, Java 21 and Rust counterparts.",
         href: "https://github.com/Progmasoft/tala/tree/main/Examples",
       },
+      {
+        title: "Tazel",
+        detail: "The build system has a repository of its own and needs Temurin JDK 25.",
+        href: "https://github.com/Progmasoft/tazel",
+      },
     ],
     note: "Implementation status",
     noteText:
@@ -78,7 +83,7 @@ const text = {
       "Klonen Sie das Compiler-Repository mit seinen Submodulen. Unterstützt werden Entwicklungsrechner mit Windows 10/11, macOS 26 Tahoe auf Apple Silicon oder Ubuntu 26.04 LTS.",
     step2: "2. Toolchain prüfen",
     step2Text:
-      "Der Go-Entwicklungsbefehl prüft lokale Voraussetzungen. Das Frontend verwendet GHC2024, die nativen C++20-Stufen Clang/LLVM und Bazel; Tazel, das Build-System, nutzt Temurin JDK 25.",
+      "Der Go-Entwicklungsbefehl prüft lokale Voraussetzungen. Das Frontend verwendet GHC2024, die nativen C++20-Stufen Clang/LLVM und Bazel.",
     platform:
       "Unterstützte Entwicklungsrechner sind Windows 10/11, macOS 26 Tahoe auf Apple Silicon und Ubuntu 26.04 LTS. Unter Windows werden eigenständiges LLVM clang-cl und LLD mit Windows SDK sowie MSVC-CRT/STL-Bibliotheken verwendet. Unter macOS genügen die Xcode Command Line Tools; die vollständige Xcode-Anwendung ist nicht erforderlich. Unter Ubuntu kommen Clang, LLD und libc++ aus der Distribution, und das Hilfswerkzeug des Repositorys lädt ein mit libc++ gebautes LLVM herunter.",
     toolchainHelp:
@@ -86,7 +91,7 @@ const text = {
     bootstrap: "Optionaler Host-Bootstrap",
     step3: "3. Bauen und testen",
     step3Text:
-      "Bauen Sie den nativen Compiler und führen Sie die nativen Vertragstests aus. Der Go-Befehl koordiniert die Prüfungen; Bazel besitzt weiterhin den C++20-Buildgraphen. Cabal und Gradle betreuen Haskell und Kotlin.",
+      "Bauen Sie den nativen Compiler und führen Sie die nativen Vertragstests aus. Der Go-Befehl koordiniert die Prüfungen; Bazel besitzt weiterhin den C++20-Buildgraphen. Cabal baut die Haskell-Pakete.",
     step4: "4. Ein echtes Programm lesen und prüfen",
     step4Text:
       "Im HelloWorld-Beispiel ist eine Klassenmethode der Einstiegspunkt. Eine Top-Level-Funktion ist kein Programmeinstieg in Tala. Prüfen Sie die Quelldatei und bauen Sie sie mit dem derzeit unterstützten Compilerumfang.",
@@ -118,6 +123,11 @@ const text = {
         detail: "Beispiele neben Fassungen in C# 13, C++20, Java 21 und Rust.",
         href: "https://github.com/Progmasoft/tala/tree/main/Examples",
       },
+      {
+        title: "Tazel",
+        detail: "Das Build-System hat ein eigenes Repository und braucht Temurin JDK 25.",
+        href: "https://github.com/Progmasoft/tazel",
+      },
     ],
     note: "Implementierungsstand",
     noteText:
@@ -137,7 +147,7 @@ const text = {
       "Клонируйте репозиторий компилятора вместе с подмодулями. Используйте поддерживаемую машину разработки: Windows 10/11, macOS 26 Tahoe на Apple Silicon или Ubuntu 26.04 LTS.",
     step2: "2. Проверьте набор инструментов",
     step2Text:
-      "Команда разработки на Go из репозитория проверяет локальные требования. Компилятор использует GHC2024 для фронтенда на Haskell, Clang/LLVM для нативных стадий на C++20, Bazel для нативных сборок и Temurin JDK 25 для Tazel, системы сборки.",
+      "Команда разработки на Go из репозитория проверяет локальные требования. Компилятор использует GHC2024 для фронтенда на Haskell, Clang/LLVM для нативных стадий на C++20 и Bazel для нативных сборок.",
     platform:
       "Поддерживаемые машины разработки — Windows 10/11, macOS 26 Tahoe на Apple Silicon и Ubuntu 26.04 LTS. В Windows используются отдельные LLVM clang-cl и LLD вместе с Windows SDK и библиотеками MSVC CRT/STL. В macOS установите Xcode Command Line Tools; полное приложение Xcode не требуется. В Ubuntu Clang, LLD и libc++ берутся из дистрибутива, а вспомогательная утилита репозитория загружает LLVM, собранный с libc++.",
     toolchainHelp:
@@ -145,7 +155,7 @@ const text = {
     bootstrap: "Необязательная начальная настройка системы",
     step3: "3. Соберите и протестируйте",
     step3Text:
-      "Соберите нативный компилятор и запустите его нативные контрактные наборы тестов. Команда на Go координирует проверки; графом сборки C++20 по-прежнему владеет Bazel. Cabal и Gradle отвечают за свои области — Haskell и Kotlin.",
+      "Соберите нативный компилятор и запустите его нативные контрактные наборы тестов. Команда на Go координирует проверки; графом сборки C++20 по-прежнему владеет Bazel. Cabal собирает пакеты Haskell.",
     step4: "4. Прочитайте и проверьте настоящую программу",
     step4Text:
       "В примере HelloWorld точкой входа служит метод класса. В Tala функция верхнего уровня не является точкой входа программы. Проверьте сам исходный файл, а затем соберите его текущим подмножеством компилятора.",
@@ -177,6 +187,11 @@ const text = {
         detail: "Примеры исходного кода рядом с вариантами на C# 13, C++20, Java 21 и Rust.",
         href: "https://github.com/Progmasoft/tala/tree/main/Examples",
       },
+      {
+        title: "Tazel",
+        detail: "У системы сборки свой репозиторий; ей нужен Temurin JDK 25.",
+        href: "https://github.com/Progmasoft/tazel",
+      },
     ],
     note: "Состояние реализации",
     noteText:
@@ -196,7 +211,7 @@ const text = {
       "שכפלו את מאגר המהדר יחד עם תת־המודולים שלו. השתמשו במחשב פיתוח נתמך: Windows 10/11, ‏macOS 26 Tahoe על Apple Silicon או ‏Ubuntu 26.04 LTS.",
     step2: "2. בדיקת שרשרת הכלים",
     step2Text:
-      "פקודת הפיתוח של המאגר, הכתובה ב-Go, בודקת את הדרישות המקומיות. המהדר משתמש ב-GHC2024 ל-frontend הכתוב ב-Haskell, ב-Clang/LLVM לשלבי ה-native ב-C++20, ב-Bazel לבניית חלקי ה-native וב-Temurin JDK 25 ל-Tazel, מערכת הבנייה.",
+      "פקודת הפיתוח של המאגר, הכתובה ב-Go, בודקת את הדרישות המקומיות. המהדר משתמש ב-GHC2024 ל-frontend הכתוב ב-Haskell, ב-Clang/LLVM לשלבי ה-native ב-C++20 וב-Bazel לבניית חלקי ה-native.",
     platform:
       "מחשבי הפיתוח הנתמכים הם Windows 10/11, ‏macOS 26 Tahoe על Apple Silicon ו-Ubuntu 26.04 LTS. ב-Windows נעשה שימוש ב-clang-cl וב-LLD עצמאיים של LLVM יחד עם Windows SDK וספריות ה-CRT/STL של MSVC. ב-macOS יש להתקין את Xcode Command Line Tools; יישום Xcode המלא אינו נדרש. ב-Ubuntu‏ Clang,‏ LLD ו-libc++ מגיעים מההפצה, וכלי העזר של המאגר מוריד LLVM שנבנה עם libc++.",
     toolchainHelp:
@@ -204,7 +219,7 @@ const text = {
     bootstrap: "הכנת מחשב אופציונלית",
     step3: "3. בנייה ובדיקה",
     step3Text:
-      "בנו את מהדר ה-native והריצו את חבילות בדיקות החוזה שלו. פקודת ה-Go מתזמרת את הבדיקות; Bazel נשאר הבעלים של גרף הבנייה של C++20. Cabal ו-Gradle מטפלים בגבולות של Haskell ושל Kotlin.",
+      "בנו את מהדר ה-native והריצו את חבילות בדיקות החוזה שלו. פקודת ה-Go מתזמרת את הבדיקות; Bazel נשאר הבעלים של גרף הבנייה של C++20. Cabal מטפל בחבילות Haskell.",
     step4: "4. קריאה ובדיקה של תוכנית אמיתית",
     step4Text:
       "בדוגמה HelloWorld נקודת הכניסה היא מתודה של מחלקה. Tala אינה משתמשת בפונקציה ברמה העליונה כנקודת הכניסה לתוכנית. בדקו את קובץ המקור המדויק, ואז בנו אותו בתת־הקבוצה הנוכחית של המהדר.",
@@ -235,6 +250,11 @@ const text = {
         title: "תוכניות לדוגמה",
         detail: "דוגמאות קוד לצד מקבילות ב-C#‎ 13, ב-C++20, ב-Java 21 וב-Rust.",
         href: "https://github.com/Progmasoft/tala/tree/main/Examples",
+      },
+      {
+        title: "Tazel",
+        detail: "למערכת הבנייה יש מאגר משלה, והיא זקוקה ל-Temurin JDK 25.",
+        href: "https://github.com/Progmasoft/tazel",
       },
     ],
     note: "מצב המימוש",
