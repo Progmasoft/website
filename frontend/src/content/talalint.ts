@@ -5,7 +5,7 @@ import type { Locale } from "../locales";
 import type { LandingText, WhyTab } from "./landing";
 import type { DocRoute, DocTopic } from "./types";
 
-// talalint.tala.run. The facts follow the README of Progmasoft/talalint, version 0.1.0; commands and check names are
+// talalint.tala.run. The facts follow the README of Progmasoft/talalint; commands and check names are
 // the same in every language and only the prose is translated.
 const report = `talalint Program.tala Library.tala`;
 const fix = `talalint --fix Program.tala`;
@@ -302,7 +302,7 @@ const checksTopic: DocTopic = {
     nav: "What it checks",
     title: "What it checks · Talalint",
     description:
-      "The checks of talalint 0.1.0: the compiler's diagnostics and its own checks of the physical source.",
+      "The checks of talalint: the compiler's diagnostics and its own checks of the physical source.",
     section: "TALALINT / CHECKS",
     heading: "What talalint checks",
     lead: "talalint reports what the compiler it is built with reports, and adds checks of its own on the physical source.",
@@ -320,7 +320,7 @@ const checksTopic: DocTopic = {
       { kind: "heading", text: "Diagnostics of the compiler" },
       {
         kind: "text",
-        text: "Version 0.1.0 is built with the compiler of Tala 0.1.0. Its diagnostics arrive under the compiler check with the compiler's code:",
+        text: "The diagnostics of the compiler arrive under the compiler check with the compiler's code:",
       },
       { kind: "code", code: checks },
       {
@@ -334,7 +334,7 @@ const checksTopic: DocTopic = {
     nav: "Was es prüft",
     title: "Was es prüft · Talalint",
     description:
-      "Die Prüfungen von talalint 0.1.0: die Diagnosen des Compilers und eigene Prüfungen der physischen Quelle.",
+      "Die Prüfungen von talalint: die Diagnosen des Compilers und eigene Prüfungen der physischen Quelle.",
     section: "TALALINT / PRÜFUNGEN",
     heading: "Was talalint prüft",
     lead: "talalint meldet, was der Compiler meldet, mit dem es gebaut ist, und ergänzt eigene Prüfungen der physischen Quelle.",
@@ -352,7 +352,7 @@ const checksTopic: DocTopic = {
       { kind: "heading", text: "Diagnosen des Compilers" },
       {
         kind: "text",
-        text: "Version 0.1.0 ist mit dem Compiler von Tala 0.1.0 gebaut. Seine Diagnosen erscheinen unter der Prüfung compiler mit dem Code des Compilers:",
+        text: "Die Diagnosen des Compilers erscheinen unter der Prüfung compiler mit dem Code des Compilers:",
       },
       { kind: "code", code: checks },
       {
@@ -366,7 +366,7 @@ const checksTopic: DocTopic = {
     nav: "Что он проверяет",
     title: "Что он проверяет · Talalint",
     description:
-      "Проверки talalint 0.1.0: диагностика компилятора и собственные проверки физического текста.",
+      "Проверки talalint: диагностика компилятора и собственные проверки физического текста.",
     section: "TALALINT / ПРОВЕРКИ",
     heading: "Что проверяет talalint",
     lead: "talalint сообщает то, о чём сообщает компилятор, с которым он собран, и добавляет собственные проверки физического текста.",
@@ -384,7 +384,7 @@ const checksTopic: DocTopic = {
       { kind: "heading", text: "Диагностика компилятора" },
       {
         kind: "text",
-        text: "Версия 0.1.0 собрана с компилятором Tala 0.1.0. Его диагностика приходит в проверке compiler с кодом компилятора:",
+        text: "Диагностика компилятора приходит в проверке compiler с кодом компилятора:",
       },
       { kind: "code", code: checks },
       {
@@ -397,7 +397,7 @@ const checksTopic: DocTopic = {
   "he-IL": {
     nav: "מה הוא בודק",
     title: "מה הוא בודק · Talalint",
-    description: "הבדיקות של talalint 0.1.0: האבחונים של המהדר ובדיקות משלו על הטקסט הפיזי.",
+    description: "הבדיקות של talalint: האבחונים של המהדר ובדיקות משלו על הטקסט הפיזי.",
     section: "TALALINT / בדיקות",
     heading: "מה talalint בודק",
     lead: "talalint מדווח את מה שהמהדר שאיתו הוא נבנה מדווח, ומוסיף בדיקות משלו על הטקסט הפיזי.",
@@ -414,7 +414,7 @@ const checksTopic: DocTopic = {
       { kind: "heading", text: "האבחונים של המהדר" },
       {
         kind: "text",
-        text: "גרסה 0.1.0 נבנתה עם המהדר של Tala 0.1.0. האבחונים שלו מגיעים תחת הבדיקה compiler עם הקוד של המהדר:",
+        text: "האבחונים של המהדר מגיעים תחת הבדיקה compiler עם הקוד של המהדר:",
       },
       { kind: "code", code: checks },
       {

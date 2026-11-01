@@ -5,7 +5,7 @@ import type { Locale } from "../locales";
 import type { LandingText, WhyTab } from "./landing";
 import type { DocRoute, DocTopic } from "./types";
 
-// talafmt.tala.run. The facts follow the README of Progmasoft/talafmt, version 0.1.0; commands are the same in every
+// talafmt.tala.run. The facts follow the README of Progmasoft/talafmt; commands are the same in every
 // language and only the prose is translated.
 const inPlace = `talafmt Program.tala Library.tala`;
 const check = `talafmt --check Program.tala Library.tala`;
@@ -332,8 +332,8 @@ const layout: DocTopic = {
       },
       {
         kind: "note",
-        title: "Version 0.1.0",
-        text: "talafmt accepts what the compiler it is built with accepts; version 0.1.0 is built with the compiler of Tala 0.1.0.",
+        title: "Compiler",
+        text: "talafmt accepts what the compiler it is built with accepts.",
       },
     ],
   },
@@ -362,8 +362,8 @@ const layout: DocTopic = {
       },
       {
         kind: "note",
-        title: "Version 0.1.0",
-        text: "talafmt akzeptiert, was der Compiler akzeptiert, mit dem es gebaut ist; Version 0.1.0 ist mit dem Compiler von Tala 0.1.0 gebaut.",
+        title: "Compiler",
+        text: "talafmt akzeptiert, was der Compiler akzeptiert, mit dem es gebaut ist.",
       },
     ],
   },
@@ -392,8 +392,8 @@ const layout: DocTopic = {
       },
       {
         kind: "note",
-        title: "Версия 0.1.0",
-        text: "talafmt принимает то, что принимает компилятор, с которым он собран; версия 0.1.0 собрана с компилятором Tala 0.1.0.",
+        title: "Компилятор",
+        text: "talafmt принимает то, что принимает компилятор, с которым он собран.",
       },
     ],
   },
@@ -421,8 +421,8 @@ const layout: DocTopic = {
       },
       {
         kind: "note",
-        title: "גרסה 0.1.0",
-        text: "talafmt מקבל את מה שהמהדר שאיתו הוא נבנה מקבל; גרסה 0.1.0 נבנתה עם המהדר של Tala 0.1.0.",
+        title: "מהדר",
+        text: "talafmt מקבל את מה שהמהדר שאיתו הוא נבנה מקבל.",
       },
     ],
   },
