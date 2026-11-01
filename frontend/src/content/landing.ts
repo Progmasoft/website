@@ -26,8 +26,7 @@ export type LandingText = {
 };
 
 // The Tala samples are the programs of Examples/ in the compiler repository, from the namespace line on; a test
-// compares them. The messages of the terminal samples follow the source of Tala 0.2.0; the LLVM IR comes from an
-// earlier build and was not produced again.
+// compares them. The terminal samples are what talac 0.2.0 printed on Windows, the LLVM IR included.
 export const helloWorld = `namespace Examples.HelloWorld;
 
 public class HelloWorld {
