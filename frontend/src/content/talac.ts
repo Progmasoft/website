@@ -10,11 +10,19 @@ const program = `talac Main.tala Helper.tala --entry=Demo.Program`;
 const check = `talac Helper.tala --emit=metadata`;
 const warnings = `talac Program.tala --entry=Demo.Program --warnings=all,shadow
 talac Program.tala --entry=Demo.Program --warnings=all --warnings=shadow`;
+const incremental = `talac Sources/*.tala --entry=Demo.Program --incremental=.objects
+talac: linked native executable 'Sources/Main.exe', 1 of 13 sources recompiled`;
+const testBuild = `talac Sources/Math.tala Tests/MathTests.tala --test
+PASS Math.Adds
+Tests/MathTests.tala:9:9: expectation failed: Math.Clamp(50, 0, 10) == 9
+    Math.Clamp(50, 0, 10) is 10
+FAIL Math.Clamps (1 failed expectation)
+2 tests, 1 passed, 1 failed`;
 const stages = `talac Main.tala --entry=Demo.Program --emit=xpp
 talac Main.xpp --build=xpp --emit=xmm
 talac Main.xmm --build=xmm --emit=llvm-ir`;
 const record = `talameta 1
-compiler 0.6.0
+compiler 0.2.0
 entry Demo.Program
 input Sources/Main.tala
 input Sources/Helper.tala`;
@@ -25,6 +33,9 @@ const optionTerms = (d: {
   entry: string;
   standard: string;
   target: string;
+  sysroot: string;
+  incremental: string;
+  staticRuntime: string;
   werror: string;
   warnings: string;
   backend: string;
@@ -34,21 +45,26 @@ const optionTerms = (d: {
   emit: string;
   build: string;
   type: string;
+  test: string;
 }) => [
   { term: "--version, -v", detail: d.version },
   { term: "--help, -h", detail: d.help },
   { term: "--entry=Namespace.Class", detail: d.entry },
   { term: "--standard=26", detail: d.standard },
   { term: "--target=<triple>, -t<triple>", detail: d.target },
+  { term: "--sysroot=<path>", detail: d.sysroot },
+  { term: "--incremental=<directory>", detail: d.incremental },
+  { term: "--static-talart-library=true|false", detail: d.staticRuntime },
   { term: "--warnings-as-errors=true|false", detail: d.werror },
   { term: "--warnings=none|low|medium|all[,shadow]", detail: d.warnings },
   { term: "--codegen-backend=llvm", detail: d.backend },
-  { term: "--opt-level=0|1|2|3|g, -O2", detail: d.opt },
+  { term: "--opt-level=0|1|2|3|g|s|z, -O2", detail: d.opt },
   { term: "--llvm-compiler, --llvm-lto, --llvm-args", detail: d.llvm },
   { term: "--xpp-optimization-passes, --xmm-optimization-passes", detail: d.passes },
   { term: "--emit=…", detail: d.emit },
   { term: "--build=…", detail: d.build },
   { term: "--vipkg-type=executable|staticlib|cdylib|talalib", detail: d.type },
+  { term: "--test", detail: d.test },
 ];
 
 const commandLine: DocTopic = {
@@ -80,6 +96,10 @@ const commandLine: DocTopic = {
           entry: "The class whose parameterless public static void Main() starts the program.",
           standard: "The language standard. 26 is the only one and the default.",
           target: "An LLVM target triple. The default is the target of the host.",
+          sysroot: "The system root of the target, for what the build links.",
+          incremental: "A directory that keeps one object per source between builds.",
+          staticRuntime: "Links TalaRT into the output instead of beside it. Default false.",
+          test: "Builds the runner of the [Fact] methods instead of a program.",
           werror: "Turns warnings into errors. Default false.",
           warnings: "The warning level, default medium, and the shadow warning.",
           backend: "The code generator. LLVM is the only one.",
@@ -97,6 +117,18 @@ const commandLine: DocTopic = {
         text: "--entry is required when anything is built from Tala sources, and it cannot be written for a library. An artifact input already carries its entry. A check builds nothing, so one source can be checked without an entry; several sources are one program and still need it.",
       },
       { kind: "code", code: check },
+      { kind: "heading", text: "Incremental builds" },
+      {
+        kind: "text",
+        text: "--incremental builds an executable from one object per source and keeps the objects in the directory. The next build lowers only the sources whose object would differ: a comment changes nothing, a changed body recompiles its source, and a changed signature also recompiles the sources that call it. LLVM optimizes each source alone, so use it for development builds rather than for releases.",
+      },
+      { kind: "code", code: incremental },
+      { kind: "heading", text: "Test builds" },
+      {
+        kind: "text",
+        text: "--test builds a program that runs the [Fact] methods and reports each one. #expect checks a value inside a test. Tazel does this for each test suite.",
+      },
+      { kind: "code", code: testBuild },
       { kind: "heading", text: "Warnings" },
       {
         kind: "text",
@@ -138,6 +170,10 @@ const commandLine: DocTopic = {
           entry: "Die Klasse, deren parameterloses public static void Main() das Programm startet.",
           standard: "Der Sprachstandard. 26 ist der einzige und die Vorgabe.",
           target: "Ein LLVM-Target-Triple. Vorgabe ist das Ziel des Hosts.",
+          sysroot: "Das Systemverzeichnis des Ziels für das, was der Build linkt.",
+          incremental: "Ein Verzeichnis, das zwischen Builds ein Objekt pro Quelle aufbewahrt.",
+          staticRuntime: "Linkt TalaRT in die Ausgabe statt daneben. Vorgabe false.",
+          test: "Baut den Runner der [Fact]-Methoden statt eines Programms.",
           werror: "Macht Warnungen zu Fehlern. Vorgabe false.",
           warnings: "Die Warnstufe, Vorgabe medium, und die Shadow-Warnung.",
           backend: "Der Codegenerator. LLVM ist der einzige.",
@@ -156,6 +192,18 @@ const commandLine: DocTopic = {
         text: "--entry ist nötig, sobald aus Tala-Quellen etwas gebaut wird, und darf für eine Bibliothek nicht angegeben werden. Ein Artefakt bringt seinen Einstieg schon mit. Eine Prüfung baut nichts, daher kann eine einzelne Quelle ohne Einstieg geprüft werden; mehrere Quellen sind ein Programm und brauchen ihn weiterhin.",
       },
       { kind: "code", code: check },
+      { kind: "heading", text: "Inkrementelle Builds" },
+      {
+        kind: "text",
+        text: "--incremental baut eine ausführbare Datei aus einem Objekt pro Quelle und bewahrt die Objekte im Verzeichnis auf. Der nächste Build übersetzt nur die Quellen, deren Objekt sich ändern würde: Ein Kommentar ändert nichts, ein geänderter Rumpf übersetzt seine Quelle neu, und eine geänderte Signatur auch die Quellen, die sie aufrufen. LLVM optimiert jede Quelle für sich, nutzen Sie es also für Entwicklungs-Builds und nicht für Releases.",
+      },
+      { kind: "code", code: incremental },
+      { kind: "heading", text: "Test-Builds" },
+      {
+        kind: "text",
+        text: "--test baut ein Programm, das die [Fact]-Methoden ausführt und jede meldet. #expect prüft einen Wert innerhalb eines Tests. Tazel macht das für jede Testsuite.",
+      },
+      { kind: "code", code: testBuild },
       { kind: "heading", text: "Warnungen" },
       {
         kind: "text",
@@ -197,6 +245,10 @@ const commandLine: DocTopic = {
           entry: "Класс, чей метод public static void Main() без параметров запускает программу.",
           standard: "Стандарт языка. 26 — единственный и значение по умолчанию.",
           target: "Целевая тройка LLVM. По умолчанию — платформа системы.",
+          sysroot: "Системный каталог цели для того, что компонует сборка.",
+          incremental: "Каталог, в котором между сборками хранится по объекту на исходник.",
+          staticRuntime: "Встраивает TalaRT в результат, а не кладёт рядом. По умолчанию false.",
+          test: "Собирает запускающую программу методов [Fact] вместо обычной программы.",
           werror: "Превращает предупреждения в ошибки. По умолчанию false.",
           warnings: "Уровень предупреждений, по умолчанию medium, и предупреждение shadow.",
           backend: "Генератор кода. LLVM — единственный.",
@@ -214,6 +266,18 @@ const commandLine: DocTopic = {
         text: "--entry обязателен, когда что-либо собирается из исходников Tala, и его нельзя указывать для библиотеки. Артефакт уже содержит свою точку входа. Проверка ничего не собирает, поэтому один исходник можно проверить без точки входа; несколько исходников — это одна программа, и им она по-прежнему нужна.",
       },
       { kind: "code", code: check },
+      { kind: "heading", text: "Инкрементальные сборки" },
+      {
+        kind: "text",
+        text: "--incremental собирает исполняемый файл из отдельных объектов для каждого исходника и хранит их в каталоге. Следующая сборка обрабатывает только исходники, чей объект изменился бы: комментарий ничего не меняет, изменённое тело перекомпилирует свой исходник, а изменённая сигнатура — ещё и исходники, которые её вызывают. LLVM оптимизирует каждый исходник отдельно, поэтому это подходит для разработки, а не для релизов.",
+      },
+      { kind: "code", code: incremental },
+      { kind: "heading", text: "Тестовые сборки" },
+      {
+        kind: "text",
+        text: "--test собирает программу, которая выполняет методы [Fact] и сообщает о каждом. #expect проверяет значение внутри теста. Tazel делает это для каждого набора тестов.",
+      },
+      { kind: "code", code: testBuild },
       { kind: "heading", text: "Предупреждения" },
       {
         kind: "text",
@@ -254,6 +318,10 @@ const commandLine: DocTopic = {
           entry: "המחלקה שה-public static void Main() שלה, ללא פרמטרים, מתחיל את התוכנית.",
           standard: "תקן השפה. 26 הוא היחיד וברירת המחדל.",
           target: "משולש מטרה של LLVM. ברירת המחדל היא המטרה של המערכת.",
+          sysroot: "שורש המערכת של המטרה, עבור מה שהבנייה מקשרת.",
+          incremental: "תיקייה ששומרת אובייקט אחד לכל קובץ מקור בין בניות.",
+          staticRuntime: "מקשר את TalaRT לתוך הפלט במקום לצידו. ברירת מחדל false.",
+          test: "בונה את מריץ שיטות ה-[Fact] במקום תוכנית.",
           werror: "הופך אזהרות לשגיאות. ברירת מחדל false.",
           warnings: "רמת האזהרות, ברירת מחדל medium, ואזהרת shadow.",
           backend: "מחולל הקוד. LLVM הוא היחיד.",
@@ -271,6 +339,18 @@ const commandLine: DocTopic = {
         text: "‎--entry נדרש בכל בנייה מקבצי Tala, ואי אפשר לכתוב אותו עבור ספרייה. תוצר כבר נושא את נקודת הכניסה שלו. בדיקה אינה בונה דבר, ולכן אפשר לבדוק קובץ מקור אחד בלי נקודת כניסה; כמה קבצים הם תוכנית אחת ועדיין זקוקים לה.",
       },
       { kind: "code", code: check },
+      { kind: "heading", text: "בניות מצטברות" },
+      {
+        kind: "text",
+        text: "‎--incremental בונה קובץ הרצה מאובייקט אחד לכל קובץ מקור ושומר את האובייקטים בתיקייה. הבנייה הבאה מעבדת רק קבצים שהאובייקט שלהם היה משתנה: הערה אינה משנה דבר, גוף שהשתנה מהדר מחדש את הקובץ שלו, וחתימה שהשתנתה מהדרת מחדש גם את הקבצים שקוראים לה. ‏LLVM מבצע אופטימיזציה לכל קובץ בנפרד, ולכן זה מתאים לפיתוח ולא לגרסאות.",
+      },
+      { kind: "code", code: incremental },
+      { kind: "heading", text: "בניות בדיקה" },
+      {
+        kind: "text",
+        text: "‎--test בונה תוכנית שמריצה את שיטות ה-[Fact] ומדווחת על כל אחת. ‏#expect בודק ערך בתוך בדיקה. ‏Tazel עושה זאת עבור כל חבילת בדיקה.",
+      },
+      { kind: "code", code: testBuild },
       { kind: "heading", text: "אזהרות" },
       {
         kind: "text",
