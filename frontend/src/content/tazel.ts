@@ -184,7 +184,7 @@ const commands: DocTopic = {
       { kind: "code", code: customRuns },
       {
         kind: "text",
-        text: "Steps run in order. (...) starts a program directly, with no shell, and s(...) hands one command line to CMD on Windows and sh elsewhere. A name may hold several words, and the longest name that fits wins. <N> passes the Nth argument, from 1, and <*> passes all of them; neither works in s(...). The name and its arguments are at most 191 words.",
+        text: "Steps run in order. (...) starts a program directly, with no shell, and s(...) hands one command line, unchanged, to CMD on Windows and sh elsewhere, so any escapes in it are for that shell. A name may hold several words, and the longest name that fits wins; the first -- ends the name, so tazel custom first -- second passes second to first even if a command first second exists. The -- is neither an argument nor one of the 191 words. <N> passes the Nth argument, from 1, and <*> passes all of them; neither works in s(...). The name and its arguments are at most 191 words.",
       },
       { kind: "heading", text: "Selecting targets" },
       {
@@ -277,7 +277,7 @@ const commands: DocTopic = {
       { kind: "code", code: customRuns },
       {
         kind: "text",
-        text: "Schritte laufen der Reihe nach. (...) startet ein Programm direkt, ohne Shell, und s(...) gibt eine Befehlszeile an CMD unter Windows und sonst an sh. Ein Name darf mehrere Wörter haben, und der längste passende Name gilt. <N> übergibt das N-te Argument, ab 1, und <*> alle; beides geht nicht in s(...). Name und Argumente sind zusammen höchstens 191 Wörter.",
+        text: "Schritte laufen der Reihe nach. (...) startet ein Programm direkt, ohne Shell, und s(...) gibt eine Befehlszeile unverändert an CMD unter Windows und sonst an sh, Escapes darin liest also diese Shell. Ein Name darf mehrere Wörter haben, und der längste passende Name gilt; das erste -- beendet den Namen, sodass tazel custom first -- second das Argument second an first übergibt, auch wenn es einen Befehl first second gibt. Das -- ist weder Argument noch eines der 191 Wörter. <N> übergibt das N-te Argument, ab 1, und <*> alle; beides geht nicht in s(...). Name und Argumente sind zusammen höchstens 191 Wörter.",
       },
       { kind: "heading", text: "Ziele auswählen" },
       {
@@ -368,7 +368,7 @@ const commands: DocTopic = {
       { kind: "code", code: customRuns },
       {
         kind: "text",
-        text: "Шаги выполняются по порядку. (...) запускает программу напрямую, без оболочки, а s(...) передаёт одну командную строку в CMD в Windows и в sh в остальных системах. Имя может состоять из нескольких слов, и выбирается самое длинное подходящее. <N> передаёт N-й аргумент, начиная с 1, а <*> — все; в s(...) они не работают. Имя вместе с аргументами — не более 191 слова.",
+        text: "Шаги выполняются по порядку. (...) запускает программу напрямую, без оболочки, а s(...) передаёт одну командную строку без изменений в CMD в Windows и в sh в остальных системах, поэтому экранирование в ней читает сама оболочка. Имя может состоять из нескольких слов, и выбирается самое длинное подходящее; первое -- завершает имя, поэтому tazel custom first -- second передаёт second команде first, даже если есть команда first second. Само -- не является ни аргументом, ни одним из 191 слова. <N> передаёт N-й аргумент, начиная с 1, а <*> — все; в s(...) они не работают. Имя вместе с аргументами — не более 191 слова.",
       },
       { kind: "heading", text: "Выбор целей" },
       {
