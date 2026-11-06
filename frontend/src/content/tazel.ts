@@ -144,7 +144,7 @@ const commands: DocTopic = {
             "Starts Talac with --emit=metadata and the compiler options of the project. Writes no executable.",
           build:
             "Builds the executables into the output directory of the build mode, under the name of the target.",
-          run: "Builds the executables and runs them; what follows -- goes to the program.",
+          run: "Builds one executable and runs it; what follows -- goes to the program.",
           test: "Builds and runs the test suites.",
           fetch:
             "Fetches plugins of ViGet into .tazel/plugins ahead of time, and fails if a local package is missing.",
@@ -186,10 +186,15 @@ const commands: DocTopic = {
         kind: "text",
         text: "Steps run in order. (...) starts a program directly, with no shell, and s(...) hands one command line, unchanged, to CMD on Windows and sh elsewhere, so any escapes in it are for that shell. A name may hold several words, and the longest name that fits wins; the first -- ends the name, so tazel custom first -- second passes second to first even if a command first second exists. The -- is neither an argument nor one of the 191 words. <N> passes the Nth argument, from 1, and <*> passes all of them; neither works in s(...). The name and its arguments are at most 191 words.",
       },
+      { kind: "heading", text: "Options of Tazel" },
+      {
+        kind: "text",
+        text: "tazel_options.txt holds options of Tazel itself, in the current folder or any folder above it; the nearest file decides each option, but sandboxing-with-microvm: true in any of them holds. That option asks for a MicroVM sandbox, which Tazel does not start, so with it every command except version and help stops before anything runs on the host. A file Tazel cannot read stops the command too.",
+      },
       { kind: "heading", text: "Selecting targets" },
       {
         kind: "text",
-        text: "check, build, run, test and lint work on everything unless a selection names what to work on. A flag of Tazel takes its value from the next argument and may be written several times. A name that selects nothing is an error.",
+        text: "check, build, run, test and lint work on everything unless a selection names what to work on. A flag of Tazel takes its value from the next argument and may be written several times. A name that selects nothing is an error. tazel run runs one executable: the one --executable names, the only one the selection holds, or the project.defaultRun of the selected ViPkg. It takes one --vipkg and one --executable at most and no --library, and when the choice is open it lists the executables and builds nothing.",
       },
       { kind: "code", code: selection },
       { kind: "heading", text: "Passing arguments on" },
@@ -211,7 +216,7 @@ const commands: DocTopic = {
       { kind: "heading", text: "Workspaces and tools" },
       {
         kind: "text",
-        text: "At the root of a workspace, build, check, run and test work on every member; fmt and lint on the default members, or on the root when there are none; tazel lint --workspace on every member. Tazel finds a tool through TAZEL_TALAC, TAZEL_TALAFMT or TAZEL_TALALINT, then in its own installation, then on PATH.",
+        text: "At the root of a workspace, build, check and test work on every member, and run chooses its executable among them; fmt and lint on the default members, or on the root when there are none; tazel lint --workspace on every member. Tazel finds a tool through TAZEL_TALAC, TAZEL_TALAFMT or TAZEL_TALALINT, then in its own installation, then on PATH.",
       },
       {
         kind: "note",
@@ -237,7 +242,7 @@ const commands: DocTopic = {
             "Startet Talac mit --emit=metadata und den Compiler-Optionen des Projekts. Schreibt keine ausführbare Datei.",
           build:
             "Baut die ausführbaren Dateien in das Ausgabeverzeichnis des Build-Modus, unter dem Namen des Ziels.",
-          run: "Baut die ausführbaren Dateien und startet sie; was nach -- folgt, geht an das Programm.",
+          run: "Baut eine ausführbare Datei und startet sie; was nach -- folgt, geht an das Programm.",
           test: "Baut die Testsuiten und führt sie aus.",
           fetch:
             "Holt Plugins aus ViGet vorab nach .tazel/plugins und schlägt fehl, wenn ein lokales Paket fehlt.",
@@ -279,10 +284,15 @@ const commands: DocTopic = {
         kind: "text",
         text: "Schritte laufen der Reihe nach. (...) startet ein Programm direkt, ohne Shell, und s(...) gibt eine Befehlszeile unverändert an CMD unter Windows und sonst an sh, Escapes darin liest also diese Shell. Ein Name darf mehrere Wörter haben, und der längste passende Name gilt; das erste -- beendet den Namen, sodass tazel custom first -- second das Argument second an first übergibt, auch wenn es einen Befehl first second gibt. Das -- ist weder Argument noch eines der 191 Wörter. <N> übergibt das N-te Argument, ab 1, und <*> alle; beides geht nicht in s(...). Name und Argumente sind zusammen höchstens 191 Wörter.",
       },
+      { kind: "heading", text: "Optionen von Tazel" },
+      {
+        kind: "text",
+        text: "tazel_options.txt enthält Optionen von Tazel selbst, im aktuellen Ordner oder in einem Ordner darüber; die nächste Datei entscheidet jede Option, doch sandboxing-with-microvm: true gilt aus jeder von ihnen. Diese Option verlangt eine MicroVM-Sandbox, die Tazel nicht startet, daher hält damit jeder Befehl außer version und help an, bevor etwas auf dem Host läuft. Eine Datei, die Tazel nicht lesen kann, hält den Befehl ebenfalls an.",
+      },
       { kind: "heading", text: "Ziele auswählen" },
       {
         kind: "text",
-        text: "check, build, run, test und lint arbeiten an allem, sofern keine Auswahl etwas benennt. Eine Option von Tazel nimmt ihren Wert aus dem nächsten Argument und darf mehrfach geschrieben werden. Ein Name, der nichts auswählt, ist ein Fehler.",
+        text: "check, build, run, test und lint arbeiten an allem, sofern keine Auswahl etwas benennt. Eine Option von Tazel nimmt ihren Wert aus dem nächsten Argument und darf mehrfach geschrieben werden. Ein Name, der nichts auswählt, ist ein Fehler. tazel run startet eine ausführbare Datei: die, die --executable nennt, die einzige der Auswahl oder das project.defaultRun des ausgewählten ViPkg. Es nimmt höchstens ein --vipkg und ein --executable und kein --library; ist die Wahl offen, listet es die ausführbaren Dateien auf und baut nichts.",
       },
       { kind: "code", code: selection },
       { kind: "heading", text: "Argumente weiterreichen" },
@@ -304,7 +314,7 @@ const commands: DocTopic = {
       { kind: "heading", text: "Workspaces und Werkzeuge" },
       {
         kind: "text",
-        text: "In der Wurzel eines Workspace arbeiten build, check, run und test an jedem Mitglied; fmt und lint an den Standardmitgliedern oder, wenn es keine gibt, an der Wurzel; tazel lint --workspace an jedem Mitglied. Tazel findet ein Werkzeug über TAZEL_TALAC, TAZEL_TALAFMT oder TAZEL_TALALINT, dann in seiner eigenen Installation, dann über PATH.",
+        text: "In der Wurzel eines Workspace arbeiten build, check und test an jedem Mitglied, und run wählt seine ausführbare Datei unter ihnen; fmt und lint an den Standardmitgliedern oder, wenn es keine gibt, an der Wurzel; tazel lint --workspace an jedem Mitglied. Tazel findet ein Werkzeug über TAZEL_TALAC, TAZEL_TALAFMT oder TAZEL_TALALINT, dann in seiner eigenen Installation, dann über PATH.",
       },
       {
         kind: "note",
@@ -328,7 +338,7 @@ const commands: DocTopic = {
           check:
             "Запускает Talac с --emit=metadata и параметрами компилятора из проекта. Исполняемый файл не создаётся.",
           build: "Собирает исполняемые файлы в каталог результатов режима сборки под именем цели.",
-          run: "Собирает исполняемые файлы и запускает их; всё после -- передаётся программе.",
+          run: "Собирает один исполняемый файл и запускает его; всё после -- передаётся программе.",
           test: "Собирает и запускает наборы тестов.",
           fetch:
             "Заранее загружает плагины ViGet в .tazel/plugins и завершается ошибкой, если локального пакета нет.",
@@ -370,10 +380,15 @@ const commands: DocTopic = {
         kind: "text",
         text: "Шаги выполняются по порядку. (...) запускает программу напрямую, без оболочки, а s(...) передаёт одну командную строку без изменений в CMD в Windows и в sh в остальных системах, поэтому экранирование в ней читает сама оболочка. Имя может состоять из нескольких слов, и выбирается самое длинное подходящее; первое -- завершает имя, поэтому tazel custom first -- second передаёт second команде first, даже если есть команда first second. Само -- не является ни аргументом, ни одним из 191 слова. <N> передаёт N-й аргумент, начиная с 1, а <*> — все; в s(...) они не работают. Имя вместе с аргументами — не более 191 слова.",
       },
+      { kind: "heading", text: "Параметры Tazel" },
+      {
+        kind: "text",
+        text: "tazel_options.txt содержит параметры самого Tazel, в текущей папке или в любой папке выше; каждый параметр определяет ближайший файл, но sandboxing-with-microvm: true действует из любого из них. Этот параметр требует песочницу MicroVM, которую Tazel не запускает, поэтому с ним каждая команда, кроме version и help, останавливается до того, как что-либо запустится в основной системе. Файл, который Tazel не может прочитать, тоже останавливает команду.",
+      },
       { kind: "heading", text: "Выбор целей" },
       {
         kind: "text",
-        text: "check, build, run, test и lint работают со всем, если выбор не называет конкретные цели. Параметр Tazel берёт значение из следующего аргумента и может повторяться. Имя, которое ничего не выбирает, — ошибка.",
+        text: "check, build, run, test и lint работают со всем, если выбор не называет конкретные цели. Параметр Tazel берёт значение из следующего аргумента и может повторяться. Имя, которое ничего не выбирает, — ошибка. tazel run запускает один исполняемый файл: тот, что назван в --executable, единственный в выборе или project.defaultRun выбранного ViPkg. Он принимает не более одного --vipkg и одного --executable и не принимает --library; если выбор не однозначен, он перечисляет исполняемые файлы и ничего не собирает.",
       },
       { kind: "code", code: selection },
       { kind: "heading", text: "Передача аргументов" },
@@ -395,7 +410,7 @@ const commands: DocTopic = {
       { kind: "heading", text: "Рабочие пространства и инструменты" },
       {
         kind: "text",
-        text: "В корне рабочего пространства build, check, run и test работают с каждым участником; fmt и lint — с участниками по умолчанию, а если их нет, с корнем; tazel lint --workspace — с каждым участником. Инструмент Tazel ищет через TAZEL_TALAC, TAZEL_TALAFMT или TAZEL_TALALINT, затем в своей установке, затем в PATH.",
+        text: "В корне рабочего пространства build, check и test работают с каждым участником, а run выбирает среди них свой исполняемый файл; fmt и lint — с участниками по умолчанию, а если их нет, с корнем; tazel lint --workspace — с каждым участником. Инструмент Tazel ищет через TAZEL_TALAC, TAZEL_TALAFMT или TAZEL_TALALINT, затем в своей установке, затем в PATH.",
       },
       {
         kind: "note",
@@ -419,7 +434,7 @@ const commands: DocTopic = {
           check:
             "מפעיל את Talac עם ‎--emit=metadata ועם אפשרויות המהדר של הפרויקט. אינו כותב קובץ הרצה.",
           build: "בונה את קובצי ההרצה לתיקיית הפלט של מצב הבנייה, בשם היעד.",
-          run: "בונה את קובצי ההרצה ומריץ אותם; מה שאחרי ‎-- עובר לתוכנית.",
+          run: "בונה קובץ הרצה אחד ומריץ אותו; מה שאחרי ‎-- עובר לתוכנית.",
           test: "בונה ומריץ את חבילות הבדיקה.",
           fetch: "מוריד מראש תוספים של ViGet אל ‎.tazel/plugins, ונכשל אם חבילה מקומית חסרה.",
           custom: "מריץ פקודה מתוך tazel_custom.txt, או מציג את רשימתן.",
@@ -457,10 +472,15 @@ const commands: DocTopic = {
         kind: "text",
         text: "הצעדים רצים לפי הסדר. (...) מפעיל תוכנית ישירות, בלי מעטפת, ו-s(...) מעביר שורת פקודה אחת ל-CMD ב-Windows ול-sh בשאר המערכות. שם יכול להכיל כמה מילים, והשם הארוך ביותר שמתאים הוא הקובע. <N> מעביר את הארגומנט ה-N, החל מ-1, ו-<*> מעביר את כולם; שניהם אינם פועלים בתוך s(...). השם והארגומנטים יחד הם לכל היותר 191 מילים.",
       },
+      { kind: "heading", text: "אפשרויות של Tazel" },
+      {
+        kind: "text",
+        text: "‏tazel_options.txt מכיל אפשרויות של Tazel עצמו, בתיקייה הנוכחית או בכל תיקייה שמעליה; הקובץ הקרוב ביותר קובע כל אפשרות, אבל sandboxing-with-microvm: true תקף מכל אחד מהם. האפשרות הזאת מבקשת ארגז חול של MicroVM, ש-Tazel אינו מפעיל, ולכן איתה כל פקודה מלבד version ו-help נעצרת לפני שמשהו רץ במערכת המארחת. קובץ ש-Tazel אינו יכול לקרוא עוצר גם הוא את הפקודה.",
+      },
       { kind: "heading", text: "בחירת יעדים" },
       {
         kind: "text",
-        text: "check, ‏build, ‏run, ‏test ו-lint פועלות על הכול, אלא אם בחירה מציינת על מה לפעול. אפשרות של Tazel לוקחת את ערכה מהארגומנט הבא ואפשר לכתוב אותה כמה פעמים. שם שאינו בוחר דבר הוא שגיאה.",
+        text: "check, ‏build, ‏run, ‏test ו-lint פועלות על הכול, אלא אם בחירה מציינת על מה לפעול. אפשרות של Tazel לוקחת את ערכה מהארגומנט הבא ואפשר לכתוב אותה כמה פעמים. שם שאינו בוחר דבר הוא שגיאה. ‏tazel run מריץ קובץ הרצה אחד: זה ש-‎--executable מציין, היחיד שבבחירה, או ה-project.defaultRun של ה-ViPkg שנבחר. הוא מקבל לכל היותר ‎--vipkg אחד ו-‎--executable אחד, ואינו מקבל ‎--library; כשהבחירה פתוחה, הוא מונה את קובצי ההרצה ואינו בונה דבר.",
       },
       { kind: "code", code: selection },
       { kind: "heading", text: "העברת ארגומנטים הלאה" },
@@ -482,7 +502,7 @@ const commands: DocTopic = {
       { kind: "heading", text: "סביבות עבודה וכלים" },
       {
         kind: "text",
-        text: "בשורש של סביבת עבודה, build, ‏check, ‏run ו-test פועלות על כל חבר; fmt ו-lint על חברי ברירת המחדל, או על השורש כשאין כאלה; ‏tazel lint --workspace על כל חבר. Tazel מוצא כלי דרך TAZEL_TALAC, ‏TAZEL_TALAFMT או TAZEL_TALALINT, אחר כך בהתקנה שלו עצמו, ואחר כך ב-PATH.",
+        text: "בשורש של סביבת עבודה, build, ‏check ו-test פועלות על כל חבר, ו-run בוחרת מביניהם את קובץ ההרצה שלה; fmt ו-lint על חברי ברירת המחדל, או על השורש כשאין כאלה; ‏tazel lint --workspace על כל חבר. Tazel מוצא כלי דרך TAZEL_TALAC, ‏TAZEL_TALAFMT או TAZEL_TALALINT, אחר כך בהתקנה שלו עצמו, ואחר כך ב-PATH.",
       },
       {
         kind: "note",
