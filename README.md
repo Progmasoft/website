@@ -6,7 +6,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later WITH AdditionRef-Progmasoft-Patent-Gr
 # Tala website
 
 This repository owns the public language website at [tala.run](https://tala.run) and the documentation of the
-compiler and the build system at [talac.tala.run](https://talac.tala.run) and [tazel.tala.run](https://tazel.tala.run).
+compiler at [talac.tala.run](https://talac.tala.run). The build system has its own site, [tazel.net](https://tazel.net).
 It does not own
 Progmasoft's corporate or account sites. Tala uses its own supplied purple leopard SVG identity;
 the Progmasoft mark is a different brand.
@@ -19,7 +19,8 @@ One frontend build serves three sites and picks its pages from the host name:
   explains the design direction, `tala.run/docs/getting-started` links the real compiler checkout and toolchain, and
   `tala.run/docs/syntax` gives a first look at the syntax from the public specification.
 - `talac.tala.run/docs/command-line` and `talac.tala.run/docs/outputs` document the compiler.
-- `tazel.tala.run/docs/commands` and `tazel.tala.run/docs/project-file` document the build system.
+- `tazel.tala.run` redirects permanently to [tazel.net](https://tazel.net); its two pages go to
+  `tazel.net/docs/reference/commands` and `tazel.net/docs/reference/project-file`.
 - `forum.tala.run` is a standalone informational page. It is *not* a forum service; accounts and posts do not exist
   there yet. It stays noindex until a real community forum is launched.
 
