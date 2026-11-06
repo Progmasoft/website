@@ -173,15 +173,14 @@ test("maintenance mode preserves the legacy redirect without opening the languag
 test("only the routes of the application get the app shell; other paths answer 404", () => {
   const live = readFileSync(join(websiteRoot, "ops/nginx/tala.conf"), "utf8");
   assert.doesNotMatch(live, /try_files \$uri \$uri\/ \/index\.html;/);
-  assert.equal(live.match(/try_files \$uri \$uri\/ @application;/g)?.length, 5);
-  assert.equal(live.match(/error_page 404 \/index\.html;/g)?.length, 5);
+  assert.equal(live.match(/try_files \$uri \$uri\/ @application;/g)?.length, 4);
+  assert.equal(live.match(/error_page 404 \/index\.html;/g)?.length, 4);
   const patterns = [...live.matchAll(/if \(\$uri !~ "([^"]+)"\)/g)].map((match) => match[1]);
   assert.equal(new Set(patterns).size, 1, "every site must accept the same routes");
   const route = new RegExp(patterns[0]);
   const pages = [
     "public/sitemap.xml",
     "public/hosts/talac/sitemap.xml",
-    "public/hosts/tazel/sitemap.xml",
     "public/hosts/talafmt/sitemap.xml",
     "public/hosts/talalint/sitemap.xml",
   ]
@@ -220,10 +219,31 @@ test("the former domain lands on the same path of tala.run and tala.run has no V
     /server_name forum\.xsharp-lang\.xyz;[^}]*return 308 https:\/\/forum\.tala\.run\$request_uri;/s,
   );
   assert.doesNotMatch(live + forum, /viget\.tala\.run/);
-  for (const host of ["talac", "tazel", "talafmt", "talalint"]) {
+  for (const host of ["talac", "talafmt", "talalint"]) {
     assert.match(live, new RegExp(`try_files /hosts/${host}/robots\\.txt =404;`));
     assert.match(live, new RegExp(`try_files /hosts/${host}/sitemap\\.xml =404;`));
   }
+});
+
+test("tazel.tala.run only redirects to tazel.net, its two pages to their own", () => {
+  const live = readFileSync(join(websiteRoot, "ops/nginx/tala.conf"), "utf8").replaceAll(
+    "\r\n",
+    "\n",
+  );
+  const start = live.indexOf(
+    "listen 443 ssl;\n    listen [::]:443 ssl;\n    http2 on;\n    server_name tazel.tala.run;",
+  );
+  assert.ok(start > 0, "tazel.tala.run has no HTTPS server");
+  const server = live.slice(start, live.indexOf("\n}\n", start));
+  assert.doesNotMatch(server, /\broot\b|try_files|hosts\/tazel/);
+  assert.match(
+    server,
+    /location ~ "\^\/docs\/\(commands\|project-file\)\/\?\$" \{\s*return 308 https:\/\/tazel\.net\/docs\/reference\/\$1\$is_args\$args;/,
+  );
+  // A ^~ prefix would stop nginx before the regular expression above.
+  assert.match(server, /location \/docs\/ \{\s*return 308 https:\/\/tazel\.net\/docs;/);
+  assert.match(server, /location \/ \{\s*return 308 https:\/\/tazel\.net\$request_uri;/);
+  assert.match(server, /Strict-Transport-Security/);
 });
 
 test("workflow actions are immutable and OIDC is isolated from build jobs", () => {

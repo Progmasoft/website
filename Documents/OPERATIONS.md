@@ -4,7 +4,8 @@
 # Tala website operations
 
 This runbook covers only the language website, the documentation sites of the
-compiler and the build system, and the not-yet-open forum page.
+compiler, the formatter and the linter, the redirect of the build system's former
+site, and the not-yet-open forum page.
 The account site, corporate site, and package service have their own repositories
 and deployments. A redirect from an old package hostname is retained for
 compatibility, but it does not make package functions part of this website.
@@ -15,7 +16,7 @@ compatibility, but it does not make package functions part of this website.
 | --- | --- | --- |
 | `tala.run/`, `/docs/overview`, `/docs/getting-started`, `/docs/syntax` | Vue language site | Live |
 | `talac.tala.run/docs/*` | Vue build, compiler documentation | Live |
-| `tazel.tala.run/docs/*` | Vue build, build-system documentation | Live |
+| `tazel.tala.run/*` | Redirect | Permanent redirect to `tazel.net`, Tazel's own site: `/docs/commands` and `/docs/project-file` to `tazel.net/docs/reference/` with the same name, other `/docs/` paths to `tazel.net/docs`, the rest to the same path |
 | `tala.run/api/v1/site` | ASP.NET Core language API | Live; the only proxied API path |
 | `forum.tala.run/` | Static placeholder | Live; noindex |
 | `www.tala.run` | Redirect | Permanent redirect to `tala.run` |
@@ -90,7 +91,7 @@ Before publication, verify that:
 All source links should target the current `Progmasoft/tala` default
 branch. In particular, check the `Spec/`, `Documents/BUILDING.md`,
 `Documents/CLI.md`, and `Examples/` targets after any repository move.
-The routes of each site are listed in the route table above. A retired login, registration, or package route must
+The routes of each site are listed in the route table above; tazel.tala.run answers each with a 308 to tazel.net. A retired login, registration, or package route must
 not reappear in the site shell.
 
 The forum placeholder links back to the language domain and to the compiler
