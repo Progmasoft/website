@@ -250,10 +250,14 @@ static files and 404 for other paths. Expected legacy redirect responses are
 308. In maintenance mode the main domain answers 503 with `Retry-After`. A 200
 from a retired login or registry route is a regression.
 
-Neither the static site nor the forum placeholder should send personal data
-to a third-party analytics service. The content security policy allows
-same-origin scripts only, so a script added by an intermediary is blocked by
-the browser rather than run. Theme and language preferences are kept
+The static site uses Cloudflare Web Analytics, which counts page views without
+cookies and without a fingerprint of the visitor. Its content security policy
+allows same-origin scripts and that beacon only: the beacon loads from
+`https://static.cloudflareinsights.com` and reports to
+`https://cloudflareinsights.com` and `/cdn-cgi/rum`. Any other script added by
+an intermediary is blocked by the browser rather than run. The forum
+placeholder allows same-origin scripts only and sends nothing to an analytics
+service. Theme and language preferences are kept
 locally in the browser. Nginx and API logs still need normal retention
 and access-control practices, but this repository does not define an account
 database or a user profile store.

@@ -105,5 +105,7 @@ allows only its own script, stylesheet and two images.
 ## Security headers
 
 Nginx sends a content security policy that allows only same-origin resources, plus HSTS, `X-Content-Type-Options`,
-`X-Frame-Options: DENY` and a referrer policy. The policy has no exception for third-party scripts; a script injected
-by an intermediary, such as an analytics beacon added by a CDN, is blocked by the browser.
+`X-Frame-Options: DENY` and a referrer policy. The policy of the four hosts of the site has one exception: Cloudflare
+Web Analytics, which Cloudflare adds to every page. Its beacon loads from `https://static.cloudflareinsights.com` and
+reports to `https://cloudflareinsights.com` and to `/cdn-cgi/rum` on the same host. Any other script injected by an
+intermediary is blocked by the browser. The forum placeholder keeps a policy of its own, same-origin only.
