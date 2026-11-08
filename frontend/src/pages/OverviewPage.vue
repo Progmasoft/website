@@ -97,7 +97,7 @@ const text = {
       },
       {
         q: "Does Tala require a particular IDE?",
-        a: "No. The supported developer workflow uses command-line tools on Windows, macOS and Linux; the Xide project is a future interface, not a prerequisite.",
+        a: "No. The supported developer workflow uses command-line tools on Windows, macOS and Linux.",
       },
     ],
     items: [
@@ -213,7 +213,7 @@ const text = {
       },
       {
         q: "Benötigt Tala eine bestimmte IDE?",
-        a: "Nein. Der unterstützte Entwicklungsweg nutzt Kommandozeilenwerkzeuge unter Windows, macOS und Linux; Xide ist eine künftige Oberfläche, keine Voraussetzung.",
+        a: "Nein. Der unterstützte Entwicklungsweg nutzt Kommandozeilenwerkzeuge unter Windows, macOS und Linux.",
       },
     ],
     items: [
@@ -329,7 +329,7 @@ const text = {
       },
       {
         q: "Нужна ли для Tala определённая IDE?",
-        a: "Нет. Поддерживаемый процесс разработки использует инструменты командной строки в Windows, macOS и Linux; проект Xide — будущий интерфейс, а не обязательное условие.",
+        a: "Нет. Поддерживаемый процесс разработки использует инструменты командной строки в Windows, macOS и Linux.",
       },
     ],
     items: [
@@ -444,7 +444,7 @@ const text = {
       },
       {
         q: "האם Tala דורשת סביבת פיתוח מסוימת?",
-        a: "לא. תהליך הפיתוח הנתמך משתמש בכלי שורת פקודה ב-Windows, ב-macOS וב-Linux; הפרויקט Xide הוא ממשק עתידי, לא דרישה מוקדמת.",
+        a: "לא. תהליך הפיתוח הנתמך משתמש בכלי שורת פקודה ב-Windows, ב-macOS וב-Linux.",
       },
     ],
     items: [
