@@ -5,6 +5,13 @@ SPDX-License-Identifier: AGPL-3.0-or-later WITH AdditionRef-Progmasoft-Patent-Gr
 
 # Tala website
 
+> [!IMPORTANT]
+> The Tala language and its tools (Talac, talafmt, talalint, tala-analyzer) are no longer developed as of 2026-11-10.
+> Progmasoft puts its work into [Tazel](https://tazel.net), now a build system for C, C++, Objective-C,
+> Objective-C++ and Zig. tala.run is closed for maintenance: every page and subdomain leads to
+> `https://tala.run/unavailable?reason=maintenance` while the domain is prepared for OpenTala, a kernel, and TalaOS.
+> The site below is kept for reference.
+
 This repository owns the public language website at [tala.run](https://tala.run) and the documentation of the
 compiler at [talac.tala.run](https://talac.tala.run). The build system has its own site, [tazel.net](https://tazel.net).
 It does not own
@@ -27,9 +34,8 @@ One frontend build serves three sites and picks its pages from the host name:
 Every path of the former domain, `xsharp-lang.xyz`, redirects permanently to the same path of `tala.run`. tala.run has
 no ViGet host; the registry lives at `viget.progmasoft.com`.
 
-The sites are public and served with `ops/nginx/tala.conf`. `ops/nginx/tala-maintenance.conf` remains in the
-repository as the configuration to fall back to when the main domain has to be taken offline. The forum page is
-deployed independently of the main site. See the [operations runbook](Documents/OPERATIONS.md) for the route and
+The sites are closed: `ops/nginx/tala.conf` and `ops/nginx/forum.conf` send every page to
+`https://tala.run/unavailable?reason=maintenance`, a page of its own (`ops/maintenance/unavailable.html`). See the [operations runbook](Documents/OPERATIONS.md) for the route and
 release boundaries.
 
 ## Documentation

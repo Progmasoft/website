@@ -26,9 +26,10 @@ compatibility, but it does not make package functions part of this website.
 
 tala.run has no ViGet host; the registry lives at `viget.progmasoft.com`.
 
-The sites are served with `ops/nginx/tala.conf`. While it is switched to
-`ops/nginx/tala-maintenance.conf`, the routes of the three sites answer 503 and
-`/api/v1/site` is not exposed. One certificate, `/etc/letsencrypt/live/tala.run/`,
+The sites are closed (2026-11-10): `ops/nginx/tala.conf` and `ops/nginx/forum.conf` answer every page of
+tala.run, www.tala.run, talac.tala.run, talafmt.tala.run, talalint.tala.run and forum.tala.run with a 302 to
+`https://tala.run/unavailable?reason=maintenance`, which answers 503 with `ops/maintenance/unavailable.html`
+(see Maintenance mode). `/api/v1/site` is not exposed. One certificate, `/etc/letsencrypt/live/tala.run/`,
 covers tala.run, www.tala.run, talac.tala.run, tazel.tala.run and forum.tala.run;
 the former domain keeps its own certificates for its redirects.
 
@@ -179,35 +180,22 @@ on the server itself before concluding that a release failed.
 
 ## Maintenance mode
 
-`ops/nginx/tala-maintenance.conf` answers the three sites with 503 and keeps
-the legacy redirect working. `ops/nginx/tala.conf` serves them. Keep the
-two mutually exclusive in the live Nginx include directory. Building the Vue
-bundle or deploying the forum does not by itself authorize switching between
-them.
+tala.run is closed while the domain is prepared for OpenTala, a kernel, and TalaOS; the Tala language and its tools
+are no longer developed (2026-11-10).
 
-Before switching the main site from maintenance to public:
+- Every page of tala.run, www.tala.run, talac.tala.run, talafmt.tala.run, talalint.tala.run and forum.tala.run
+  answers `302` to `https://tala.run/unavailable?reason=maintenance`. The redirect is temporary on purpose, so that
+  neither browsers nor Cloudflare keep it once the domain serves other pages.
+- `https://tala.run/unavailable` answers `503` with `Retry-After`, `noindex` and a strict policy, its body being
+  `ops/maintenance/unavailable.html`, installed as `/usr/share/nginx/html/maintenance/tala-unavailable.html`
+  (`restorecon` after copying).
+- ACME challenges on port 80 still answer, so the `tala.run` certificate renews.
+- `tazel.tala.run` keeps leading to tazel.net, and the former domain keeps redirecting to tala.run, from where it
+  reaches the notice.
 
-1. Review the copy in every published language against the public language
-   Spec and current compiler behavior.
-2. Confirm the homepage actually answers why the language exists and does
-   not describe planned compiler work as a finished feature.
-3. Verify the three route bodies, both themes, keyboard focus, and responsive
-   widths in a real browser.
-4. Confirm all GitHub destinations and the forum link respond correctly.
-5. Run both build/test sets shown above.
-6. Install the Vue `dist/` contents at the static root named in the Nginx
-   config, preserving file permissions and SELinux labels.
-7. Test the published API on loopback with the shared ASP.NET Core 10 runtime
-   before replacing the running API service.
-8. Confirm the old service's unrelated status function has moved to the
-   correct owner before retiring the old process.
-9. Make one explicit Nginx configuration switch, run `nginx -t`, and reload.
-10. Check the public routes and headers again from outside the server.
-
-The API service is not required for the static homepage render. If it is
-not ready, do not pretend it is ready by rewriting the API path. Delay the
-rollout or explicitly publish static pages without the API after reviewing
-the impact of that decision.
+The frontend release under `/srv/xsharp/website/current` and the `tala-site-api` service stay on the server but are
+not reachable. Opening a site on the domain again replaces `ops/nginx/tala.conf` and `ops/nginx/forum.conf`; run
+`nginx -t`, reload, and check every host from outside.
 
 ## Legacy redirect during maintenance
 
