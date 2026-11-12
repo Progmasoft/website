@@ -14,12 +14,13 @@ compatibility, but it does not make package functions part of this website.
 
 | Host and path | Owner | Current treatment |
 | --- | --- | --- |
-| `tala.run/`, `/docs/overview`, `/docs/getting-started`, `/docs/syntax` | Vue language site | Live |
-| `talac.tala.run/docs/*` | Vue build, compiler documentation | Live |
+| `tala.run/`, `/docs/overview`, `/docs/getting-started`, `/docs/syntax` | Vue language site | Closed: `302` to the notice |
+| `tala.run/unavailable` | Static notice | `503` with `Retry-After`, noindex |
+| `talac.tala.run/docs/*`, `talafmt.tala.run`, `talalint.tala.run` | Vue build, tool documentation | Closed: `302` to the notice |
 | `tazel.tala.run/*` | Redirect | Permanent redirect to `tazel.net`, Tazel's own site: `/docs/commands` and `/docs/project-file` to `tazel.net/docs/reference/` with the same name, other `/docs/` paths to `tazel.net/docs`, the rest to the same path |
-| `tala.run/api/v1/site` | ASP.NET Core language API | Live; the only proxied API path |
-| `forum.tala.run/` | Static placeholder | Live; noindex |
-| `www.tala.run` | Redirect | Permanent redirect to `tala.run` |
+| `tala.run/api/v1/site` | ASP.NET Core language API | Not exposed while closed |
+| `forum.tala.run/` | Static placeholder | Closed: `302` to the notice |
+| `www.tala.run` | Redirect | Closed: `302` to the notice |
 | `xsharp-lang.xyz`, `www`, `docs`, `spec` | Former domain | Permanent redirect to the same path of `tala.run` |
 | `forum.xsharp-lang.xyz` | Former domain | Permanent redirect to `forum.tala.run` |
 | `viget.xsharp-lang.xyz/*` | Legacy redirect | Permanent redirect to the package host |
@@ -119,7 +120,8 @@ permits only those named static paths. After copying, restore SELinux labels,
 validate the Nginx configuration, then reload Nginx. Do not turn SELinux off
 to work around a labeling mistake.
 
-Check the public URL for HTTP 200 and for these response properties:
+While the sites are closed (see Maintenance mode), every forum page answers `302` to the notice instead, and the
+checks below apply once the forum reopens. Check the public URL for HTTP 200 and for these response properties:
 
 - `X-Robots-Tag: noindex, nofollow`;
 - Content Security Policy with same-origin script and style sources;
@@ -229,14 +231,17 @@ boundary is clear.
 
 ## Monitoring and privacy
 
+While the sites are closed, every page of tala.run, its tool hosts and the forum answers `302` to
+`https://tala.run/unavailable?reason=maintenance`, and only that URL answers `503` with `Retry-After`; a `200`
+from any other path of those hosts is a regression. The rest of this section applies once the sites reopen.
+
 The main language routes answer 200, and `/api/v1/site` returns only the
 website's non-sensitive state. The three sites answer 200 only for files and
 for the routes of the application, `/` and `/docs/<page>`; every other path,
 such as a scanner's `/wp-login.php`, answers 404, with the application as
 the body so that a visitor still reaches the landing page. Expected forum responses are 200 for the five
 static files and 404 for other paths. Expected legacy redirect responses are
-308. In maintenance mode the main domain answers 503 with `Retry-After`. A 200
-from a retired login or registry route is a regression.
+308. A 200 from a retired login or registry route is a regression.
 
 The static site uses Cloudflare Web Analytics, which counts page views without
 cookies and without a fingerprint of the visitor. Its content security policy
