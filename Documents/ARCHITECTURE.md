@@ -8,7 +8,7 @@ anything about a visitor on a server.
 
 | Part | Technology | Artifact | Serves |
 | --- | --- | --- | --- |
-| `frontend/` | Vue 3, Vite, TypeScript | static files in `frontend/dist/` | `tala.run`, `talac.tala.run`, `tazel.tala.run` |
+| `frontend/` | Vue 3, Vite, TypeScript | static files in `frontend/dist/` | `tala.run`, `talac.tala.run`, `talafmt.tala.run`, `talalint.tala.run` |
 | `backend/` | ASP.NET Core 10 | one published application | `tala.run/api/v1/site` |
 | `forum/` | one HTML page with plain CSS and JavaScript | the five files as they are | `forum.tala.run` |
 
@@ -17,7 +17,8 @@ browser
    |  HTTPS
    v
 Nginx
-   |-- tala.run, talac.tala.run, tazel.tala.run   static files of the Vue build; unknown paths fall back to index.html
+   |-- tala.run, talac.tala.run, talafmt.tala.run, talalint.tala.run   static files of the Vue build
+   |-- tazel.tala.run            permanent redirects to tazel.net, Tazel's own site
    |-- tala.run/api/v1/site      ->  http://127.0.0.1:5086  (ASP.NET Core)
    |-- forum.tala.run            five named static files; every other path is 404
    |-- www.tala.run              permanent redirect to tala.run
@@ -36,7 +37,6 @@ A single-page application that serves three sites. `site.ts` decides the site fr
 | `tala.run` | `/docs/getting-started` | building the compiler from its repository | `pages/GettingStartedPage.vue` |
 | `tala.run` | `/docs/syntax` | a first look at the syntax | `content/syntax.ts` |
 | `talac.tala.run` | `/docs/command-line`, `/docs/outputs` | the compiler | `content/talac.ts` |
-| `tazel.tala.run` | `/docs/commands`, `/docs/project-file` | the build system | `content/tazel.ts` |
 
 The pages from `content/` are rendered by `pages/DocPage.vue`; each topic carries its text in all four languages. The
 root of the two documentation hosts opens their first topic. Any other path redirects to the root. The router uses history URLs, so the server must answer unknown paths with
@@ -92,8 +92,8 @@ allows only its own script, stylesheet and two images.
 
 ## Search engines and crawlers
 
-- Each host has its own `sitemap.xml` and `robots.txt`; Nginx serves `public/hosts/talac/` and
-  `public/hosts/tazel/` for the two documentation hosts. A sitemap lists exactly the routes of its host.
+- Each host has its own `sitemap.xml` and `robots.txt`; Nginx serves `public/hosts/<host>/` for the documentation
+  hosts. A sitemap lists exactly the routes of its host.
 - Every route has its own title, description and canonical URL. A language is a preference, not a second URL, so
   there are no `hreflang` alternatives.
 - `robots.txt` names the crawlers the site has a rule for. Search and answer-retrieval crawlers are allowed. Among
@@ -105,5 +105,7 @@ allows only its own script, stylesheet and two images.
 ## Security headers
 
 Nginx sends a content security policy that allows only same-origin resources, plus HSTS, `X-Content-Type-Options`,
-`X-Frame-Options: DENY` and a referrer policy. The policy has no exception for third-party scripts; a script injected
-by an intermediary, such as an analytics beacon added by a CDN, is blocked by the browser.
+`X-Frame-Options: DENY` and a referrer policy. The policy of the four hosts of the site has one exception: Cloudflare
+Web Analytics, which Cloudflare adds to every page. Its beacon loads from `https://static.cloudflareinsights.com` and
+reports to `https://cloudflareinsights.com` and to `/cdn-cgi/rum` on the same host. Any other script injected by an
+intermediary is blocked by the browser. The forum placeholder keeps a policy of its own, same-origin only.

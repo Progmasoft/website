@@ -26,8 +26,7 @@ export type LandingText = {
 };
 
 // The Tala samples are the programs of Examples/ in the compiler repository, from the namespace line on; a test
-// compares them. Each sample on these pages was built and run with talac 0.6.0, and the terminal samples are
-// what it printed.
+// compares them. The terminal samples are what talac 0.2.0 printed on Windows, the LLVM IR included.
 export const helloWorld = `namespace Examples.HelloWorld;
 
 public class HelloWorld {
@@ -138,7 +137,7 @@ talac: compiler artifact 'GCD.tala' is valid through its requested pipeline boun
 talac: wrote 'GCD.talameta'
 $ cat GCD.talameta
 talameta 1
-compiler 0.6.0
+compiler 0.2.0
 entry Examples.GCD.GCD
 input GCD.tala`;
 const talacStages = `$ talac GCD.tala --entry=Examples.GCD.GCD --emit=core

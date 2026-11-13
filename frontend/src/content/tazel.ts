@@ -11,6 +11,22 @@ tazel lint -- --fix`;
 const selection = `tazel build --vipkg Name          tazel build -p Name
 tazel build --executable Name     tazel build -e Name
 tazel build --library Name        tazel build -l Name`;
+const machine = `tazel build --jobs 8 --cpus 6 --memory 16g
+tazel test --keep-going --profile build/trace.json
+tazel build --remote-executor https://build.example.com`;
+const custom = `# tazel_custom.txt
+fetch:
+    ("cargo" "fetch")
+    ("tazel" "fetch");
+
+npm-dev-sh: s('npm dev');
+
+build no-cache: ("tazel" "build" "--no-cache");
+build with: ("tazel" "build" <1> <2>);
+test all: ("tazel" "test" <*>);`;
+const customRuns = `tazel custom fetch
+tazel custom build no-cache
+tazel custom build with -e MyApp`;
 const locking = `tazel lock create-dump --path reviews/Locks.sql
 tazel lock graph --locked
 tazel lock graph --invert Publisher.Name
@@ -33,6 +49,18 @@ const compiler = `compiler {
 
   llvm {
     lto = LlvmLto.NONE
+  }
+}`;
+const execution = `execution {
+  jobs = 8
+  cpus = 6
+  memory = "16g"
+  keepGoing = true
+  incremental = true
+
+  remote {
+    url = "https://build.example.com"
+    token = System.getenv("TAZEL_REMOTE_TOKEN")
   }
 }`;
 const dependencies = `dependencies {
@@ -60,11 +88,16 @@ const commandTerms = (
     | "build"
     | "run"
     | "test"
+    | "fetch"
+    | "custom"
     | "resolve"
     | "dump"
     | "graph"
     | "fmt"
     | "lint"
+    | "cache"
+    | "remote"
+    | "daemon"
     | "version"
     | "help"
     | "registry",
@@ -75,11 +108,16 @@ const commandTerms = (
   { term: "tazel build", detail: d.build },
   { term: "tazel run [-- arguments]", detail: d.run },
   { term: "tazel test", detail: d.test },
+  { term: "tazel fetch", detail: d.fetch },
+  { term: "tazel custom [name] [arguments]", detail: d.custom },
   { term: "tazel lock resolve", detail: d.resolve },
   { term: "tazel lock create-dump [--path File]", detail: d.dump },
   { term: "tazel lock graph [options]", detail: d.graph },
   { term: "tazel fmt [-- options]", detail: d.fmt },
   { term: "tazel lint [--workspace] [-- options]", detail: d.lint },
+  { term: "tazel cache status, clean, push, pull, keygen, serve", detail: d.cache },
+  { term: "tazel remote serve", detail: d.remote },
+  { term: "tazel jvm start-daemon, restart-daemon, stop-daemon", detail: d.daemon },
   { term: "tazel version", detail: d.version },
   { term: "tazel help [command]", detail: d.help },
   {
@@ -108,17 +146,45 @@ const commands: DocTopic = {
             "Builds the executables into the output directory of the build mode, under the name of the target.",
           run: "Builds the executables and runs them; what follows -- goes to the program.",
           test: "Builds and runs the test suites.",
+          fetch:
+            "Fetches plugins of ViGet into .tazel/plugins ahead of time, and fails if a local package is missing.",
+          custom: "Runs a command of tazel_custom.txt, or lists them.",
           resolve: "Records the declared dependencies in LOCK.sqlite3.",
           dump: "Writes the lockfile as SQL text: to LOCK.dump, or to the file --path names. The folder of that file has to exist.",
           graph:
             "Prints the dependency graph and renews LOCK.sqlite3 first, unless --locked forbids it.",
           fmt: "Formats the sources with talafmt.",
           lint: "Lints the sources with talalint.",
+          cache:
+            "Show, clean, send or fetch the results of the build cache, and serve one for a team.",
+          remote: "Compiles for other machines, on the sources they send.",
+          daemon: "Keep Tazel warm between commands, or stop it.",
           version: "Prints the version of Tazel.",
           help: "Prints the help, or the help of one command.",
           registry:
             "Commands that need ViGet or a library build; they are refused by name until those exist.",
         }),
+      },
+      { kind: "heading", text: "Spending the machine" },
+      {
+        kind: "text",
+        text: "check, build, run and test run compiler runs and test suites side by side, one job per processor. --jobs, --cpus and --memory limit them, --keep-going goes on after a failure, and --profile writes a trace for chrome://tracing or Perfetto. Each project's plugin steps, compilations and test suites are units of one graph, so a unit waits only for what it depends on.",
+      },
+      { kind: "code", code: machine },
+      {
+        kind: "text",
+        text: "--remote-executor compiles on another machine, one you trust, that runs tazel remote serve. Programs and test suites still run here, and if the server cannot help, Tazel warns once and compiles here.",
+      },
+      { kind: "heading", text: "Custom commands" },
+      {
+        kind: "text",
+        text: "tazel custom runs the commands of tazel_custom.txt, from the current folder or the nearest one above it. They need no project file and do not have to involve Tazel.",
+      },
+      { kind: "code", code: custom },
+      { kind: "code", code: customRuns },
+      {
+        kind: "text",
+        text: "Steps run in order. (...) starts a program directly, with no shell, and s(...) hands one command line, unchanged, to CMD on Windows and sh elsewhere, so any escapes in it are for that shell. A name may hold several words, and the longest name that fits wins; the first -- ends the name, so tazel custom first -- second passes second to first even if a command first second exists. The -- is neither an argument nor one of the 191 words. <N> passes the Nth argument, from 1, and <*> passes all of them; neither works in s(...). The name and its arguments are at most 191 words.",
       },
       { kind: "heading", text: "Selecting targets" },
       {
@@ -150,7 +216,7 @@ const commands: DocTopic = {
       {
         kind: "note",
         title: "Not implemented yet",
-        text: "Library targets, projects with dependencies, test suites, .vipkg creation and every command that needs ViGet are refused by name with exit code 1. check, build and run compile for the host.",
+        text: "Library targets, projects with dependencies, .vipkg creation and every command that needs packages of ViGet are refused by name with exit code 1. check, build and run compile for the host.",
       },
     ],
   },
@@ -173,17 +239,45 @@ const commands: DocTopic = {
             "Baut die ausführbaren Dateien in das Ausgabeverzeichnis des Build-Modus, unter dem Namen des Ziels.",
           run: "Baut die ausführbaren Dateien und startet sie; was nach -- folgt, geht an das Programm.",
           test: "Baut die Testsuiten und führt sie aus.",
+          fetch:
+            "Holt Plugins aus ViGet vorab nach .tazel/plugins und schlägt fehl, wenn ein lokales Paket fehlt.",
+          custom: "Führt einen Befehl aus tazel_custom.txt aus oder listet sie auf.",
           resolve: "Hält die deklarierten Abhängigkeiten in LOCK.sqlite3 fest.",
           dump: "Schreibt die Lockdatei als SQL-Text: nach LOCK.dump oder in die Datei, die --path nennt. Deren Ordner muss bereits existieren.",
           graph:
             "Gibt den Abhängigkeitsgraphen aus und erneuert vorher LOCK.sqlite3, außer --locked verbietet es.",
           fmt: "Formatiert die Quellen mit talafmt.",
           lint: "Prüft die Quellen mit talalint.",
+          cache:
+            "Zeigen, leeren, senden oder holen die Ergebnisse des Build-Caches und stellen einen für ein Team bereit.",
+          remote: "Kompiliert für andere Rechner die Quellen, die sie schicken.",
+          daemon: "Halten Tazel zwischen Befehlen warm oder beenden es.",
           version: "Gibt die Version von Tazel aus.",
           help: "Gibt die Hilfe aus, oder die Hilfe eines Befehls.",
           registry:
             "Befehle, die ViGet oder einen Bibliotheks-Build brauchen; sie werden mit Namen abgelehnt, bis es beides gibt.",
         }),
+      },
+      { kind: "heading", text: "Die Maschine nutzen" },
+      {
+        kind: "text",
+        text: "check, build, run und test führen Compiler-Läufe und Testsuiten nebeneinander aus, ein Job pro Prozessor. --jobs, --cpus und --memory begrenzen sie, --keep-going macht nach einem Fehler weiter, und --profile schreibt einen Trace für chrome://tracing oder Perfetto. Plugin-Schritte, Kompilierungen und Testsuiten eines Projekts sind Einheiten eines Graphen, daher wartet eine Einheit nur auf das, wovon sie abhängt.",
+      },
+      { kind: "code", code: machine },
+      {
+        kind: "text",
+        text: "--remote-executor kompiliert auf einem anderen Rechner, dem Sie vertrauen und auf dem tazel remote serve läuft. Programme und Testsuiten laufen weiterhin hier, und wenn der Server nicht helfen kann, warnt Tazel einmal und kompiliert hier.",
+      },
+      { kind: "heading", text: "Eigene Befehle" },
+      {
+        kind: "text",
+        text: "tazel custom führt die Befehle aus tazel_custom.txt aus, aus dem aktuellen Ordner oder dem nächsten darüber. Sie brauchen keine Projektdatei und müssen Tazel nicht betreffen.",
+      },
+      { kind: "code", code: custom },
+      { kind: "code", code: customRuns },
+      {
+        kind: "text",
+        text: "Schritte laufen der Reihe nach. (...) startet ein Programm direkt, ohne Shell, und s(...) gibt eine Befehlszeile unverändert an CMD unter Windows und sonst an sh, Escapes darin liest also diese Shell. Ein Name darf mehrere Wörter haben, und der längste passende Name gilt; das erste -- beendet den Namen, sodass tazel custom first -- second das Argument second an first übergibt, auch wenn es einen Befehl first second gibt. Das -- ist weder Argument noch eines der 191 Wörter. <N> übergibt das N-te Argument, ab 1, und <*> alle; beides geht nicht in s(...). Name und Argumente sind zusammen höchstens 191 Wörter.",
       },
       { kind: "heading", text: "Ziele auswählen" },
       {
@@ -215,7 +309,7 @@ const commands: DocTopic = {
       {
         kind: "note",
         title: "Noch nicht umgesetzt",
-        text: "Bibliotheksziele, Projekte mit Abhängigkeiten, Testsuiten, die Erstellung von .vipkg und jeder Befehl, der ViGet braucht, werden mit Namen und Exit-Code 1 abgelehnt. check, build und run kompilieren für den Host.",
+        text: "Bibliotheksziele, Projekte mit Abhängigkeiten, die Erstellung von .vipkg und jeder Befehl, der Pakete aus ViGet braucht, werden mit Namen und Exit-Code 1 abgelehnt. check, build und run kompilieren für den Host.",
       },
     ],
   },
@@ -236,17 +330,45 @@ const commands: DocTopic = {
           build: "Собирает исполняемые файлы в каталог результатов режима сборки под именем цели.",
           run: "Собирает исполняемые файлы и запускает их; всё после -- передаётся программе.",
           test: "Собирает и запускает наборы тестов.",
+          fetch:
+            "Заранее загружает плагины ViGet в .tazel/plugins и завершается ошибкой, если локального пакета нет.",
+          custom: "Запускает команду из tazel_custom.txt или выводит их список.",
           resolve: "Записывает объявленные зависимости в LOCK.sqlite3.",
           dump: "Записывает lock-файл в виде SQL-текста: в LOCK.dump или в файл, указанный в --path. Его каталог должен уже существовать.",
           graph:
             "Выводит граф зависимостей и сначала обновляет LOCK.sqlite3, если --locked этого не запрещает.",
           fmt: "Форматирует исходники с помощью talafmt.",
           lint: "Проверяет исходники с помощью talalint.",
+          cache:
+            "Показывают, очищают, отправляют или получают результаты кэша сборки и обслуживают кэш для команды.",
+          remote: "Компилирует для других машин присланные ими исходники.",
+          daemon: "Держат Tazel запущенным между командами или останавливают его.",
           version: "Выводит версию Tazel.",
           help: "Выводит справку или справку по одной команде.",
           registry:
             "Команды, которым нужны ViGet или сборка библиотек; пока их нет, они отклоняются по имени.",
         }),
+      },
+      { kind: "heading", text: "Ресурсы машины" },
+      {
+        kind: "text",
+        text: "check, build, run и test выполняют запуски компилятора и наборы тестов параллельно, по одной задаче на процессор. --jobs, --cpus и --memory их ограничивают, --keep-going продолжает работу после сбоя, а --profile записывает трассировку для chrome://tracing или Perfetto. Шаги плагинов, компиляции и наборы тестов проекта — единицы одного графа, поэтому единица ждёт только то, от чего зависит.",
+      },
+      { kind: "code", code: machine },
+      {
+        kind: "text",
+        text: "--remote-executor компилирует на другой машине, которой вы доверяете и на которой работает tazel remote serve. Программы и наборы тестов по-прежнему выполняются здесь, а если сервер не может помочь, Tazel предупреждает один раз и компилирует здесь.",
+      },
+      { kind: "heading", text: "Свои команды" },
+      {
+        kind: "text",
+        text: "tazel custom запускает команды из tazel_custom.txt, найденного в текущем каталоге или ближайшем выше. Файл проекта им не нужен, и они не обязаны быть связаны с Tazel.",
+      },
+      { kind: "code", code: custom },
+      { kind: "code", code: customRuns },
+      {
+        kind: "text",
+        text: "Шаги выполняются по порядку. (...) запускает программу напрямую, без оболочки, а s(...) передаёт одну командную строку без изменений в CMD в Windows и в sh в остальных системах, поэтому экранирование в ней читает сама оболочка. Имя может состоять из нескольких слов, и выбирается самое длинное подходящее; первое -- завершает имя, поэтому tazel custom first -- second передаёт second команде first, даже если есть команда first second. Само -- не является ни аргументом, ни одним из 191 слова. <N> передаёт N-й аргумент, начиная с 1, а <*> — все; в s(...) они не работают. Имя вместе с аргументами — не более 191 слова.",
       },
       { kind: "heading", text: "Выбор целей" },
       {
@@ -278,7 +400,7 @@ const commands: DocTopic = {
       {
         kind: "note",
         title: "Пока не реализовано",
-        text: "Библиотечные цели, проекты с зависимостями, наборы тестов, создание .vipkg и все команды, которым нужен ViGet, отклоняются по имени с кодом выхода 1. check, build и run компилируют для текущей системы.",
+        text: "Библиотечные цели, проекты с зависимостями, создание .vipkg и все команды, которым нужны пакеты ViGet, отклоняются по имени с кодом выхода 1. check, build и run компилируют для текущей системы.",
       },
     ],
   },
@@ -299,15 +421,41 @@ const commands: DocTopic = {
           build: "בונה את קובצי ההרצה לתיקיית הפלט של מצב הבנייה, בשם היעד.",
           run: "בונה את קובצי ההרצה ומריץ אותם; מה שאחרי ‎-- עובר לתוכנית.",
           test: "בונה ומריץ את חבילות הבדיקה.",
+          fetch: "מוריד מראש תוספים של ViGet אל ‎.tazel/plugins, ונכשל אם חבילה מקומית חסרה.",
+          custom: "מריץ פקודה מתוך tazel_custom.txt, או מציג את רשימתן.",
           resolve: "רושם את התלויות המוצהרות ב-LOCK.sqlite3.",
           dump: "כותב את קובץ הנעילה כטקסט SQL: ל-LOCK.dump, או לקובץ ש-‎--path מציין. התיקייה של הקובץ חייבת להיות קיימת.",
           graph: "מדפיס את גרף התלויות ומחדש קודם את LOCK.sqlite3, אלא אם ‎--locked אוסר זאת.",
           fmt: "מעצב את קבצי המקור עם talafmt.",
           lint: "בודק את קבצי המקור עם talalint.",
+          cache: "מציגות, מנקות, שולחות או מורידות את תוצאות מטמון הבנייה, ומגישות מטמון לצוות.",
+          remote: "מהדר עבור מחשבים אחרים את קבצי המקור שהם שולחים.",
+          daemon: "משאירות את Tazel פעיל בין פקודות, או עוצרות אותו.",
           version: "מדפיס את גרסת Tazel.",
           help: "מדפיס את העזרה, או את העזרה של פקודה אחת.",
           registry: "פקודות שזקוקות ל-ViGet או לבניית ספרייה; הן נדחות בשמן עד שאלה יהיו קיימים.",
         }),
+      },
+      { kind: "heading", text: "ניצול המחשב" },
+      {
+        kind: "text",
+        text: "check, ‏build, ‏run ו-test מריצות הידורים וחבילות בדיקה זו לצד זו, משימה אחת לכל מעבד. ‎--jobs, ‏‎--cpus ו-‎--memory מגבילים אותן, ‎--keep-going ממשיך אחרי כישלון, ו-‎--profile כותב עקבה עבור chrome://tracing או Perfetto. צעדי תוספים, הידורים וחבילות בדיקה של פרויקט הם יחידות בגרף אחד, ולכן יחידה ממתינה רק למה שהיא תלויה בו.",
+      },
+      { kind: "code", code: machine },
+      {
+        kind: "text",
+        text: "‎--remote-executor מהדר במחשב אחר שאתם סומכים עליו ושמריץ tazel remote serve. תוכניות וחבילות בדיקה עדיין רצות כאן, ואם השרת אינו יכול לעזור, Tazel מזהיר פעם אחת ומהדר כאן.",
+      },
+      { kind: "heading", text: "פקודות מותאמות" },
+      {
+        kind: "text",
+        text: "tazel custom מריץ את הפקודות מתוך tazel_custom.txt, שנמצא בתיקייה הנוכחית או בקרובה ביותר מעליה. הן אינן צריכות קובץ פרויקט ואינן חייבות להיות קשורות ל-Tazel.",
+      },
+      { kind: "code", code: custom },
+      { kind: "code", code: customRuns },
+      {
+        kind: "text",
+        text: "הצעדים רצים לפי הסדר. (...) מפעיל תוכנית ישירות, בלי מעטפת, ו-s(...) מעביר שורת פקודה אחת ל-CMD ב-Windows ול-sh בשאר המערכות. שם יכול להכיל כמה מילים, והשם הארוך ביותר שמתאים הוא הקובע. <N> מעביר את הארגומנט ה-N, החל מ-1, ו-<*> מעביר את כולם; שניהם אינם פועלים בתוך s(...). השם והארגומנטים יחד הם לכל היותר 191 מילים.",
       },
       { kind: "heading", text: "בחירת יעדים" },
       {
@@ -339,7 +487,7 @@ const commands: DocTopic = {
       {
         kind: "note",
         title: "עוד לא מומש",
-        text: "יעדי ספרייה, פרויקטים עם תלויות, חבילות בדיקה, יצירת ‎.vipkg וכל פקודה שזקוקה ל-ViGet נדחים בשמם עם קוד יציאה 1. ‏check, ‏build ו-run מהדרים עבור המערכת הנוכחית.",
+        text: "יעדי ספרייה, פרויקטים עם תלויות, יצירת ‎.vipkg וכל פקודה שזקוקה לחבילות של ViGet נדחים בשמם עם קוד יציאה 1. ‏check, ‏build ו-run מהדרים עבור המערכת הנוכחית.",
       },
     ],
   },
@@ -367,13 +515,19 @@ const projectFile: DocTopic = {
       { kind: "heading", text: "Compiler settings" },
       {
         kind: "text",
-        text: "Tazel writes every setting onto the command line of Talac, the defaults too. optLevel defaults to O0 in a debug build and O3 in a release build. No warning level turns wshadow on, and wshadow with Warnings.NONE is rejected.",
+        text: "Tazel writes every setting onto the command line of Talac, the defaults too. optLevel is O0, O1, O2, O3, OG, OS or OZ, and defaults to O0 in a debug build and O3 in a release build. No warning level turns wshadow on, and wshadow with Warnings.NONE is rejected.",
       },
       { kind: "code", code: compiler },
+      { kind: "heading", text: "Execution" },
+      {
+        kind: "text",
+        text: "The execution block is optional and sets what the flags of a command set; a flag goes before it. In a workspace, the block of the root counts.",
+      },
+      { kind: "code", code: execution },
       { kind: "heading", text: "Dependencies" },
       {
         kind: "text",
-        text: "A dependency is a package of ViGet written as a publisher, a name and an exact version; feature makes it optional. localDependency names a .vipkg inside the project, and testDependency and localTestDependency serve the test suites only. LOCK.sqlite3 records what is declared.",
+        text: "A dependency is a package of ViGet written as a publisher, a name and an exact version: A.B.C, then .D, .E and -METADATA if needed. feature makes it optional. localDependency names a .vipkg inside the project, and testDependency and localTestDependency serve the test suites only. LOCK.sqlite3 records what is declared.",
       },
       { kind: "code", code: dependencies },
       { kind: "heading", text: "Workspaces" },
@@ -410,13 +564,19 @@ const projectFile: DocTopic = {
       { kind: "heading", text: "Compiler-Einstellungen" },
       {
         kind: "text",
-        text: "Tazel schreibt jede Einstellung auf die Befehlszeile von Talac, auch die Vorgaben. optLevel ist in einem Debug-Build O0 und in einem Release-Build O3. Keine Warnstufe schaltet wshadow ein, und wshadow zusammen mit Warnings.NONE wird abgelehnt.",
+        text: "Tazel schreibt jede Einstellung auf die Befehlszeile von Talac, auch die Vorgaben. optLevel ist O0, O1, O2, O3, OG, OS oder OZ, in einem Debug-Build O0 und in einem Release-Build O3. Keine Warnstufe schaltet wshadow ein, und wshadow zusammen mit Warnings.NONE wird abgelehnt.",
       },
       { kind: "code", code: compiler },
+      { kind: "heading", text: "Ausführung" },
+      {
+        kind: "text",
+        text: "Der Block execution ist optional und setzt, was die Optionen eines Befehls setzen; eine Option geht vor. In einem Workspace zählt der Block der Wurzel.",
+      },
+      { kind: "code", code: execution },
       { kind: "heading", text: "Abhängigkeiten" },
       {
         kind: "text",
-        text: "Eine Abhängigkeit ist ein Paket aus ViGet, angegeben mit Herausgeber, Name und exakter Version; feature macht sie optional. localDependency benennt eine .vipkg im Projekt, testDependency und localTestDependency dienen nur den Testsuiten. LOCK.sqlite3 hält fest, was deklariert ist.",
+        text: "Eine Abhängigkeit ist ein Paket aus ViGet, angegeben mit Herausgeber, Name und exakter Version: A.B.C, bei Bedarf dann .D, .E und -METADATA. feature macht sie optional. localDependency benennt eine .vipkg im Projekt, testDependency und localTestDependency dienen nur den Testsuiten. LOCK.sqlite3 hält fest, was deklariert ist.",
       },
       { kind: "code", code: dependencies },
       { kind: "heading", text: "Workspaces" },
@@ -453,13 +613,19 @@ const projectFile: DocTopic = {
       { kind: "heading", text: "Настройки компилятора" },
       {
         kind: "text",
-        text: "Tazel передаёт в командную строку Talac каждую настройку, в том числе значения по умолчанию. optLevel по умолчанию O0 в отладочной сборке и O3 в релизной. Ни один уровень предупреждений не включает wshadow, а wshadow вместе с Warnings.NONE отклоняется.",
+        text: "Tazel передаёт в командную строку Talac каждую настройку, в том числе значения по умолчанию. optLevel — это O0, O1, O2, O3, OG, OS или OZ, по умолчанию O0 в отладочной сборке и O3 в релизной. Ни один уровень предупреждений не включает wshadow, а wshadow вместе с Warnings.NONE отклоняется.",
       },
       { kind: "code", code: compiler },
+      { kind: "heading", text: "Выполнение" },
+      {
+        kind: "text",
+        text: "Блок execution необязателен и задаёт то же, что параметры команды; параметр имеет приоритет. В рабочем пространстве действует блок корня.",
+      },
+      { kind: "code", code: execution },
       { kind: "heading", text: "Зависимости" },
       {
         kind: "text",
-        text: "Зависимость — это пакет из ViGet, записанный издателем, именем и точной версией; feature делает её необязательной. localDependency указывает на .vipkg внутри проекта, а testDependency и localTestDependency служат только наборам тестов. LOCK.sqlite3 записывает то, что объявлено.",
+        text: "Зависимость — это пакет из ViGet, записанный издателем, именем и точной версией: A.B.C, при необходимости затем .D, .E и -METADATA. feature делает её необязательной. localDependency указывает на .vipkg внутри проекта, а testDependency и localTestDependency служат только наборам тестов. LOCK.sqlite3 записывает то, что объявлено.",
       },
       { kind: "code", code: dependencies },
       { kind: "heading", text: "Рабочие пространства" },
@@ -496,13 +662,19 @@ const projectFile: DocTopic = {
       { kind: "heading", text: "הגדרות המהדר" },
       {
         kind: "text",
-        text: "Tazel כותב כל הגדרה לשורת הפקודה של Talac, גם את ברירות המחדל. ברירת המחדל של optLevel היא O0 בבניית debug ו-O3 בבניית release. אף רמת אזהרות אינה מפעילה את wshadow, ו-wshadow יחד עם Warnings.NONE נדחה.",
+        text: "Tazel כותב כל הגדרה לשורת הפקודה של Talac, גם את ברירות המחדל. optLevel הוא O0, ‏O1, ‏O2, ‏O3, ‏OG, ‏OS או OZ, וברירת המחדל שלו היא O0 בבניית debug ו-O3 בבניית release. אף רמת אזהרות אינה מפעילה את wshadow, ו-wshadow יחד עם Warnings.NONE נדחה.",
       },
       { kind: "code", code: compiler },
+      { kind: "heading", text: "הרצה" },
+      {
+        kind: "text",
+        text: "הבלוק execution הוא אופציונלי וקובע את מה שאפשרויות הפקודה קובעות; אפשרות גוברת עליו. בסביבת עבודה קובע הבלוק של השורש.",
+      },
+      { kind: "code", code: execution },
       { kind: "heading", text: "תלויות" },
       {
         kind: "text",
-        text: "תלות היא חבילה מ-ViGet שנכתבת עם מפרסם, שם וגרסה מדויקת; feature הופך אותה לאופציונלית. localDependency מציין קובץ ‎.vipkg בתוך הפרויקט, ו-testDependency ו-localTestDependency משרתים רק את חבילות הבדיקה. LOCK.sqlite3 רושם את מה שהוצהר.",
+        text: "תלות היא חבילה מ-ViGet שנכתבת עם מפרסם, שם וגרסה מדויקת: A.B.C, ואם צריך גם ‎.D, ‏‎.E ו-‎-METADATA. ‏feature הופך אותה לאופציונלית. localDependency מציין קובץ ‎.vipkg בתוך הפרויקט, ו-testDependency ו-localTestDependency משרתים רק את חבילות הבדיקה. LOCK.sqlite3 רושם את מה שהוצהר.",
       },
       { kind: "code", code: dependencies },
       { kind: "heading", text: "סביבות עבודה" },

@@ -62,13 +62,9 @@ test("every site publishes exactly its own pages in its sitemap", () => {
 
 test("the forum placeholder is explicitly non-indexable and not an account service", () => {
   const forum = readFileSync(join(websiteRoot, "forum/index.html"), "utf8");
-  const nginx = readFileSync(join(websiteRoot, "ops/nginx/forum.conf"), "utf8");
   assert.match(forum, /name="robots" content="noindex, nofollow"/);
   assert.match(forum, /There are no accounts,/);
   assert.match(forum, /posts, or discussion service/);
-  assert.match(nginx, /X-Robots-Tag "noindex, nofollow"/);
-  assert.match(nginx, /script-src 'self'; style-src 'self'/);
-  assert.doesNotMatch(nginx, /unsafe-inline/);
   assert.match(forum, /src="\/site\.js[?"]/);
   assert.match(forum, /href="\/site\.css[?"]/);
   const normalizedForum = forum.toLowerCase();
@@ -155,53 +151,60 @@ test("the site examples are copied from the compiler repository when available",
   assert.ok(guide.includes(program("HelloWorld")), "the guide diverged from the compiler example");
 });
 
-test("maintenance mode preserves the legacy redirect without opening the language site", () => {
-  const maintenance = readFileSync(join(websiteRoot, "ops/nginx/tala-maintenance.conf"), "utf8");
-  const live = readFileSync(join(websiteRoot, "ops/nginx/tala.conf"), "utf8");
-  assert.match(
-    maintenance,
-    /server_name tala\.run www\.tala\.run talac\.tala\.run tazel\.tala\.run;/,
+test("every page of tala.run and its subdomains leads to the notice", () => {
+  const live = readFileSync(join(websiteRoot, "ops/nginx/tala.conf"), "utf8").replaceAll(
+    "\r\n",
+    "\n",
   );
-  assert.match(maintenance, /location \/ \{ return 503; \}/);
-  assert.match(maintenance, /server_name viget\.xsharp-lang\.xyz/);
-  assert.match(maintenance, /return 308 https:\/\/viget\.progmasoft\.com\$request_uri/);
-  assert.match(live, /server_name viget\.xsharp-lang\.xyz/);
-  assert.match(live, /location = \/api\/v1\/site/);
-  assert.match(live, /location \^~ \/api\/ \{\s*return 404;/);
+  const forum = readFileSync(join(websiteRoot, "ops/nginx/forum.conf"), "utf8").replaceAll(
+    "\r\n",
+    "\n",
+  );
+  const notice = "https://tala.run/unavailable?reason=maintenance";
+  const target = notice.replaceAll(".", "\\.").replaceAll("?", "\\?").replaceAll("/", "\\/");
+  // tala.run answers the notice itself with 503 and sends every other path to it, temporarily.
+  assert.match(live, /server_name tala\.run;[^]*?location = \/unavailable \{\s*return 503;/);
+  assert.match(live, /error_page 503 \/tala-unavailable\.html;/);
+  assert.match(live, /alias \/usr\/share\/nginx\/html\/maintenance\/tala-unavailable\.html;/);
+  assert.match(live, /add_header Retry-After "\d+" always;/);
+  assert.match(live, /add_header X-Robots-Tag "noindex, nofollow" always;/);
+  assert.match(live, new RegExp(`location / \\{\\s*return 302 ${target};`));
+  assert.match(
+    live,
+    new RegExp(
+      `server_name www\\.tala\\.run talac\\.tala\\.run talafmt\\.tala\\.run talalint\\.tala\\.run;[^}]*return 302 ${target};`,
+    ),
+  );
+  assert.match(
+    forum,
+    new RegExp(
+      `server_name forum\\.tala\\.run;\\n    server_tokens off;[^}]*return 302 ${target};`,
+    ),
+  );
+  assert.doesNotMatch(live + forum, /return 30[178] https:\/\/tala\.run\/unavailable/);
+  // The pages of the closed site are no longer served from these hosts.
+  assert.doesNotMatch(live + forum, /root \/srv\/xsharp\/website\/current/);
+  // The registry's former address keeps its redirect.
+  assert.match(
+    live,
+    /server_name viget\.xsharp-lang\.xyz;[^}]*return 308 https:\/\/viget\.progmasoft\.com\$request_uri;/,
+  );
+  // ACME still answers on port 80, so the certificate renews.
+  assert.match(
+    live,
+    /location \^~ \/\.well-known\/acme-challenge\/ \{\s*root \/var\/lib\/letsencrypt;/,
+  );
 });
 
-test("only the routes of the application get the app shell; other paths answer 404", () => {
-  const live = readFileSync(join(websiteRoot, "ops/nginx/tala.conf"), "utf8");
-  assert.doesNotMatch(live, /try_files \$uri \$uri\/ \/index\.html;/);
-  assert.equal(live.match(/try_files \$uri \$uri\/ @application;/g)?.length, 5);
-  assert.equal(live.match(/error_page 404 \/index\.html;/g)?.length, 5);
-  const patterns = [...live.matchAll(/if \(\$uri !~ "([^"]+)"\)/g)].map((match) => match[1]);
-  assert.equal(new Set(patterns).size, 1, "every site must accept the same routes");
-  const route = new RegExp(patterns[0]);
-  const pages = [
-    "public/sitemap.xml",
-    "public/hosts/talac/sitemap.xml",
-    "public/hosts/tazel/sitemap.xml",
-    "public/hosts/talafmt/sitemap.xml",
-    "public/hosts/talalint/sitemap.xml",
-  ]
-    .flatMap(locations)
-    .map((url) => new URL(url).pathname);
-  assert.ok(pages.length > 3);
-  for (const path of pages) {
-    assert.match(path, route, `${path} is in a sitemap but would answer 404`);
+test("the notice is a page of its own that names what comes to tala.run", () => {
+  const page = readFileSync(join(websiteRoot, "ops/maintenance/unavailable.html"), "utf8");
+  assert.match(page, /<meta name="robots" content="noindex, nofollow" \/>/);
+  assert.doesNotMatch(page, /<script\b/);
+  for (const language of ["en", "de", "ru", "he"]) {
+    assert.match(page, new RegExp(`<section lang="${language}"`));
   }
-  for (const path of [
-    "/wp-login.php",
-    "/wp-admin/install.php",
-    "/docs",
-    "/docs/",
-    "/docs/a/b",
-    "/.env",
-    "/a",
-  ]) {
-    assert.doesNotMatch(path, route, `${path} would be served as a page`);
-  }
+  assert.equal(page.split("OpenTala").length - 1, 4, "every language names OpenTala");
+  assert.equal(page.split("TalaOS").length - 1, 4, "every language names TalaOS");
 });
 
 test("the former domain lands on the same path of tala.run and tala.run has no ViGet host", () => {
@@ -212,18 +215,31 @@ test("the former domain lands on the same path of tala.run and tala.run has no V
     /server_name xsharp-lang\.xyz www\.xsharp-lang\.xyz docs\.xsharp-lang\.xyz spec\.xsharp-lang\.xyz;[^}]*return 308 https:\/\/tala\.run\$request_uri;/s,
   );
   assert.match(
-    live,
-    /server_name www\.tala\.run;[^}]*return 308 https:\/\/tala\.run\$request_uri;/s,
-  );
-  assert.match(
     forum,
     /server_name forum\.xsharp-lang\.xyz;[^}]*return 308 https:\/\/forum\.tala\.run\$request_uri;/s,
   );
   assert.doesNotMatch(live + forum, /viget\.tala\.run/);
-  for (const host of ["talac", "tazel", "talafmt", "talalint"]) {
-    assert.match(live, new RegExp(`try_files /hosts/${host}/robots\\.txt =404;`));
-    assert.match(live, new RegExp(`try_files /hosts/${host}/sitemap\\.xml =404;`));
-  }
+});
+
+test("tazel.tala.run only redirects to tazel.net, its two pages to their own", () => {
+  const live = readFileSync(join(websiteRoot, "ops/nginx/tala.conf"), "utf8").replaceAll(
+    "\r\n",
+    "\n",
+  );
+  const start = live.indexOf(
+    "listen 443 ssl;\n    listen [::]:443 ssl;\n    http2 on;\n    server_name tazel.tala.run;",
+  );
+  assert.ok(start > 0, "tazel.tala.run has no HTTPS server");
+  const server = live.slice(start, live.indexOf("\n}\n", start));
+  assert.doesNotMatch(server, /\broot\b|try_files|hosts\/tazel/);
+  assert.match(
+    server,
+    /location ~ "\^\/docs\/\(commands\|project-file\)\/\?\$" \{\s*return 308 https:\/\/tazel\.net\/docs\/reference\/\$1\$is_args\$args;/,
+  );
+  // A ^~ prefix would stop nginx before the regular expression above.
+  assert.match(server, /location \/docs\/ \{\s*return 308 https:\/\/tazel\.net\/docs;/);
+  assert.match(server, /location \/ \{\s*return 308 https:\/\/tazel\.net\$request_uri;/);
+  assert.match(server, /Strict-Transport-Security/);
 });
 
 test("workflow actions are immutable and OIDC is isolated from build jobs", () => {
@@ -283,17 +299,8 @@ test("the production API binds to loopback and matches its Nginx proxy port", ()
   assert.ok(service.includes("Environment=PORT=5086"));
   assert.ok(service.includes("ExecStart=/usr/bin/dotnet "));
   assert.doesNotMatch(service, /java/i);
-  assert.ok(nginx.includes("proxy_pass http://127.0.0.1:5086/api/v1/site;"));
-});
-
-test("the forum assets are allowed by its restrictive Nginx policy", () => {
-  const config = readFileSync(join(websiteRoot, "ops/nginx/forum.conf"), "utf8");
-  const forum = readFileSync(join(websiteRoot, "forum/index.html"), "utf8");
-  for (const filename of ["site.css", "site.js", "tala-mark.svg"]) {
-    assert.ok(existsSync(join(websiteRoot, "forum", filename)), `${filename} missing`);
-    assert.ok(config.includes(`location = /${filename}`), `${filename} blocked by Nginx`);
-    assert.ok(forum.includes(`/${filename}`), `${filename} not referenced by forum`);
-  }
+  // tala.run is closed, so Nginx does not expose the API.
+  assert.doesNotMatch(nginx, /proxy_pass/);
 });
 
 test("navigation, router, and sitemap agree on the public language pages", () => {
@@ -356,7 +363,7 @@ test("the former domain is left to the server: the page carries no notice about 
 });
 
 test("every tala.run host behaves as if HSTS were preloaded for its top-level domain", () => {
-  for (const file of ["tala.conf", "forum.conf", "tala-maintenance.conf"]) {
+  for (const file of ["tala.conf", "forum.conf"]) {
     const config = readFileSync(join(websiteRoot, "ops/nginx", file), "utf8");
     const blocks = config.split(/\nserver \{/).slice(1);
     for (const block of blocks) {
