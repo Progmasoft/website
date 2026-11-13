@@ -1,0 +1,89 @@
+<!doctype html>
+<!-- SPDX-FileCopyrightText: 2026 Progmasoft <support@progmasoft.com> -->
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later WITH AdditionRef-Progmasoft-Patent-Grant-1.1 -->
+<!-- Installed as /usr/share/nginx/html/maintenance/tala-unavailable.html; see ops/nginx/tala.conf. -->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>tala.run is unavailable</title>
+    <style>
+      :root {
+        color-scheme: light dark;
+        --background: #f6f8f9;
+        --surface: #ffffff;
+        --ink: #13222a;
+        --muted: #4d5f68;
+        --line: #d9e1e5;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --background: #0c171d;
+          --surface: #13222a;
+          --ink: #e6eef1;
+          --muted: #9db0b8;
+          --line: #24363f;
+        }
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        padding: 24px 16px;
+        background: var(--background);
+        color: var(--ink);
+        font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+        line-height: 1.55;
+      }
+      main {
+        width: 100%;
+        max-width: 640px;
+        display: grid;
+        gap: 16px;
+      }
+      section {
+        padding: 20px 24px;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        background: var(--surface);
+      }
+      h1 {
+        margin: 0 0 6px;
+        font-size: 1.25rem;
+      }
+      p {
+        margin: 0;
+        color: var(--muted);
+      }
+      a {
+        color: inherit;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <section lang="en">
+        <h1>tala.run is unavailable</h1>
+        <p>The site is closed for maintenance. It is being prepared for OpenTala, a kernel, and TalaOS; its pages lead here until then.</p>
+      </section>
+      <section lang="de">
+        <h1>tala.run ist nicht erreichbar</h1>
+        <p>Die Website ist wegen Wartung geschlossen. Sie wird für OpenTala, einen Kernel, und TalaOS vorbereitet; bis dahin führen ihre Seiten hierher.</p>
+      </section>
+      <section lang="ru">
+        <h1>tala.run недоступен</h1>
+        <p>Сайт закрыт на обслуживание. Он готовится для OpenTala — ядра — и TalaOS; до тех пор его страницы ведут сюда.</p>
+      </section>
+      <section lang="he" dir="rtl">
+        <h1>‏tala.run אינו זמין</h1>
+        <p>האתר סגור לתחזוקה. הוא מוכן עבור OpenTala, ליבת מערכת הפעלה, ועבור TalaOS; עד אז הדפים שלו מובילים לכאן.</p>
+      </section>
+      <p><a href="https://progmasoft.com/">Progmasoft</a></p>
+    </main>
+  </body>
+</html>
