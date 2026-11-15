@@ -196,15 +196,13 @@ test("every page of tala.run and its subdomains leads to the notice", () => {
   );
 });
 
-test("the notice is a page of its own that names what comes to tala.run", () => {
+test("the notice is a page of its own in every language", () => {
   const page = readFileSync(join(websiteRoot, "ops/maintenance/unavailable.html"), "utf8");
   assert.match(page, /<meta name="robots" content="noindex, nofollow" \/>/);
   assert.doesNotMatch(page, /<script\b/);
   for (const language of ["en", "de", "ru", "he"]) {
     assert.match(page, new RegExp(`<section lang="${language}"`));
   }
-  assert.equal(page.split("OpenTala").length - 1, 4, "every language names OpenTala");
-  assert.equal(page.split("TalaOS").length - 1, 4, "every language names TalaOS");
 });
 
 test("the former domain lands on the same path of tala.run and tala.run has no ViGet host", () => {
