@@ -182,8 +182,8 @@ on the server itself before concluding that a release failed.
 
 ## Maintenance mode
 
-tala.run is closed while the domain is prepared for OpenTala, a kernel, and TalaOS; the Tala language and its tools
-are no longer developed (2026-11-10).
+tala.run was closed for maintenance from 2026-11-10, when the Tala language and its tools stopped being developed, to
+2026-11-15, when its site was removed. This section describes that time.
 
 - Every page of tala.run, www.tala.run, talac.tala.run, talafmt.tala.run, talalint.tala.run and forum.tala.run
   answers `302` to `https://tala.run/unavailable?reason=maintenance`. The redirect is temporary on purpose, so that

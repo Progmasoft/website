@@ -8,9 +8,8 @@ SPDX-License-Identifier: AGPL-3.0-or-later WITH AdditionRef-Progmasoft-Patent-Gr
 > [!IMPORTANT]
 > The Tala language and its tools (Talac, talafmt, talalint, tala-analyzer) are no longer developed as of 2026-11-10.
 > Progmasoft puts its work into [Tazel](https://tazel.net), now a build system for C, C++, Objective-C,
-> Objective-C++ and Zig. tala.run is closed for maintenance: every page and subdomain leads to
-> `https://tala.run/unavailable?reason=maintenance` while the domain is prepared for OpenTala, a kernel, and TalaOS.
-> The site below is kept for reference.
+> Objective-C++ and Zig. tala.run has no site: its server configuration, certificates and web DNS records were removed
+> on 2026-11-15. The site below is kept for reference.
 
 This repository owns the public language website at [tala.run](https://tala.run) and the documentation of the
 compiler at [talac.tala.run](https://talac.tala.run). The build system has its own site, [tazel.net](https://tazel.net).
